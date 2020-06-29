@@ -1,0 +1,57 @@
+{
+    "doc_name": "aadhaar_front",
+    "background_img": "docs/Aadhaar/Front/background.jpg",
+    "defaults": {
+        "lang": "en",
+        "font_file": "arial.ttf",
+        "font_size": 35,
+        "font_color": "rgb(0,0,0)"
+    },
+
+    "definition": {
+        "name_en": {
+            "type": "text",
+            "min_len": 5,
+            "max_len": 10,
+            "filler_mode": "random",
+            "filler_type": "full_name",
+            "lang": "en",
+            "location": {
+                "x_left": 352,
+                "y_top": 270
+            }
+        },
+        "dob": {
+            "type": "text",
+            "filler_mode": "regex",
+            "filler_regex": "(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\\d\\d",
+            "location": {
+                "x_left": 655,
+                "y_top": 325
+            }
+        },
+        "gender": {
+            "type": "text",
+            "filler_mode": "array",
+            "filler_options": [
+                "MALE",
+                "FEMALE"
+            ],
+            "location": {
+                "x_left": 482,
+                "y_top": 375
+            }
+        },
+        "aadhaar_id": {
+            "type": "text",
+            "filler_mode": "regex",
+            "filler_regex": "\\d\\d\\d\\d  \\d\\d\\d\\d  \\d\\d\\d\\d",
+            "font_file": "arialbd.ttf",
+            "font_size": 45,
+            "location": {
+                "x_left": 330,
+                "y_top": 715
+            }
+        }
+    }
+}
