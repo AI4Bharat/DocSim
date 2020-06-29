@@ -2,7 +2,7 @@ import os, sys
 import json
 from PIL import Image, ImageDraw, ImageFont
 from tqdm import tqdm
-from docsim.utils.random import random_fullname, random_id
+from docsim.utils.random import random_id
 from docsim.text_generators import TextFromRegexGenerator, TextFromArrayGenerator, FullNameGenerator
 
 class Generator:
@@ -22,12 +22,13 @@ class Generator:
     def set_defaults(self):
         if 'font_color' not in self.default_config:
             self.default_config['font_color'] = 'rgb(0,0,0)'
-        
         if 'font_file' not in self.default_config:
             self.default_config['font_file'] = None
-        
         if 'font_size' not in self.default_config:
             self.default_config['font_size'] = 12
+        
+        if 'lang' not in self.default_config:
+            self.default_config['lang'] = 'en'
         
         self.default_font = ImageFont.truetype(self.default_config['font_file'], size=self.default_config['font_size'])
         

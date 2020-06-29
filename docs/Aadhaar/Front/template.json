@@ -9,6 +9,19 @@
     },
 
     "definition": {
+        "name_ta": {
+            "type": "text",
+            "min_len": 5,
+            "max_len": 10,
+            "filler_mode": "random",
+            "filler_type": "full_name",
+            "lang": "ta",
+            "font_file": "fonts/TAU_Elango_Kalyani.ttf",
+            "location": {
+                "x_left": 352,
+                "y_top": 215
+            }
+        },
         "name_en": {
             "type": "text",
             "min_len": 5,
@@ -30,7 +43,20 @@
                 "y_top": 325
             }
         },
-        "gender": {
+        "gender_ta": {
+            "type": "text",
+            "filler_mode": "array",
+            "filler_options": [
+                "ஆண்",
+                "பெண்"
+            ],
+            "font_file": "fonts/TAU_Elango_Kalyani.ttf",
+            "location": {
+                "x_left": 352,
+                "y_top": 375
+            }
+        },
+        "gender_en": {
             "type": "text",
             "filler_mode": "array",
             "filler_options": [

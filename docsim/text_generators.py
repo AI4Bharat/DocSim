@@ -18,11 +18,33 @@ class TextFromArrayGenerator(TextGenerator):
     def generate(self):
         return random.choice(self.options)
 
-from docsim.utils.random import random_fullname
+from docsim.utils.lang import EnglishCharacters, LanguageCharacters
 class FullNameGenerator(TextGenerator):
     def __init__(self, lang='en'):
+        
         if lang == 'en':
-            self.generate = random_fullname
+            self.charset = EnglishCharacters()
+            self.title_case = True
         else:
-            raise NotImplementedError
+            self.charset = LanguageCharacters(lang)
+            self.title_case = False
+    
+    def generate(self):
+        return self.random_fullname()
+    
+    def random_fullname(self):
+        first_name = self.random_name(5, 7)
+        initial = random.choice(self.charset.consonants) + '.'
+        last_name = self.random_name(6, 8)
+        name = first_name
+        if random.random() > 0.5:
+            name += ' ' + initial
+        name += ' ' + last_name
+        return name.title() if self.title_case else name
 
+    def random_length_name(self, length=5):
+        return ''.join(random.choice((self.charset.consonants, self.charset.vowels)[i%2]) for i in range(length))
+
+    def random_name(self, min_length=5, max_length=5):
+        length = random.randrange(min_length, max_length)
+        return self.random_length_name(length)
