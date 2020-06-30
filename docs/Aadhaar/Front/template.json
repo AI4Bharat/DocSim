@@ -3,7 +3,7 @@
     "background_img": "docs/Aadhaar/Front/background.jpg",
     "defaults": {
         "lang": "en",
-        "font_file": "arial.ttf",
+        "font_file": "fonts/Arial_Regular.ttf",
         "font_size": 35,
         "font_color": "rgb(0,0,0)"
     },
@@ -28,7 +28,7 @@
             "filler_mode": "transliteration",
             "filler_source": "name_en",
             "lang": "ta",
-            "font_file": "fonts/TAU_Elango_Kalyani.ttf",
+            "font_file": "fonts/Tamil_Unicode_Elango_Kalyani.ttf",
             "location": {
                 "x_left": 352,
                 "y_top": 215
@@ -50,10 +50,10 @@
                 "ஆண்",
                 "பெண்"
             ],
-            "font_file": "fonts/TAU_Elango_Kalyani.ttf",
+            "font_file": "fonts/Tamil_Unicode_Elango_Kalyani.ttf",
             "location": {
                 "x_left": 352,
-                "y_top": 375
+                "y_top": 377
             }
         },
         "gender_en": {
@@ -72,7 +72,7 @@
             "type": "text",
             "filler_mode": "regex",
             "filler_regex": "\\d\\d\\d\\d  \\d\\d\\d\\d  \\d\\d\\d\\d",
-            "font_file": "arialbd.ttf",
+            "font_file": "fonts/Arial_Bold.ttf",
             "font_size": 45,
             "location": {
                 "x_left": 330,

@@ -27,9 +27,15 @@ class NameGenerator(TextGenerator):
         else:
             self.charset = LanguageCharacters(lang)
             self.title_case = False
+        
+        if hasattr(self.charset, 'letter_combinations'):
+            self.random_length_name = self.random_length_name_from_combinations
     
     def generate(self, min_len=5, max_len=5):
         return self.random_name(min_len, max_len)
+    
+    def random_length_name_from_combinations(self, length=5):
+        return ''.join(random.choice(self.charset.letter_combinations) for i in range(length))
     
     def random_length_name(self, length=5):
         return ''.join(random.choice((self.charset.consonants, self.charset.vowels)[i%2]) for i in range(length))

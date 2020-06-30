@@ -77,9 +77,17 @@ class LanguageCharacters:
         self.characters = get_characters(self.script, only_prefix_match, skip_punctuations, skip_numbers, verbose)
         self.vowels = get_vowels(self.characters)
         self.consonants = get_consonants(self.characters)
+        self.import_letter_combinations()
         
         if verbose: self.print_details()
         
+    def import_letter_combinations(self):
+        if self.lang_code == 'ta':
+            import tamil
+            self.letter_combinations = tamil.utf8.tamil247
+        
+        return
+    
     def print_details(self):
         print('LANGUAGE CODE:', self.lang_code)
         print('SCRIPT NAME:', self.script)

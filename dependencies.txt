@@ -2,3 +2,4 @@ PIL
 tqdm
 rstr
 indic_transliteration
+open-tamil
