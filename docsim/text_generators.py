@@ -19,15 +19,28 @@ class TextFromArrayGenerator(TextGenerator):
         return random.choice(self.options)
 
 from docsim.utils.lang import EnglishCharacters, LanguageCharacters
-class FullNameGenerator(TextGenerator):
+class NameGenerator(TextGenerator):
     def __init__(self, lang='en'):
-        
         if lang == 'en':
             self.charset = EnglishCharacters()
             self.title_case = True
         else:
             self.charset = LanguageCharacters(lang)
             self.title_case = False
+    
+    def generate(self, min_len=5, max_len=5):
+        return self.random_name(min_len, max_len)
+    
+    def random_length_name(self, length=5):
+        return ''.join(random.choice((self.charset.consonants, self.charset.vowels)[i%2]) for i in range(length))
+
+    def random_name(self, min_length=5, max_length=5):
+        length = random.randrange(min_length, max_length)
+        return self.random_length_name(length)
+            
+class FullNameGenerator(NameGenerator):
+    def __init__(self, lang='en'):
+        super().__init__(lang)
     
     def generate(self):
         return self.random_fullname()
@@ -42,9 +55,11 @@ class FullNameGenerator(TextGenerator):
         name += ' ' + last_name
         return name.title() if self.title_case else name
 
-    def random_length_name(self, length=5):
-        return ''.join(random.choice((self.charset.consonants, self.charset.vowels)[i%2]) for i in range(length))
-
-    def random_name(self, min_length=5, max_length=5):
-        length = random.randrange(min_length, max_length)
-        return self.random_length_name(length)
+from docsim.utils.transliterator import Transliterator
+class ReferntialTextTransliterator(TextGenerator):
+    def __init__(self, src_lang, dest_lang, src_component):
+        self.transliterator = Transliterator(src_lang, dest_lang)
+        self.src_component = src_component # Reference to the component from which we have to xlit
+        
+    def generate(self):
+        return self.transliterator.transliterate(self.src_component['last_generated'])

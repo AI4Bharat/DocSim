@@ -8,20 +8,7 @@
         "font_color": "rgb(0,0,0)"
     },
 
-    "definition": {
-        "name_ta": {
-            "type": "text",
-            "min_len": 5,
-            "max_len": 10,
-            "filler_mode": "random",
-            "filler_type": "full_name",
-            "lang": "ta",
-            "font_file": "fonts/TAU_Elango_Kalyani.ttf",
-            "location": {
-                "x_left": 352,
-                "y_top": 215
-            }
-        },
+    "components": {
         "name_en": {
             "type": "text",
             "min_len": 5,
@@ -32,6 +19,19 @@
             "location": {
                 "x_left": 352,
                 "y_top": 270
+            }
+        },
+        "name_ta": {
+            "type": "text",
+            "min_len": 5,
+            "max_len": 10,
+            "filler_mode": "transliteration",
+            "filler_source": "name_en",
+            "lang": "ta",
+            "font_file": "fonts/TAU_Elango_Kalyani.ttf",
+            "location": {
+                "x_left": 352,
+                "y_top": 215
             }
         },
         "dob": {

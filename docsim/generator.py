@@ -3,7 +3,7 @@ import json
 from PIL import Image, ImageDraw, ImageFont
 from tqdm import tqdm
 from docsim.utils.random import random_id
-from docsim.text_generators import TextFromRegexGenerator, TextFromArrayGenerator, FullNameGenerator
+from docsim.text_generators import TextFromRegexGenerator, TextFromArrayGenerator, FullNameGenerator, ReferntialTextTransliterator
 
 class Generator:
     def __init__(self, template_json):
@@ -14,7 +14,7 @@ class Generator:
         self.doc_name = template['doc_name']
         self.bg_img = template['background_img']
         
-        self.components = template['definition']
+        self.components = template['components']
         self.default_config = template['defaults']
         self.set_defaults()
         self.process_components()
@@ -58,6 +58,9 @@ class Generator:
                     component['generator'] = TextFromRegexGenerator(component['filler_regex'])
                 elif component['filler_mode'] == 'array':
                     component['generator'] = TextFromArrayGenerator(component['filler_options'])
+                elif component['filler_mode'] == 'transliteration':
+                    src_component = self.components[component['filler_source']]
+                    component['generator'] = ReferntialTextTransliterator(src_component['lang'], component['lang'], src_component)
                 else:
                     raise NotImplementedError
             else:
@@ -86,6 +89,7 @@ class Generator:
     def draw_text(self, img_draw, component):
         x, y = component['location']['x_left'], component['location']['y_top']
         text = component['generator'].generate()
+        component['last_generated'] = text
         img_draw.text((x, y), text, fill=component['font_color'], font=component['font'])
         width, height = img_draw.textsize(text, font=component['font'])
         # img_draw.rectangle([(x,y), (x+width+1, y+height+1)], outline='rgb(255,0,0)')

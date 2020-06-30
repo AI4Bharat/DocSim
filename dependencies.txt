@@ -1,3 +1,4 @@
 PIL
 tqdm
 rstr
+indic_transliteration
