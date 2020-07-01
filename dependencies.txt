@@ -1,5 +1,12 @@
-PIL
+Pillow
 tqdm
 rstr
+transliterate
 indic_transliteration
 open-tamil
+
+# LibIndic Transliteration Dependencies
+libindic-utils
+git+https://github.com/libindic/normalizer.git#egg=libindic_normalizer
+git+https://github.com/libindic/Transliteration
+
