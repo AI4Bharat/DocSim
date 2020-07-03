@@ -1,0 +1,62 @@
+{
+    "doc_name": "pan_card",
+    "background_img": "docs/PAN/background.jpg",
+    "defaults": {
+        "lang": "en",
+        "font_file": "fonts/Arial_Bold.ttf",
+        "font_size": 35,
+        "font_color": "rgb(0,0,0)",
+        "upper_case": true
+    },
+
+    "components": {
+        "name_en": {
+            "type": "text",
+            "filler_mode": "random",
+            "filler_type": "full_name",
+            "location": {
+                "x_left": 50,
+                "y_top": 200
+            }
+        },
+        "parent_en": {
+            "type": "text",
+            "filler_mode": "random",
+            "filler_type": "full_name",
+            "location": {
+                "x_left": 50,
+                "y_top": 276
+            }
+        },
+        "dob": {
+            "type": "text",
+            "filler_mode": "regex",
+            "filler_regex": "(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\\d\\d",
+            "location": {
+                "x_left": 50,
+                "y_top": 352
+            }
+        },
+        "pan_id": {
+            "type": "text",
+            "filler_mode": "regex",
+            "filler_regex": "[A-Z][A-Z][A-Z][ABCEFGHLJPT][A-Z][0-9][0-9][0-9][0-9][A-Z]",
+            "location": {
+                "x_left": 50,
+                "y_top": 444
+            }
+        },
+        "signature": {
+            "type": "text",
+            "filler_mode": "reference",
+            "filler_source": "name_en",
+            "font_file": "fonts/Lemon_Tuesday.otf",
+            "font_size": 45,
+            "upper_case": false,
+            "location": {
+                "x_left": 44,
+                "y_top": 510
+            }
+        }
+    }
+}

@@ -3,7 +3,7 @@ import json
 from PIL import Image, ImageDraw, ImageFont
 from tqdm import tqdm
 from docsim.utils.random import random_id
-from docsim.text_generators import TextFromRegexGenerator, TextFromArrayGenerator, FullNameGenerator, ReferntialTextTransliterator
+from docsim.text_generators import *
 from docsim.utils.qr import get_qr_img, get_rand_string
 
 class Generator:
@@ -33,6 +33,10 @@ class Generator:
         
         self.default_font = ImageFont.truetype(self.default_config['font_file'], size=self.default_config['font_size'])
         
+        self.default_config['post_processor'] = TextPostProcessor()
+        if 'upper_case' in self.default_config:
+            self.default_config['post_processor'].upper_case = self.default_config['upper_case']
+        
     def process_components(self):
         for component_name, component in self.components.items():
             if component['type'] == 'text':
@@ -59,11 +63,20 @@ class Generator:
                     component['generator'] = TextFromRegexGenerator(component['filler_regex'])
                 elif component['filler_mode'] == 'array':
                     component['generator'] = TextFromArrayGenerator(component['filler_options'])
+                elif component['filler_mode'] == 'reference':
+                    component['generator'] = ReferentialTextGenerator(self.components[component['filler_source']])
                 elif component['filler_mode'] == 'transliteration':
                     src_component = self.components[component['filler_source']]
-                    component['generator'] = ReferntialTextTransliterator(src_component['lang'], component['lang'], src_component)
+                    component['generator'] = ReferentialTextTransliterator(src_component['lang'], component['lang'], src_component)
                 else:
                     raise NotImplementedError
+                
+                # Setup post-processing. TODO: Buggy?
+                if 'upper_case' in component:
+                    component['post_processor'] = TextPostProcessor(upper_case=component['upper_case'])
+                else:
+                    component['post_processor'] = self.default_config['post_processor']
+                
             elif component['type'] == 'qr':
                 pass
             else:
@@ -96,6 +109,7 @@ class Generator:
         x, y = component['location']['x_left'], component['location']['y_top']
         text = component['generator'].generate()
         component['last_generated'] = text
+        text = component['post_processor'].process(text)
         img_draw.text((x, y), text, fill=component['font_color'], font=component['font'])
         width, height = img_draw.textsize(text, font=component['font'])
         # img_draw.rectangle([(x,y), (x+width+1, y+height+1)], outline='rgb(255,0,0)')
