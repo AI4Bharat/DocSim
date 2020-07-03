@@ -78,6 +78,21 @@
                 "x_left": 330,
                 "y_top": 715
             }
+        },
+        "qr": {
+            "type" : "qr",
+            "string_len_min": 10,
+            "string_len_max": 25,
+            "version_min": 3,
+            "version_max":7, 
+            "location": {
+                "x_left": 752,
+                "y_top": 423
+            },
+            "dims": {
+                "width": 201,
+                "height": 201
+            }
         }
     }
 }

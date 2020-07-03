@@ -3,10 +3,10 @@ tqdm
 rstr
 transliterate
 indic_transliteration
+# Alternative for above to implement: LibIndic Transliteration
+# git+https://github.com/libindic/Transliteration
+
+# Language Specific Libs
 open-tamil
 
-# LibIndic Transliteration Dependencies
-libindic-utils
-git+https://github.com/libindic/normalizer.git#egg=libindic_normalizer
-git+https://github.com/libindic/Transliteration
-
+qrcode

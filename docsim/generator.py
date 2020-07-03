@@ -4,6 +4,7 @@ from PIL import Image, ImageDraw, ImageFont
 from tqdm import tqdm
 from docsim.utils.random import random_id
 from docsim.text_generators import TextFromRegexGenerator, TextFromArrayGenerator, FullNameGenerator, ReferntialTextTransliterator
+from docsim.utils.qr import get_qr_img, get_rand_string
 
 class Generator:
     def __init__(self, template_json):
@@ -63,6 +64,8 @@ class Generator:
                     component['generator'] = ReferntialTextTransliterator(src_component['lang'], component['lang'], src_component)
                 else:
                     raise NotImplementedError
+            elif component['type'] == 'qr':
+                pass
             else:
                 raise NotImplementedError
         return
@@ -79,6 +82,9 @@ class Generator:
             for component_name, component in self.components.items():
                 if component['type'] == 'text':
                     metadata = self.draw_text(img_draw, component)
+                    ground_truth.append(metadata)
+                if component['type'] == 'qr':
+                    metadata = self.draw_qr(image, component)
                     ground_truth.append(metadata)
             
             output_file = os.path.join(output_folder, random_id())
@@ -104,6 +110,26 @@ class Generator:
             'text': text
         }
     
+    def draw_qr(self, image, component):
+        x, y = component['location']['x_left'], component['location']['y_top']
+        width, height = component['dims']['width'], component['dims']['height']
+        version_min, version_max = component['version_min'], component['version_max']
+        string_min, string_max = component['string_len_min'], component['string_len_max']
+        string = get_rand_string(min_l=string_min, max_l=string_max)
+        qr_img = get_qr_img(min_v=version_min, max_v=version_max, data=string)
+        qr_img = qr_img.resize((width, height))
+        image.paste(qr_img,(x,y))
+        
+        return {
+            'x_left': x,
+            'y_top': y,
+            'x_right': x+width+1,
+            'y_bottom': y+height+1,
+            'width': width,
+            'height': height,
+            'qr_text': string
+        }
+        
 if __name__ == '__main__':
     template_json, output_folder = sys.argv[1:]
     Generator(template_json).generate(1, output_folder)
