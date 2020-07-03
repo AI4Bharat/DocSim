@@ -2,9 +2,10 @@ import os, sys
 import json
 from PIL import Image, ImageDraw, ImageFont
 from tqdm import tqdm
-from docsim.utils.random import random_id
+from docsim.utils.random import random_id, random_string
 from docsim.text_generators import *
-from docsim.utils.qr import get_qr_img, get_rand_string
+from docsim.image_generators import *
+from docsim.utils.qr import get_qr_img
 
 class Generator:
     def __init__(self, template_json):
@@ -79,6 +80,13 @@ class Generator:
                 
             elif component['type'] == 'qr':
                 pass
+            elif component['type'] == 'image':
+                if component['filler_mode'] == 'random':
+                    component['generator'] = ImageGenerator(component['image_folder'], component['dims'])
+                elif component['filler_mode'] == 'static':
+                    component['generator'] = ImageRetriever(component['image_file'], component['dims'])
+                else:
+                    raise NotImplementedError
             else:
                 raise NotImplementedError
         return
@@ -96,9 +104,14 @@ class Generator:
                 if component['type'] == 'text':
                     metadata = self.draw_text(img_draw, component)
                     ground_truth.append(metadata)
-                if component['type'] == 'qr':
+                elif component['type'] == 'qr':
                     metadata = self.draw_qr(image, component)
                     ground_truth.append(metadata)
+                elif component['type'] == 'image':
+                    metadata = self.draw_img(image, component)
+                    ground_truth.append(metadata)
+                else:
+                    raise NotImplementedError
             
             output_file = os.path.join(output_folder, random_id())
             image.save(output_file+'.png')
@@ -124,15 +137,15 @@ class Generator:
             'text': text
         }
     
-    def draw_qr(self, image, component):
+    def draw_qr(self, background, component):
         x, y = component['location']['x_left'], component['location']['y_top']
         width, height = component['dims']['width'], component['dims']['height']
         version_min, version_max = component['version_min'], component['version_max']
         string_min, string_max = component['string_len_min'], component['string_len_max']
-        string = get_rand_string(min_l=string_min, max_l=string_max)
+        string = random_string(min_l=string_min, max_l=string_max)
         qr_img = get_qr_img(min_v=version_min, max_v=version_max, data=string)
         qr_img = qr_img.resize((width, height))
-        image.paste(qr_img,(x,y))
+        background.paste(qr_img, (x, y))
         
         return {
             'x_left': x,
@@ -142,6 +155,22 @@ class Generator:
             'width': width,
             'height': height,
             'qr_text': string
+        }
+    
+    def draw_img(self, background, component):
+        x, y = component['location']['x_left'], component['location']['y_top']
+        width, height = component['dims']['width'], component['dims']['height']
+        img, path = component['generator'].generate()
+        background.paste(img, (x, y))
+        
+        return {
+            'x_left': x,
+            'y_top': y,
+            'x_right': x+width+1,
+            'y_bottom': y+height+1,
+            'width': width,
+            'height': height,
+            'img_path': path
         }
         
 if __name__ == '__main__':

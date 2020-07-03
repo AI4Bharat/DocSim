@@ -83,7 +83,7 @@
             "type" : "qr",
             "string_len_min": 10,
             "string_len_max": 25,
-            "version_min": 3,
+            "version_min": 5,
             "version_max":7, 
             "location": {
                 "x_left": 752,
@@ -92,6 +92,19 @@
             "dims": {
                 "width": 201,
                 "height": 201
+            }
+        },
+        "photo": {
+            "type": "image",
+            "filler_mode": "random",
+            "image_folder": "images/people/",
+            "location": {
+                "x_left": 34,
+                "y_top": 213
+            },
+            "dims": {
+                "width": 296,
+                "height": 323
             }
         }
     }
