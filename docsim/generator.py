@@ -2,9 +2,9 @@ import os, sys
 import json
 from PIL import Image, ImageDraw, ImageFont
 from tqdm import tqdm
-from docsim.utils.random import random_id
+from docsim.utils.random import random_id, get_rand_string
 from docsim.text_generators import TextFromRegexGenerator, TextFromArrayGenerator, FullNameGenerator, ReferntialTextTransliterator
-from docsim.utils.qr import get_qr_img, get_rand_string
+from docsim.utils.qr import get_qr_img
 from docsim.utils.barcode import get_barcode
 from docsim.utils.face import get_random_face
 
@@ -69,6 +69,8 @@ class Generator:
             elif component['type'] == 'qr':
                 pass
             elif component['type'] == 'barcode':
+                if 'filler_source' in component:
+                    component['data'] = self.components[component['filler_source']]
                 pass
             elif component['type'] == 'face-image':
                 pass
@@ -131,7 +133,6 @@ class Generator:
         qr_img = get_qr_img(min_v=version_min, max_v=version_max, data=string)
         qr_img = qr_img.resize((width, height))
         image.paste(qr_img,(x,y))
-        
         return {
             'type': 'qr-code',
             'x_left': x,
@@ -142,12 +143,17 @@ class Generator:
             'height': height,
             'qr_text': string
         }
+        
     def draw_barcode(self, image, component):
         x, y = component['location']['x_left'], component['location']['y_top']
         width, height = component['dims']['width'], component['dims']['height']
-        bar_image = get_barcode(new_shape=(width,height))
+        if 'filler_source' in component:
+            data = component['data']['last_generated']
+        else:
+            data = get_rand_string()
+            
+        bar_image = get_barcode(data, shape=(width,height))
         image.paste(bar_image,(x,y))
-        
         return {
             'type': 'barcode',
             'x_left': x,
@@ -157,6 +163,7 @@ class Generator:
             'width': width,
             'height': height,
         }
+        
     def draw_face(self, image, component):
         x, y = component['location']['x_left'], component['location']['y_top']
         width, height = component['dims']['width'], component['dims']['height']
@@ -164,7 +171,7 @@ class Generator:
         image.paste(face_image,(x,y))
         
         return {
-            'type': 'face',
+            'type': 'face-image',
             'x_left': x,
             'y_top': y,
             'x_right': x+width+1,
@@ -172,6 +179,7 @@ class Generator:
             'width': width,
             'height': height,
         }
+        
 if __name__ == '__main__':
     template_json, output_folder = sys.argv[1:]
     Generator(template_json).generate(1, output_folder)
