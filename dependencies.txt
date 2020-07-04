@@ -10,3 +10,5 @@ indic_transliteration
 open-tamil
 
 qrcode
+python-barcode[images]
+requests

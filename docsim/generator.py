@@ -5,6 +5,8 @@ from tqdm import tqdm
 from docsim.utils.random import random_id
 from docsim.text_generators import TextFromRegexGenerator, TextFromArrayGenerator, FullNameGenerator, ReferntialTextTransliterator
 from docsim.utils.qr import get_qr_img, get_rand_string
+from docsim.utils.barcode import get_barcode
+from docsim.utils.face import get_random_face
 
 class Generator:
     def __init__(self, template_json):
@@ -66,6 +68,10 @@ class Generator:
                     raise NotImplementedError
             elif component['type'] == 'qr':
                 pass
+            elif component['type'] == 'barcode':
+                pass
+            elif component['type'] == 'face-image':
+                pass
             else:
                 raise NotImplementedError
         return
@@ -86,7 +92,13 @@ class Generator:
                 if component['type'] == 'qr':
                     metadata = self.draw_qr(image, component)
                     ground_truth.append(metadata)
-            
+                if component['type'] == 'barcode':
+                    metadata = self.draw_barcode(image, component)
+                    ground_truth.append(metadata)
+                if component['type'] == 'face-image':
+                    metadata = self.draw_face(image, component)
+                    ground_truth.append(metadata)
+                    
             output_file = os.path.join(output_folder, random_id())
             image.save(output_file+'.png')
             with open(output_file+'.json', 'w', encoding='utf-8') as f:
@@ -121,6 +133,7 @@ class Generator:
         image.paste(qr_img,(x,y))
         
         return {
+            'type': 'qr-code',
             'x_left': x,
             'y_top': y,
             'x_right': x+width+1,
@@ -129,7 +142,36 @@ class Generator:
             'height': height,
             'qr_text': string
         }
+    def draw_barcode(self, image, component):
+        x, y = component['location']['x_left'], component['location']['y_top']
+        width, height = component['dims']['width'], component['dims']['height']
+        bar_image = get_barcode(new_shape=(width,height))
+        image.paste(bar_image,(x,y))
         
+        return {
+            'type': 'barcode',
+            'x_left': x,
+            'y_top': y,
+            'x_right': x+width+1,
+            'y_bottom': y+height+1,
+            'width': width,
+            'height': height,
+        }
+    def draw_face(self, image, component):
+        x, y = component['location']['x_left'], component['location']['y_top']
+        width, height = component['dims']['width'], component['dims']['height']
+        face_image = get_random_face(shape=(width,height))
+        image.paste(face_image,(x,y))
+        
+        return {
+            'type': 'face',
+            'x_left': x,
+            'y_top': y,
+            'x_right': x+width+1,
+            'y_bottom': y+height+1,
+            'width': width,
+            'height': height,
+        }
 if __name__ == '__main__':
     template_json, output_folder = sys.argv[1:]
     Generator(template_json).generate(1, output_folder)

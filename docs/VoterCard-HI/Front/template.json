@@ -1,0 +1,101 @@
+{
+    "doc_name": "voter_front",
+    "background_img": "docs/VoterCard-HI/Front/voter-card-front.jpg",
+    "defaults": {
+        "lang": "en",
+        "font_file": "fonts/Arial_Regular.ttf",
+        "font_size": 35,
+        "font_color": "rgb(0,0,0)"
+    },
+    "components": {
+        "name_en": {
+            "type": "text",
+            "min_len": 5,
+            "max_len": 10,
+            "filler_mode": "random",
+            "filler_type": "full_name",
+            "font_size": 21,
+            "font_file": "fonts/Arial_Bold.ttf",
+            "lang": "en",
+            "location": {
+                "x_left": 110,
+                "y_top": 554
+            }
+        },
+        "name_hi": {
+            "type": "text",
+            "min_len": 5,
+            "max_len": 10,
+            "filler_mode": "transliteration",
+            "filler_source": "name_en",
+            "font_size": 22,
+            "lang": "hi",
+            "font_file": "fonts/Halant-Bold.ttf",
+            "location": {
+                "x_left": 87,
+                "y_top": 490
+            }
+        },
+        "father_name_en": {
+            "type": "text",
+            "min_len": 5,
+            "max_len": 10,
+            "filler_mode": "random",
+            "filler_type": "full_name",
+            "font_size": 21,
+            "font_file": "fonts/Arial_Bold.ttf",
+            "lang": "en",
+            "location": {
+                "x_left": 210,
+                "y_top": 701
+            }
+        },
+        "father_name_hi": {
+            "type": "text",
+            "min_len": 5,
+            "max_len": 10,
+            "filler_mode": "transliteration",
+            "filler_source": "father_name_en",
+            "font_size": 22,
+            "lang": "hi",
+            "font_file": "fonts/Halant-Bold.ttf",
+            "location": {
+                "x_left": 162,
+                "y_top": 638
+            }
+        },
+        "voter_id": {
+            "type": "text",
+            "filler_mode": "regex",
+            "filler_regex": "[A-Z][A-Z][A-Z]\\d\\d\\d\\d\\d\\d\\d",
+            "font_file": "fonts/Arial_Bold.ttf",
+            "font_size": 22,
+            "location": {
+                "x_left": 290,
+                "y_top": 145
+            }
+        },
+        "barcode": {
+            "type": "barcode",
+            "location": {
+                "x_left": 20,
+                "y_top": 143
+            },
+            "dims": {
+                "width": 235,
+                "height": 32
+            }
+        },
+        "face-image": {
+            "type" :"face-image",
+            "location": {
+                "x_left": 119,
+                "y_top": 198
+            },
+            "dims": {
+                "width": 245,
+                "height": 271
+            }
+        }
+    }
+}
