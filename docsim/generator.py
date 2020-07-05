@@ -3,7 +3,6 @@ import json
 from PIL import Image, ImageDraw, ImageFont
 from tqdm import tqdm
 from docsim.utils.barcode import get_barcode
-from docsim.utils.face import get_random_face
 from docsim.utils.random import random_id, random_string
 from docsim.text_generators import *
 from docsim.image_generators import *
@@ -42,6 +41,10 @@ class Generator:
         
     def process_components(self):
         for component_name, component in self.components.items():
+            
+            if 'filler_source' in component:
+                component['data_source'] = self.components[component['filler_source']]
+            
             if component['type'] == 'text':
                 
                 # Setup fonts
@@ -67,10 +70,9 @@ class Generator:
                 elif component['filler_mode'] == 'array':
                     component['generator'] = TextFromArrayGenerator(component['filler_options'])
                 elif component['filler_mode'] == 'reference':
-                    component['generator'] = ReferentialTextGenerator(self.components[component['filler_source']])
+                    component['generator'] = ReferentialTextGenerator(component['data_source'])
                 elif component['filler_mode'] == 'transliteration':
-                    src_component = self.components[component['filler_source']]
-                    component['generator'] = ReferentialTextTransliterator(src_component['lang'], component['lang'], src_component)
+                    component['generator'] = ReferentialTextTransliterator(component['data_source']['lang'], component['lang'], component['data_source'])
                 else:
                     raise NotImplementedError
                 
@@ -83,16 +85,14 @@ class Generator:
             elif component['type'] == 'qr':
                 pass
             elif component['type'] == 'barcode':
-                if 'filler_source' in component:
-                    component['data'] = self.components[component['filler_source']]
-                pass
-            elif component['type'] == 'face-image':
                 pass
             elif component['type'] == 'image':
                 if component['filler_mode'] == 'random':
                     component['generator'] = ImageGenerator(component['image_folder'], component['dims'])
                 elif component['filler_mode'] == 'static':
                     component['generator'] = ImageRetriever(component['image_file'], component['dims'])
+                elif component['filler_mode'] == 'random_face_online':
+                    component['generator'] = OnlineFaceGenerator(component['dims'])
                 else:
                     raise NotImplementedError
             else:
@@ -118,9 +118,6 @@ class Generator:
                 elif component['type'] == 'barcode':
                     metadata = self.draw_barcode(image, component)
                     ground_truth.append(metadata)
-                elif component['type'] == 'face-image':
-                    metadata = self.draw_face(image, component)
-                    ground_truth.append(metadata)
                 elif component['type'] == 'image':
                     metadata = self.draw_img(image, component)
                     ground_truth.append(metadata)
@@ -141,13 +138,13 @@ class Generator:
         width, height = img_draw.textsize(text, font=component['font'])
         # img_draw.rectangle([(x,y), (x+width+1, y+height+1)], outline='rgb(255,0,0)')
         return {
+            'type': component['type'],
             'x_left': x,
             'y_top': y,
             'x_right': x+width+1,
             'y_bottom': y+height+1,
             'width': width,
             'height': height,
-            'type': 'text',
             'text': text
         }
     
@@ -162,66 +159,53 @@ class Generator:
         background.paste(qr_img, (x, y))
         
         return {
-            'type': 'qr-code',
+            'type': component['type'],
             'x_left': x,
             'y_top': y,
             'x_right': x+width+1,
             'y_bottom': y+height+1,
             'width': width,
             'height': height,
-            'qr_text': string
+            'code_content': string
         }
     
     def draw_img(self, background, component):
         x, y = component['location']['x_left'], component['location']['y_top']
         width, height = component['dims']['width'], component['dims']['height']
-        img, path = component['generator'].generate()
+        img, details = component['generator'].generate()
         background.paste(img, (x, y))
         
         return {
+            'type': component['type'],
+            'mode': component['filler_mode'],
+            'img_details': details,
             'x_left': x,
             'y_top': y,
             'x_right': x+width+1,
             'y_bottom': y+height+1,
             'width': width,
             'height': height,
-            'img_path': path
         }
         
     def draw_barcode(self, image, component):
         x, y = component['location']['x_left'], component['location']['y_top']
         width, height = component['dims']['width'], component['dims']['height']
         if 'filler_source' in component:
-            data = component['data']['last_generated']
+            data = component['data_source']['last_generated']
         else:
             data = random_string()
             
         bar_image = get_barcode(data, shape=(width,height))
-        image.paste(bar_image,(x,y))
+        image.paste(bar_image, (x, y))
         return {
-            'type': 'barcode',
+            'type': component['type'],
             'x_left': x,
             'y_top': y,
             'x_right': x+width+1,
             'y_bottom': y+height+1,
             'width': width,
             'height': height,
-        }
-        
-    def draw_face(self, image, component):
-        x, y = component['location']['x_left'], component['location']['y_top']
-        width, height = component['dims']['width'], component['dims']['height']
-        face_image = get_random_face(shape=(width,height))
-        image.paste(face_image,(x,y))
-        
-        return {
-            'type': 'face-image',
-            'x_left': x,
-            'y_top': y,
-            'x_right': x+width+1,
-            'y_bottom': y+height+1,
-            'width': width,
-            'height': height,
+            'code_content': data
         }
         
 if __name__ == '__main__':

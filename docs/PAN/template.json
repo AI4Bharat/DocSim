@@ -57,6 +57,19 @@
                 "x_left": 44,
                 "y_top": 510
             }
+        },
+        "photo": {
+            "type": "image",
+            "filler_mode": "random",
+            "image_folder": "images/people/",
+            "location": {
+                "x_left": 739,
+                "y_top": 409
+            },
+            "dims": {
+                "width": 215,
+                "height": 215
+            }
         }
     }
 }

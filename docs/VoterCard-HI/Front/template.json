@@ -5,13 +5,12 @@
         "lang": "en",
         "font_file": "fonts/Arial_Regular.ttf",
         "font_size": 35,
-        "font_color": "rgb(0,0,0)"
+        "font_color": "rgb(0,0,0)",
+        "upper_case": true
     },
     "components": {
         "name_en": {
             "type": "text",
-            "min_len": 5,
-            "max_len": 10,
             "filler_mode": "random",
             "filler_type": "full_name",
             "font_size": 21,
@@ -24,8 +23,6 @@
         },
         "name_hi": {
             "type": "text",
-            "min_len": 5,
-            "max_len": 10,
             "filler_mode": "transliteration",
             "filler_source": "name_en",
             "font_size": 22,
@@ -38,8 +35,6 @@
         },
         "father_name_en": {
             "type": "text",
-            "min_len": 5,
-            "max_len": 10,
             "filler_mode": "random",
             "filler_type": "full_name",
             "font_size": 21,
@@ -52,8 +47,6 @@
         },
         "father_name_hi": {
             "type": "text",
-            "min_len": 5,
-            "max_len": 10,
             "filler_mode": "transliteration",
             "filler_source": "father_name_en",
             "font_size": 22,
@@ -88,7 +81,8 @@
             }
         },
         "face-image": {
-            "type" :"face-image",
+            "type": "image",
+            "filler_mode" :"random_face_online",
             "location": {
                 "x_left": 119,
                 "y_top": 198
