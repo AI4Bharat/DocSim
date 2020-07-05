@@ -1,0 +1,111 @@
+{
+    "doc_name": "driving_license_front",
+    "background_img": "docs/Driving-License/Smart-Front/background-hi.png",
+    "defaults": {
+        "lang": "en",
+        "font_file": "fonts/Arial_Bold.ttf",
+        "font_size": 65,
+        "font_color": "rgb(0,0,0)",
+        "upper_case": true
+    },
+
+    "components": {
+        "id": {
+            "type": "text",
+            "filler_mode": "regex",
+            "filler_regex": "[A-Z][A-Z]\\d\\d  \\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d",
+            "font_file": "fonts/Verdana_Bold.ttf",
+            "font_size": 75,
+            "location": {
+                "x_left": 515,
+                "y_top": 280
+            }
+        },
+        "doi": {
+            "type": "text",
+            "filler_mode": "regex",
+            "filler_regex": "(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\\d\\d",
+            "location": {
+                "x_left": 625,
+                "y_top": 550
+            }
+        },
+        "dob": {
+            "type": "text",
+            "filler_mode": "regex",
+            "filler_regex": "(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\\d\\d",
+            "location": {
+                "x_left": 625,
+                "y_top": 780
+            }
+        },
+        "validity": {
+            "type": "text",
+            "filler_mode": "regex",
+            "filler_regex": "(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\\d\\d",
+            "location": {
+                "x_left": 1135,
+                "y_top": 495
+            }
+        },
+        "blood": {
+            "type": "text",
+            "filler_mode": "regex",
+            "filler_regex": "([ABO]|AB)[+-]",
+            "location": {
+                "x_left": 1135,
+                "y_top": 735
+            }
+        },
+        "name_en": {
+            "type": "text",
+            "filler_mode": "random",
+            "filler_type": "full_name",
+            "font_file": "fonts/Verdana_Bold.ttf",
+            "font_size": 70,
+            "location": {
+                "x_left": 180,
+                "y_top": 942
+            }
+        },
+        "parent_en": {
+            "type": "text",
+            "filler_mode": "random",
+            "filler_type": "full_name",
+            "font_file": "fonts/Verdana_Bold.ttf",
+            "font_size": 67,
+            "location": {
+                "x_left": 180,
+                "y_top": 1193
+            }
+        },
+        "photo": {
+            "type": "image",
+            "filler_mode": "random",
+            "image_folder": "images/people/",
+            "location": {
+                "x_left": 1588,
+                "y_top": 277
+            },
+            "dims": {
+                "width": 462,
+                "height": 598
+            }
+        },
+        "qr": {
+            "type" : "qr",
+            "string_len_min": 10,
+            "string_len_max": 25,
+            "version_min": 5,
+            "version_max": 7, 
+            "location": {
+                "x_left": 1580,
+                "y_top": 940
+            },
+            "dims": {
+                "width": 350,
+                "height": 350
+            }
+        }
+    }
+}
