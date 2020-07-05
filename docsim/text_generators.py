@@ -1,17 +1,17 @@
 import random
-class TextGenerator:
+class TextGeneratorBase:
     def generate(self):
         return 'ERROR'
 
 from rstr import xeger
-class TextFromRegexGenerator(TextGenerator):
+class TextFromRegexGenerator(TextGeneratorBase):
     def __init__(self, regex):
         self.pattern = regex
     
     def generate(self):
         return xeger(self.pattern)
 
-class TextFromArrayGenerator(TextGenerator):
+class TextFromArrayGenerator(TextGeneratorBase):
     def __init__(self, array):
         self.options = array
     
@@ -19,7 +19,7 @@ class TextFromArrayGenerator(TextGenerator):
         return random.choice(self.options)
 
 from docsim.utils.lang import EnglishCharacters, LanguageCharacters
-class NameGenerator(TextGenerator):
+class NameGenerator(TextGeneratorBase):
     def __init__(self, lang='en'):
         if lang == 'en':
             self.charset = EnglishCharacters()
@@ -61,11 +61,30 @@ class FullNameGenerator(NameGenerator):
         name += ' ' + last_name
         return name.title() if self.title_case else name
 
-from docsim.utils.transliterator import Transliterator
-class ReferntialTextTransliterator(TextGenerator):
-    def __init__(self, src_lang, dest_lang, src_component):
-        self.transliterator = Transliterator(src_lang, dest_lang)
+class ReferentialTextGenerator(TextGeneratorBase):
+    def __init__(self, src_component):
         self.src_component = src_component # Reference to the component from which we have to xlit
         
     def generate(self):
-        return self.transliterator.transliterate(self.src_component['last_generated'])
+        return self.src_component['last_generated']
+
+from docsim.utils.transliterator import Transliterator
+class ReferentialTextTransliterator(ReferentialTextGenerator):
+    def __init__(self, src_lang, dest_lang, src_component):
+        super().__init__(src_component)
+        self.transliterator = Transliterator(src_lang, dest_lang)
+        
+    def generate(self):
+        return self.transliterator.transliterate(super().generate())
+
+class TextPostProcessor():
+    def __init__(self, upper_case=False, lower_case=False):
+        self.upper_case = upper_case
+        self.lower_case = lower_case
+        
+    def process(self, text):
+        if self.upper_case:
+            text = text.upper()
+        elif self.lower_case:
+            text = text.lower()
+        return text

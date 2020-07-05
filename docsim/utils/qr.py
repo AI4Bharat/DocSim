@@ -8,4 +8,3 @@ def get_qr_img(min_v=3, max_v=7, data=None):
     qr.make(fit=True)
     img = qr.make_image(fill_color="black", back_color="white")
     return img
-

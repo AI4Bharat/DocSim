@@ -2,11 +2,12 @@ import os, sys
 import json
 from PIL import Image, ImageDraw, ImageFont
 from tqdm import tqdm
-from docsim.utils.random import random_id, get_rand_string
-from docsim.text_generators import TextFromRegexGenerator, TextFromArrayGenerator, FullNameGenerator, ReferntialTextTransliterator
-from docsim.utils.qr import get_qr_img
 from docsim.utils.barcode import get_barcode
 from docsim.utils.face import get_random_face
+from docsim.utils.random import random_id, random_string
+from docsim.text_generators import *
+from docsim.image_generators import *
+from docsim.utils.qr import get_qr_img
 
 class Generator:
     def __init__(self, template_json):
@@ -35,6 +36,10 @@ class Generator:
         
         self.default_font = ImageFont.truetype(self.default_config['font_file'], size=self.default_config['font_size'])
         
+        self.default_config['post_processor'] = TextPostProcessor()
+        if 'upper_case' in self.default_config:
+            self.default_config['post_processor'].upper_case = self.default_config['upper_case']
+        
     def process_components(self):
         for component_name, component in self.components.items():
             if component['type'] == 'text':
@@ -61,11 +66,20 @@ class Generator:
                     component['generator'] = TextFromRegexGenerator(component['filler_regex'])
                 elif component['filler_mode'] == 'array':
                     component['generator'] = TextFromArrayGenerator(component['filler_options'])
+                elif component['filler_mode'] == 'reference':
+                    component['generator'] = ReferentialTextGenerator(self.components[component['filler_source']])
                 elif component['filler_mode'] == 'transliteration':
                     src_component = self.components[component['filler_source']]
-                    component['generator'] = ReferntialTextTransliterator(src_component['lang'], component['lang'], src_component)
+                    component['generator'] = ReferentialTextTransliterator(src_component['lang'], component['lang'], src_component)
                 else:
                     raise NotImplementedError
+                
+                # Setup post-processing. TODO: Buggy?
+                if 'upper_case' in component:
+                    component['post_processor'] = TextPostProcessor(upper_case=component['upper_case'])
+                else:
+                    component['post_processor'] = self.default_config['post_processor']
+                
             elif component['type'] == 'qr':
                 pass
             elif component['type'] == 'barcode':
@@ -74,6 +88,13 @@ class Generator:
                 pass
             elif component['type'] == 'face-image':
                 pass
+            elif component['type'] == 'image':
+                if component['filler_mode'] == 'random':
+                    component['generator'] = ImageGenerator(component['image_folder'], component['dims'])
+                elif component['filler_mode'] == 'static':
+                    component['generator'] = ImageRetriever(component['image_file'], component['dims'])
+                else:
+                    raise NotImplementedError
             else:
                 raise NotImplementedError
         return
@@ -91,16 +112,21 @@ class Generator:
                 if component['type'] == 'text':
                     metadata = self.draw_text(img_draw, component)
                     ground_truth.append(metadata)
-                if component['type'] == 'qr':
+                elif component['type'] == 'qr':
                     metadata = self.draw_qr(image, component)
                     ground_truth.append(metadata)
-                if component['type'] == 'barcode':
+                elif component['type'] == 'barcode':
                     metadata = self.draw_barcode(image, component)
                     ground_truth.append(metadata)
-                if component['type'] == 'face-image':
+                elif component['type'] == 'face-image':
                     metadata = self.draw_face(image, component)
                     ground_truth.append(metadata)
-                    
+                elif component['type'] == 'image':
+                    metadata = self.draw_img(image, component)
+                    ground_truth.append(metadata)
+                else:
+                    raise NotImplementedError
+            
             output_file = os.path.join(output_folder, random_id())
             image.save(output_file+'.png')
             with open(output_file+'.json', 'w', encoding='utf-8') as f:
@@ -110,6 +136,7 @@ class Generator:
         x, y = component['location']['x_left'], component['location']['y_top']
         text = component['generator'].generate()
         component['last_generated'] = text
+        text = component['post_processor'].process(text)
         img_draw.text((x, y), text, fill=component['font_color'], font=component['font'])
         width, height = img_draw.textsize(text, font=component['font'])
         # img_draw.rectangle([(x,y), (x+width+1, y+height+1)], outline='rgb(255,0,0)')
@@ -124,15 +151,16 @@ class Generator:
             'text': text
         }
     
-    def draw_qr(self, image, component):
+    def draw_qr(self, background, component):
         x, y = component['location']['x_left'], component['location']['y_top']
         width, height = component['dims']['width'], component['dims']['height']
         version_min, version_max = component['version_min'], component['version_max']
         string_min, string_max = component['string_len_min'], component['string_len_max']
-        string = get_rand_string(min_l=string_min, max_l=string_max)
+        string = random_string(min_l=string_min, max_l=string_max)
         qr_img = get_qr_img(min_v=version_min, max_v=version_max, data=string)
         qr_img = qr_img.resize((width, height))
-        image.paste(qr_img,(x,y))
+        background.paste(qr_img, (x, y))
+        
         return {
             'type': 'qr-code',
             'x_left': x,
@@ -143,6 +171,22 @@ class Generator:
             'height': height,
             'qr_text': string
         }
+    
+    def draw_img(self, background, component):
+        x, y = component['location']['x_left'], component['location']['y_top']
+        width, height = component['dims']['width'], component['dims']['height']
+        img, path = component['generator'].generate()
+        background.paste(img, (x, y))
+        
+        return {
+            'x_left': x,
+            'y_top': y,
+            'x_right': x+width+1,
+            'y_bottom': y+height+1,
+            'width': width,
+            'height': height,
+            'img_path': path
+        }
         
     def draw_barcode(self, image, component):
         x, y = component['location']['x_left'], component['location']['y_top']
@@ -150,7 +194,7 @@ class Generator:
         if 'filler_source' in component:
             data = component['data']['last_generated']
         else:
-            data = get_rand_string()
+            data = random_string()
             
         bar_image = get_barcode(data, shape=(width,height))
         image.paste(bar_image,(x,y))
