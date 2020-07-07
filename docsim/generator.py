@@ -63,6 +63,9 @@ class Generator:
                 if component['filler_mode'] == 'random':
                     if component['filler_type'] == 'full_name':
                         component['generator'] = FullNameGenerator(component['lang'])
+                    elif component['filler_type'] == 'address':
+                        component['generator'] = AddressGenerator(
+                            language = component['lang'], type = component['address_type'])
                     else:
                         raise NotImplementedError
                 elif component['filler_mode'] == 'regex':
@@ -131,10 +134,12 @@ class Generator:
     
     def draw_text(self, img_draw, component):
         x, y = component['location']['x_left'], component['location']['y_top']
+        align = component["align"] if "align" in component else "left"
+        spacing = component["spacing"] if "spacing" in component else 4
         text = component['generator'].generate()
         component['last_generated'] = text
         text = component['post_processor'].process(text)
-        img_draw.text((x, y), text, fill=component['font_color'], font=component['font'])
+        img_draw.text((x, y), text, fill=component['font_color'], font=component['font'], align=align, spacing=spacing)
         width, height = img_draw.textsize(text, font=component['font'])
         # img_draw.rectangle([(x,y), (x+width+1, y+height+1)], outline='rgb(255,0,0)')
         return {

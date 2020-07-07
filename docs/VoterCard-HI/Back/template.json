@@ -1,0 +1,335 @@
+{
+    "doc_name": "voter_front",
+    "background_img": "docs/VoterCard-HI/Back/voter-card-back.png",
+    "defaults": {
+        "lang": "en",
+        "font_file": "fonts/Halant-Bold.ttf",
+        "font_size": 35,
+        "font_color": "rgb(0,0,0)",
+        "upper_case": false
+    },
+    "components": {
+        "sex_key": {
+            "type": "text",
+            "filler_mode": "array",
+            "filler_options": [
+                "लिंग / Sex : "
+            ],
+            "font_size": 35,
+            "location": {
+                "x_left": 70,
+                "y_top": 73
+            }
+        },
+        "sex_value": {
+            "type": "text",
+            "filler_mode": "array",
+            "filler_options": [
+                "नर / Male",
+                "महिला / Female "
+            ],
+            "font_size": 35,
+            "location": {
+                "x_left": 250,
+                "y_top": 80
+            }
+        },
+        "dob_key": {
+            "type": "text",
+            "filler_mode": "array",
+            "filler_options": [
+                "जन्म की तारीख / आयु / DOB / AGE : "
+            ],
+            "font_size": 28,
+            "location": {
+                "x_left": 70,
+                "y_top": 128
+            }
+        },
+        "dob_value": {
+            "type": "text",
+            "filler_mode": "regex",
+            "filler_regex": "(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\\d\\d, \\d\\d Yrs\\.",
+            "font_size": 28,
+            "location": {
+                "x_left": 503,
+                "y_top": 128
+            }
+        },
+        "address_hi_key": {
+            "type": "text",
+            "filler_mode": "array",
+            "filler_options": [
+                "पता : "
+            ],
+            "font_size": 35,
+            "location": {
+                "x_left": 70,
+                "y_top": 182
+            }
+        },
+        "address_hi_value": {
+            "type": "text",
+            "filler_mode": "random",
+            "filler_type": "address",
+            "address_type": "full",
+            "lang": "hi",
+            "font_size": 35,
+            "location": {
+                "x_left": 164,
+                "y_top": 182
+            }
+        },
+        "address_en": {
+            "type": "text",
+            "filler_mode": "array",
+            "filler_options": [
+                "Address : "
+            ],
+            "font_size": 35,
+            "location": {
+                "x_left": 70,
+                "y_top": 335
+            } 
+        },
+        "address_en_value": {
+            "type": "text",
+            "filler_mode": "random",
+            "filler_type": "address",
+            "address_type": "full",
+            "lang": "en",
+            "font_size": 35,
+            "location": {
+                "x_left": 250,
+                "y_top": 335
+            }
+        },
+        "regis_officer_sign": {
+            "type": "text",
+            "filler_mode": "random",
+            "filler_type": "full_name",
+            "font_file": "fonts/Lemon_Tuesday.otf",
+            "font_size": 45,
+            "upper_case": false,
+            "location": {
+                "x_left": 498,
+                "y_top": 498
+            }
+        },
+        "regis_officer_sign_hi_text": {
+            "type": "text",
+            "filler_mode": "array",
+            "filler_options": [
+                "हस्ताक्षर पर हस्ताक्षर किए"
+            ],
+            "font_size": 27,
+            "location": {
+                "x_left": 477,
+                "y_top": 557
+            }
+        },
+        "regis_officer_sign_en_text": {
+            "type": "text",
+            "filler_mode": "array",
+            "filler_options": [
+                "Electral Registration Officer"
+            ],
+            "font_size": 27,
+            "location": {
+                "x_left": 477,
+                "y_top": 595
+            }
+        },
+        "date_text": {
+            "type": "text",
+            "filler_mode": "array",
+            "filler_options": [
+                "Date : "
+            ],
+            "font_size": 27,
+            "location": {
+                "x_left": 70,
+                "y_top": 580
+            }
+        },
+        "date_value": {
+            "type": "text",
+            "filler_mode": "regex",
+            "filler_regex": "(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\\d\\d",
+            "font_size": 27,
+            "location": {
+                "x_left": 155,
+                "y_top": 580
+            }
+        },
+        "ac_number_hi_text": {
+            "type": "text",
+            "filler_mode": "array",
+            "filler_options": [
+                "पूरा नंबर और नाम : "
+            ],
+            "font_size": 27,
+            "location": {
+                "x_left": 70,
+                "y_top": 655
+            }
+        },
+        "ac_number_hi_value": {
+            "type": "text",
+            "filler_mode": "random",
+            "filler_type": "address",
+            "address_type": "street_address",
+            "lang": "hi",
+            "font_size": 27,
+            "location": {
+                "x_left": 272,
+                "y_top": 655
+            }
+        },
+        "part_no_hi_text":{
+            "type": "text",
+            "filler_mode": "array",
+            "filler_options": [
+                "भाग संख्या   :\nऔर नाम"
+            ],
+            "align": "left",
+            "font_size": 27,
+            "location": {
+                "x_left": 70,
+                "y_top": 698
+            }
+        },
+        "part_no_hi_val": {
+            "type": "text",
+            "filler_mode": "random",
+            "filler_type": "address",
+            "address_type": "full",
+            "align": "left",
+            "lang" : "hi",
+            "font_size": 27,
+            "location": {
+                "x_left": 227,
+                "y_top": 698
+            }
+        },
+        "ac_no_en_text": {
+            "type": "text",
+            "filler_mode": "array",
+            "filler_options": [
+                "AC NO & Name : "
+            ],
+            "font_size": 27,
+            "location": {
+                "x_left": 70,
+                "y_top": 782
+            }
+        },
+        "ac_no_en_val": {
+            "type": "text",
+            "filler_mode": "random",
+            "filler_type": "address",
+            "address_type": "street_address",
+            "lang": "en",
+            "font_size": 27,
+            "location": {
+                "x_left": 300,
+                "y_top": 782
+            }
+        },
+        "part_no_en_text": {
+            "type": "text",
+            "filler_mode": "array",
+            "filler_options": [
+                "Part No. &   :\nName"
+            ],
+            "align": "left",
+            "font_size": 27,
+            "location": {
+                "x_left": 70,
+                "y_top": 832
+            }
+        },
+        "part_no_en_val": {
+            "type": "text",
+            "filler_mode": "random",
+            "filler_type": "address",
+            "address_type": "full",
+            "align": "left",
+            "lang": "en",
+            "font_size": 27,
+            "location": {
+                "x_left": 232,
+                "y_top": 832
+            }
+        },
+        "note_text": {
+            "type": "text",
+            "filler_mode": "array",
+            "filler_options": [
+                "ध्यान दें / Note :"
+            ],
+            "align": "left",
+            "font_size": 27,
+            "location": {
+                "x_left": 70,
+                "y_top": 930
+            }
+        },
+        "note_hi1": {
+            "type": "text",
+            "filler_mode": "array",
+            "filler_options": [
+                "1. निर्वाचक फोटो पहचान पत्र के मात्र पोजिशन की कोई गारंटी नहीं है कि\nआप वर्तमान मतदाता सूची में निर्वाचक हैं। कृपया हर चुनाव से पहले\nवर्तमान मतदाता सूची में अपना नाम देखें।"
+            ],
+            "align": "left",
+            "font_size": 30,
+            "location": {
+                "x_left": 70,
+                "y_top": 980
+            }
+        },
+        "note_en1": {
+            "type": "text",
+            "filler_mode": "array",
+            "filler_options": [
+                "1. Mere Possession of Elector photo identity Card is no guarantee that\nyou are elector in the current electoral roll. Please check your name\nin the current electoral roll before every election."
+            ],
+            "align": "left",
+            "font_size": 26,
+            "use_text_wrap": true,
+            "location": {
+                "x_left": 70,
+                "y_top": 1108
+            }
+        },
+        "note_hi2": {
+            "type": "text",
+            "filler_mode": "array",
+            "filler_options": [
+                "2. इस कार्ड में वर्णित जन्म तिथि को आयु के प्रमाण के रूप में नहीं माना\nजाएगा डी.ओ.बी. मतदाता सूची में पंजीकरण केअलावा अन्य किसी\nप्रयोजन के लिए।"
+            ],
+            "align": "left",
+            "font_size": 30,
+            "use_text_wrap": true,
+            "location": {
+                "x_left": 70,
+                "y_top": 1215
+            }
+        },
+        "note_en2": {
+            "type": "text",
+            "filler_mode": "array",
+            "filler_options": [
+                "2. Date of birth mentioned in this card shall not be treated as proof of\nage / D.O.B. for any purpose other than registration in electoral roll."
+            ],
+            "align": "left",
+            "font_size": 26,
+            "use_text_wrap": true,
+            "location": {
+                "x_left": 70,
+                "y_top": 1335
+            }
+        }   
+
+    }
+}
