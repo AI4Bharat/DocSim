@@ -88,3 +88,28 @@ class TextPostProcessor():
         elif self.lower_case:
             text = text.lower()
         return text
+
+from faker import Faker
+class AddressGenerator():
+    LANG2CODE = {
+        'en' : 'en-US',
+        'hi': 'hi_IN'
+    }
+    def __init__(self, language='en', type="full"):
+        lang_code = AddressGenerator.LANG2CODE[language]
+        self.faker = Faker(lang_code)
+        self.type = type
+    def generate(self):
+        if self.type == "full":
+            return self.faker.address()
+        if self.type == "street_address":
+            return self.faker.street_address()
+        elif self.type == "city":
+            return self.faker.city()
+        elif self.type == "country":
+            return self.faker.country()
+        elif self.type == "postcode":
+            return self.faker.postcode()
+        else:
+            raise NotImplementedError
+            
