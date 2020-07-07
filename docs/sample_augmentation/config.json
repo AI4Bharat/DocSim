@@ -1,0 +1,17 @@
+{
+    "random_sequence": true,
+    "augmentations": {
+        "grayscale": {
+            "probability": 0.2
+        },
+        "intensity_multiplier": {
+            "min_multiplier": 0.25,
+            "max_multiplier": 1.75
+        },
+        "additive_gaussian_noise": {
+            "probability": 0.7,
+            "min_scale": 0.01,
+            "max_scale": 0.3
+        }
+    }
+}

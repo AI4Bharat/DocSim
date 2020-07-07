@@ -125,7 +125,7 @@ class Generator:
                     raise NotImplementedError
             
             output_file = os.path.join(output_folder, random_id())
-            image.save(output_file+'.png')
+            image.save(output_file+'.jpg')
             with open(output_file+'.json', 'w', encoding='utf-8') as f:
                 json.dump(ground_truth, f, ensure_ascii=False, indent=4)
     
@@ -209,5 +209,9 @@ class Generator:
         }
         
 if __name__ == '__main__':
-    template_json, output_folder = sys.argv[1:]
-    Generator(template_json).generate(1, output_folder)
+    # TODO: Use argparse
+    template_json = sys.argv[1]
+    samples = sys.argv[2] if len(sys.argv) > 2 else 1
+    output_folder = sys.argv[3] if len(sys.argv) > 3 else None
+    
+    Generator(template_json).generate(samples, output_folder)

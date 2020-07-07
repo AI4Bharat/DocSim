@@ -14,3 +14,17 @@ Synthetically generate documents!
 - Support for filling using multiple-languages
 - Transliteration-based parallel multi-lingual parallel text
 - Support for QR and Bar code generation
+
+## Instructions
+
+### Generate synthetic images
+
+```
+python docsim\generator.py <template.json> <num_samples> <output_folder>
+```
+
+### Augment generated images
+
+```
+python docsim\augmentor.py <config.json> <input_folder> <num_epochs> <output_folder>
+```

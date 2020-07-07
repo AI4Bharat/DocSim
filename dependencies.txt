@@ -11,4 +11,8 @@ open-tamil
 
 qrcode
 python-barcode[images]
+faker
+
+imageio
+imgaug
 requests

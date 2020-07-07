@@ -1,13 +1,12 @@
 from PIL import Image
-from glob import glob
 import os
-from os.path import join
 import random
 from random import randrange
 import requests
 import io
 
 from docsim.utils.random import random_string
+from docsim.utils.image import *
 
 class ImageRetriever:
     def __init__(self, img_path, dims):
@@ -18,14 +17,10 @@ class ImageRetriever:
     def generate(self):
         return self.image, self.path
 
-IMAGE_EXTENSIONS = ['.png', '.jpg', '.jpeg']
 class ImageGenerator:
     def __init__(self, img_folder, dims):
         self.img_size = (dims['width'], dims['height'])
-        files = glob(join(img_folder, '*'))
-        self.images = []
-        for extension in IMAGE_EXTENSIONS:
-            self.images += [file for file in files if file.lower().endswith(extension)]
+        self.images = get_all_images(img_folder)
         
         if not self.images:
             exit('No images found in %s' % img_folder)
