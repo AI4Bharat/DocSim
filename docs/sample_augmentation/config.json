@@ -17,6 +17,16 @@
             "sigma_min": 0.25,
             "sigma_max": 2.0
         },
+        "defocus": {
+            "probability": 0.03,
+            "min_severity": 1,
+            "max_severity": 2
+        },
+        "fog": {
+            "probability": 0.01,
+            "min_severity": 1,
+            "max_severity": 1
+        },
         "contrast": {
             "probability": 0.7,
             "min_gain": 6,
@@ -36,6 +46,11 @@
         "perspective_transform": {
             "min_scale": 0.01,
             "max_scale": 0.04
+        },
+        "elastic_transform": {
+            "probability": 0.05,
+            "min_severity": 1,
+            "max_severity": 2
         },
         "piecewise_affine": {
             "probability": 0.05,
