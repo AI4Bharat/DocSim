@@ -1,23 +1,23 @@
 import os, sys
-import random
 from glob import glob
 from tqdm import tqdm
 import json
 from imageio import imread, imsave
-import imgaug.augmenters as iaa
 
-from docsim.augmentation.img_aug import *
+from docsim.augmentation.img_aug import ImgAugAugmentor
 from docsim.utils.image import get_all_images
 
 class Augmentor:
-    SUPPORTED_AUGMENTATIONS = ['grayscale', 'intensity_multiplier', 'additive_gaussian_noise']
+    
+    SUPPORTED_AUGMENTATIONS = ImgAugAugmentor.SUPPORTED_AUGMENTATIONS
+    
     def __init__(self, config_json):
         with open(config_json, encoding='utf-8') as f:
             config = json.load(f)
         self.augmentations = config['augmentations']
         self.shuffle = 'random_sequence' in config and config['random_sequence']
         self.setup_defaults()
-        self.setup_basic_augmentors()
+        self.imgaug_augmentor = ImgAugAugmentor(config)
         
     def setup_defaults(self):
         for aug_name, aug_config in self.augmentations.items():
@@ -29,41 +29,28 @@ class Augmentor:
             
         return
     
-    def setup_basic_augmentors(self):
-        self.basic_augmentors = []
-        for aug_name, aug_config in self.augmentations.items():
-            aug = None
-            if aug_name == 'grayscale':
-                aug = iaa.Grayscale()
-            elif aug_name == 'intensity_multiplier':
-                aug = iaa.Multiply((aug_config.get('min_multiplier', 0.5), aug_config.get('min_multiplier', 1.5)))
-            elif aug_name == 'additive_gaussian_noise':
-                aug = VariableRangeAdditiveGaussianNoise(aug_config.get('min_scale', 0.05), aug_config.get('max_scale', 0.25))
-            
-            if not aug:
-                continue
-            aug.p = aug_config['probability']
-            self.basic_augmentors.append(aug)
-        
-        return
-    
-    def augment_image(self, img):
-        if self.shuffle:
-            random.shuffle(self.basic_augmentors)
-        
-        for aug in self.basic_augmentors:
-            if random.random() < aug.p:
-                img = aug(image=img)
-        
-        return img
-    
     def augment(self, images, output_folder):
         os.makedirs(output_folder, exist_ok=True)
         for image in tqdm(images):
+            gt_file = os.path.splitext(image)[0] + '.json'
+            if not os.path.isfile(gt_file):
+                print('No GT for:', image)
+                continue
+            
+            # Read image and GT
             img = imread(image)[:, :, :3]
-            img = self.augment_image(img)
-            output = os.path.join(output_folder, os.path.basename(image))
-            imsave(output, img)
+            with open(gt_file, encoding='utf-8') as f:
+                gt = json.load(f)
+            
+            # Augment!
+            out_img, out_gt = self.imgaug_augmentor.augment_image(img, gt)
+            
+            # Save augmented output
+            out_img_file = os.path.join(output_folder, os.path.basename(image))
+            imsave(out_img_file, out_img)
+            out_gt_file = os.path.join(output_folder, os.path.basename(gt_file))
+            with open(out_gt_file, 'w', encoding='utf-8') as f:
+                json.dump(out_gt, f, ensure_ascii=False, indent=4)
         return
     
     def __call__(self, input_folder, epochs=1, output_folder=None):

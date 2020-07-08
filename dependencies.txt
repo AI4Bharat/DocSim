@@ -15,4 +15,5 @@ faker
 
 imageio
 imgaug
+imagecorruptions
 requests

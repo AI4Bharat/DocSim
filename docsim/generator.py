@@ -144,10 +144,12 @@ class Generator:
         # img_draw.rectangle([(x,y), (x+width+1, y+height+1)], outline='rgb(255,0,0)')
         return {
             'type': component['type'],
-            'x_left': x,
-            'y_top': y,
-            'x_right': x+width+1,
-            'y_bottom': y+height+1,
+            'points': [ # Clock-wise
+                [x+1, y+1], # Left Top
+                [x+width+1, y+1], # Right Top
+                [x+width+1, y+height+1], # Right Bottom
+                [x+1, y+height+1] # Left bottom
+            ],
             'width': width,
             'height': height,
             'text': text
@@ -165,10 +167,12 @@ class Generator:
         
         return {
             'type': component['type'],
-            'x_left': x,
-            'y_top': y,
-            'x_right': x+width+1,
-            'y_bottom': y+height+1,
+            'points': [ # Clock-wise
+                [x+1, y+1], # Left Top
+                [x+width+1, y+1], # Right Top
+                [x+width+1, y+height+1], # Right Bottom
+                [x+1, y+height+1] # Left bottom
+            ],
             'width': width,
             'height': height,
             'code_content': string
@@ -184,10 +188,12 @@ class Generator:
             'type': component['type'],
             'mode': component['filler_mode'],
             'img_details': details,
-            'x_left': x,
-            'y_top': y,
-            'x_right': x+width+1,
-            'y_bottom': y+height+1,
+            'points': [ # Clock-wise
+                [x+1, y+1], # Left Top
+                [x+width+1, y+1], # Right Top
+                [x+width+1, y+height+1], # Right Bottom
+                [x+1, y+height+1] # Left bottom
+            ],
             'width': width,
             'height': height,
         }
@@ -204,10 +210,12 @@ class Generator:
         image.paste(bar_image, (x, y))
         return {
             'type': component['type'],
-            'x_left': x,
-            'y_top': y,
-            'x_right': x+width+1,
-            'y_bottom': y+height+1,
+            'points': [ # Clock-wise
+                [x+1, y+1], # Left Top
+                [x+width+1, y+1], # Right Top
+                [x+width+1, y+height+1], # Right Bottom
+                [x+1, y+height+1] # Left bottom
+            ],
             'width': width,
             'height': height,
             'code_content': data
@@ -216,7 +224,7 @@ class Generator:
 if __name__ == '__main__':
     # TODO: Use argparse
     template_json = sys.argv[1]
-    samples = sys.argv[2] if len(sys.argv) > 2 else 1
+    samples = int(sys.argv[2]) if len(sys.argv) > 2 else 1
     output_folder = sys.argv[3] if len(sys.argv) > 3 else None
     
     Generator(template_json).generate(samples, output_folder)

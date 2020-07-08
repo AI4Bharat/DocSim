@@ -5,13 +5,42 @@
             "probability": 0.2
         },
         "intensity_multiplier": {
-            "min_multiplier": 0.25,
-            "max_multiplier": 1.75
+            "min_multiplier": 0.5,
+            "max_multiplier": 1.25
         },
         "additive_gaussian_noise": {
             "probability": 0.7,
             "min_scale": 0.01,
-            "max_scale": 0.3
+            "max_scale": 0.25
+        },
+        "gaussian_blur": {
+            "sigma_min": 0.25,
+            "sigma_max": 2.0
+        },
+        "contrast": {
+            "probability": 0.7,
+            "min_gain": 6,
+            "max_gain": 12,
+            "min_cutoff": 0.2,
+            "max_cutoff": 0.6
+        },
+        "spatter": {
+            "probability": 0.05,
+            "severity": 4
+        },
+        "motion_blur": {
+            "kernel_size": 15,
+            "min_angle": -45,
+            "max_angle": 45
+        },
+        "perspective_transform": {
+            "min_scale": 0.01,
+            "max_scale": 0.04
+        },
+        "piecewise_affine": {
+            "probability": 0.05,
+            "min_scale": 0.01,
+            "max_scale": 0.02
         }
     }
 }
