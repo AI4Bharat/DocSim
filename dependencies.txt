@@ -1,5 +1,6 @@
 Pillow
 tqdm
+requests
 rstr
 transliterate
 indic_transliteration
@@ -13,7 +14,8 @@ qrcode
 python-barcode[images]
 faker
 
+numpy
 imageio
 imgaug
 imagecorruptions
-requests
+git+https://github.com/NVlabs/ocrodeg

@@ -56,6 +56,37 @@
             "probability": 0.05,
             "min_scale": 0.01,
             "max_scale": 0.02
+        },
+        
+        "gaussian_warp": {
+            "probability": 0.05,
+            "min_sigma": 2.0,
+            "max_sigma": 5.0,
+            "min_delta": 4.0,
+            "max_delta": 5.0
+        },
+        "1d_surface_distort": {
+            "probability": 0.05,
+            "min_magnitude": 15,
+            "max_magnitude": 30
+        },
+        "binarized_blur": {
+            "probability": 0.05,
+            "min_sigma": 0,
+            "max_sigma": 1.3
+        },
+        "blotches": {
+            "probability": 0.01,
+            "min_fgblobs": 0.0005,
+            "max_fgblobs": 0.001,
+            "min_bgblobs": 0.0005,
+            "max_bgblobs": 0.001
+        },
+        "multiscale_black_noise": {
+            "probability": 0.03
+        },
+        "fibrous_noise": {
+            "probability": 0.05
         }
     }
 }

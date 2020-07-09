@@ -2,14 +2,16 @@ import os, sys
 from glob import glob
 from tqdm import tqdm
 import json
+import random
 from imageio import imread, imsave
 
 from docsim.augmentation.img_aug import ImgAugAugmentor
+from docsim.augmentation.ocr_deg import OCRoDegAugmentor
 from docsim.utils.image import get_all_images
 
 class Augmentor:
     
-    SUPPORTED_AUGMENTATIONS = ImgAugAugmentor.SUPPORTED_AUGMENTATIONS
+    SUPPORTED_AUGMENTATIONS = ImgAugAugmentor.SUPPORTED_AUGMENTATIONS + OCRoDegAugmentor.SUPPORTED_AUGMENTATIONS
     
     def __init__(self, config_json):
         with open(config_json, encoding='utf-8') as f:
@@ -18,6 +20,10 @@ class Augmentor:
         self.shuffle = 'random_sequence' in config and config['random_sequence']
         self.setup_defaults()
         self.imgaug_augmentor = ImgAugAugmentor(config)
+        
+        self.ocrodeg_augmentor = OCRoDegAugmentor(config)
+        augmentors = [self.imgaug_augmentor, self.ocrodeg_augmentor]
+        self.augmentors = [a for a in augmentors if a.augmentors]
         
     def setup_defaults(self):
         for aug_name, aug_config in self.augmentations.items():
@@ -43,14 +49,17 @@ class Augmentor:
                 gt = json.load(f)
             
             # Augment!
-            out_img, out_gt = self.imgaug_augmentor.augment_image(img, gt)
+            if self.shuffle:
+                random.shuffle(self.augmentors)
+            for augmentor in self.augmentors:
+                img, gt = augmentor.augment_image(img, gt)
             
             # Save augmented output
             out_img_file = os.path.join(output_folder, os.path.basename(image))
-            imsave(out_img_file, out_img)
+            imsave(out_img_file, img)
             out_gt_file = os.path.join(output_folder, os.path.basename(gt_file))
             with open(out_gt_file, 'w', encoding='utf-8') as f:
-                json.dump(out_gt, f, ensure_ascii=False, indent=4)
+                json.dump(gt, f, ensure_ascii=False, indent=4)
         return
     
     def __call__(self, input_folder, epochs=1, output_folder=None):
