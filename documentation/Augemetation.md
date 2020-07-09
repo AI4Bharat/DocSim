@@ -1,10 +1,10 @@
 # Augmentations relevant to textual images
 
-Check [`docs/sample_augmentation/config.json`](docs/sample_augmentation/config.json) for a sample configuration file for augmentation.
+Check [`/docs/sample_augmentation/config.json`](/docs/sample_augmentation/config.json) for a sample configuration file for augmentation.
 
 ## Supported Augmentations
 
-## Library: `imgaug`
+### Library: [`imgaug`](https://github.com/aleju/imgaug#example-images)
 
 |Augmentation|Description|
 |------------|-----------|
@@ -21,7 +21,7 @@ Check [`docs/sample_augmentation/config.json`](docs/sample_augmentation/config.j
 |[`elastic_transform`](https://github.com/bethgelab/imagecorruptions#imagecorruptions)|Simulates disorientations of printed text at the character-level|
 |[`piecewise_affine`](https://imgaug.readthedocs.io/en/latest/source/overview/geometric.html#piecewiseaffine)|Simulates expanded/contracted papers depressed at a location
 
-### Library: `ocrodeg` - Scanned Images Augmentor
+### Library: [`ocrodeg`](https://github.com/NVlabs/ocrodeg) - Scanned Images Augmentor
 
 |Augmentation|Description|
 |------------|-----------|
@@ -31,3 +31,17 @@ Check [`docs/sample_augmentation/config.json`](docs/sample_augmentation/config.j
 |[`blotches`](https://github.com/NVlabs/ocrodeg#random-blobs)|Patches of black-and-white simulating printing ink scatters|
 |[`multiscale_black_noise`](https://github.com/NVlabs/ocrodeg#foreground--background-selection)|Simulates very old paper background|
 |[`fibrous_noise`](https://github.com/NVlabs/ocrodeg#fibrous-noise)|Add a fiber background and topple some noise
+
+<hr/>
+
+## Footnotes
+
+### Other similar libraries that didn't help
+
+* https://github.com/mdbloice/Augmentor (Only segmentation supported)
+* https://github.com/bethgelab/imagecorruptions (Subset of imgaug)
+* [github.com/UjjwalSaxena/Automold--Road-Augmentation-Library](https://github.com/UjjwalSaxena/Automold--Road-Augmentation-Library) (not much relevant)
+* [github.com/Paperspace/DataAugmentationForObjectDetection](https://github.com/Paperspace/DataAugmentationForObjectDetection) (Subset of imgaug)
+* https://github.com/mahmoudnafifi/WB_color_augmenter (Not relevant for text)
+* https://github.com/codebox/image_augmentor (Subset of imgaug)
+* https://github.com/mastnk/imagedegrade (Subset of imgaug)
