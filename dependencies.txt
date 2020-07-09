@@ -17,3 +17,4 @@ imageio
 imgaug
 imagecorruptions
 requests
+albumentations

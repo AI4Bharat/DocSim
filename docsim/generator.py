@@ -114,15 +114,19 @@ class Generator:
             for component_name, component in self.components.items():
                 if component['type'] == 'text':
                     metadata = self.draw_text(img_draw, component)
+                    metadata["label"] = component_name
                     ground_truth.append(metadata)
                 elif component['type'] == 'qr':
                     metadata = self.draw_qr(image, component)
+                    metadata["label"] = component_name
                     ground_truth.append(metadata)
                 elif component['type'] == 'barcode':
                     metadata = self.draw_barcode(image, component)
+                    metadata["label"] = component_name
                     ground_truth.append(metadata)
                 elif component['type'] == 'image':
                     metadata = self.draw_img(image, component)
+                    metadata["label"] = component_name
                     ground_truth.append(metadata)
                 else:
                     raise NotImplementedError

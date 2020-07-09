@@ -2,6 +2,7 @@ import os, sys
 from glob import glob
 from tqdm import tqdm
 import json
+import itertools
 from imageio import imread, imsave
 
 from docsim.augmentation.img_aug import ImgAugAugmentor
@@ -9,7 +10,8 @@ from docsim.utils.image import get_all_images
 
 class Augmentor:
     
-    SUPPORTED_AUGMENTATIONS = ImgAugAugmentor.SUPPORTED_AUGMENTATIONS
+    SUPPORTED_AUGMENTATIONS = list(itertools.chain(
+        *ImgAugAugmentor.SUPPORTED_AUGMENTATIONS.values()))
     
     def __init__(self, config_json):
         with open(config_json, encoding='utf-8') as f:
