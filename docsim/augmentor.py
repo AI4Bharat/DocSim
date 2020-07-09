@@ -6,12 +6,13 @@ import itertools
 from imageio import imread, imsave
 
 from docsim.augmentation.img_aug import ImgAugAugmentor
+from docsim.augmentation.albumentations import Albumentor
 from docsim.utils.image import get_all_images
 
 class Augmentor:
     
-    SUPPORTED_AUGMENTATIONS = list(itertools.chain(
-        *ImgAugAugmentor.SUPPORTED_AUGMENTATIONS.values()))
+    SUPPORTED_AUGMENTATIONS = ImgAugAugmentor.SUPPORTED_AUGMENTATIONS + \
+        Albumentor.SUPPORTED_AUGMENTATIONS
     
     def __init__(self, config_json):
         with open(config_json, encoding='utf-8') as f:
@@ -20,7 +21,11 @@ class Augmentor:
         self.shuffle = 'random_sequence' in config and config['random_sequence']
         self.setup_defaults()
         self.imgaug_augmentor = ImgAugAugmentor(config)
-        
+        self.albumentor = Albumentor(config)
+        print("abumentor:", vars(self.albumentor))
+        augmentors = [self.imgaug_augmentor, self.albumentor]
+        self.augmentors = [a for a in augmentors if a.augmentors]
+         
     def setup_defaults(self):
         for aug_name, aug_config in self.augmentations.items():
             if aug_name not in Augmentor.SUPPORTED_AUGMENTATIONS:
@@ -45,7 +50,8 @@ class Augmentor:
                 gt = json.load(f)
             
             # Augment!
-            out_img, out_gt = self.imgaug_augmentor.augment_image(img, gt)
+            for augmentor in self.augmentors:
+                out_img, out_gt = augmentor.augment_image(img, gt)
             
             # Save augmented output
             out_img_file = os.path.join(output_folder, os.path.basename(image))
