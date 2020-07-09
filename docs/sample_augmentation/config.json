@@ -87,6 +87,24 @@
         },
         "fibrous_noise": {
             "probability": 0.05
+        },
+        
+        "image_compression": {
+            "quality_lower": 70, 
+            "quality_upper": 100,
+            "probability": 1.0
+        },
+        "posterize": {
+            "num_bits": 4,
+            "probabilty": 0.5
+        },
+        "blur": {
+            "blur_limit":7,
+            "probabilty": 0.5
+        },
+        "median_blur": {
+            "blur_limit": 7,
+            "probabilty": 0.5
         }
     }
 }

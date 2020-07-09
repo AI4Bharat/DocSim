@@ -42,6 +42,7 @@ class Generator:
     def process_components(self):
         for component_name, component in self.components.items():
             
+            component['id'] = component_name
             if 'filler_source' in component:
                 component['data_source'] = self.components[component['filler_source']]
             
@@ -144,6 +145,7 @@ class Generator:
         # img_draw.rectangle([(x,y), (x+width+1, y+height+1)], outline='rgb(255,0,0)')
         return {
             'type': component['type'],
+            'label': component['id'],
             'points': [ # Clock-wise
                 [x+1, y+1], # Left Top
                 [x+width+1, y+1], # Right Top
@@ -167,6 +169,7 @@ class Generator:
         
         return {
             'type': component['type'],
+            'label': component['id'],
             'points': [ # Clock-wise
                 [x+1, y+1], # Left Top
                 [x+width+1, y+1], # Right Top
@@ -186,6 +189,7 @@ class Generator:
         
         return {
             'type': component['type'],
+            'label': component['id'],
             'mode': component['filler_mode'],
             'img_details': details,
             'points': [ # Clock-wise
@@ -210,6 +214,7 @@ class Generator:
         image.paste(bar_image, (x, y))
         return {
             'type': component['type'],
+            'label': component['id'],
             'points': [ # Clock-wise
                 [x+1, y+1], # Left Top
                 [x+width+1, y+1], # Right Top
