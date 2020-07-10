@@ -19,9 +19,10 @@ class ImgAugAugmentor:
                                'elastic_transform',
                                'piecewise_affine']
 
-    def __init__(self, config):
-        self.shuffle = 'random_sequence' in config and config['random_sequence']
-        self.setup_augmentors(config['augmentations'])
+    def __init__(self, main_config):
+        self.shuffle = main_config.shuffle
+        self.augname2group = main_config.augname2group
+        self.setup_augmentors(main_config.augmentations)
 
     def setup_augmentors(self, augmentations):
         self.augmentors = []
@@ -69,11 +70,12 @@ class ImgAugAugmentor:
             if not aug:
                 continue
             aug.p = aug_config['probability']
+            aug.name = aug_name
             self.augmentors.append(aug)
 
         return
-
-    def augment_image(self, img, gt):
+    
+    def augment_image(self, img, gt, completed_one_of_groups):
         if self.shuffle:  # TODO: Move to top-level augmentor?
             random.shuffle(self.augmentors)
 
@@ -82,7 +84,15 @@ class ImgAugAugmentor:
         polygons = PolygonsOnImage(polygons, shape=img.shape)
         for aug in self.augmentors:
             if random.random() < aug.p:
-                img, polygons = aug(image=img, polygons=polygons)
+                if aug.name in self.augname2group:
+                    if self.augname2group[aug.name] in completed_one_of_groups:
+                        continue
+                    else:
+                        completed_one_of_groups.add(self.augname2group[aug.name])
+                try:
+                    img, polygons = aug(image=img, polygons=polygons)
+                except:
+                    print('Augmentation Failed:', aug.name)
 
         # Put back polygons into GT
         for element, pg in zip(gt, polygons):

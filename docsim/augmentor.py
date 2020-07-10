@@ -19,20 +19,28 @@ class Augmentor:
     def __init__(self, config_json):
         with open(config_json, encoding='utf-8') as f:
             config = json.load(f)
-        self.augmentations = config['augmentations']
-        self.shuffle = 'random_sequence' in config and config['random_sequence']
-        self.setup_defaults()
-        augmentors = [ImgAugAugmentor(config), OCRoDegAugmentor(config), Albumentor(config)]
+        self.setup_defaults(config)
+        # TODO: Fix the impurity below
+        augmentors = [ImgAugAugmentor(self), OCRoDegAugmentor(self), Albumentor(self)]
         self.augmentors = [a for a in augmentors if a.augmentors]
          
-    def setup_defaults(self):
+    def setup_defaults(self, config):
+        self.config = config
+        self.augmentations = config['augmentations']
+        self.shuffle = 'random_sequence' in config and config['random_sequence']
         for aug_name, aug_config in self.augmentations.items():
             if aug_name not in Augmentor.SUPPORTED_AUGMENTATIONS:
                 print('No augmentor for:', aug_name)
                 continue
             if 'probability' not in aug_config:
                 aug_config['probability'] = 0.5
-            
+        
+        self.augname2group = {}
+        if 'mutually_exclusive_augmentations' in config:
+            for group_id, one_of_group in enumerate(config['mutually_exclusive_augmentations']):
+                for aug_name in one_of_group:
+                    self.augname2group[aug_name] = group_id
+        
         return
     
     def augment(self, images, output_folder):
@@ -51,8 +59,9 @@ class Augmentor:
             # Augment!
             if self.shuffle:
                 random.shuffle(self.augmentors)
+            completed_groups = set()
             for augmentor in self.augmentors:
-                img, gt = augmentor.augment_image(img, gt)
+                img, gt = augmentor.augment_image(img, gt, completed_groups)
             
             # Save augmented output
             out_img_file = os.path.join(output_folder, os.path.basename(image))

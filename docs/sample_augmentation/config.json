@@ -106,5 +106,31 @@
             "blur_limit": 7,
             "probabilty": 0.5
         }
-    }
+    },
+    "mutually_exclusive_augmentations": [
+        [
+            "gaussian_blur",
+            "defocus",
+            "motion_blur",
+            "blur",
+            "median_blur"
+        ],
+        [
+            "image_compression",
+            "quantization",
+            "posterize"
+        ],
+        [
+            "blotches",
+            "spatter"
+        ],
+        [
+            "gaussian_warp",
+            "elastic_transform"
+        ],
+        [
+            "multiscale_black_noise",
+            "fibrous_noise"
+        ]
+    ]
 }
