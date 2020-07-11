@@ -35,11 +35,13 @@ class Augmentor:
             if 'probability' not in aug_config:
                 aug_config['probability'] = 0.5
         
-        self.augname2group = {}
+        self.augname2groups = {}
         if 'mutually_exclusive_augmentations' in config:
             for group_id, one_of_group in enumerate(config['mutually_exclusive_augmentations']):
                 for aug_name in one_of_group:
-                    self.augname2group[aug_name] = group_id
+                    if aug_name not in self.augname2groups:
+                        self.augname2groups[aug_name] = set()
+                    self.augname2groups[aug_name].add(group_id)
         
         return
     

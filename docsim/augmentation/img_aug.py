@@ -21,7 +21,7 @@ class ImgAugAugmentor:
 
     def __init__(self, main_config):
         self.shuffle = main_config.shuffle
-        self.augname2group = main_config.augname2group
+        self.augname2groups = main_config.augname2groups
         self.setup_augmentors(main_config.augmentations)
 
     def setup_augmentors(self, augmentations):
@@ -69,13 +69,14 @@ class ImgAugAugmentor:
 
             if not aug:
                 continue
-            aug.p = aug_config['probability']
-            aug.name = aug_name
+            aug.name, aug.p, aug.base = aug_name, aug_config['probability'], self
             self.augmentors.append(aug)
 
         return
     
-    def augment_image(self, img, gt, completed_one_of_groups):
+    def augment_image(self, img, gt, completed_groups):
+        # Note: Running as groups directly is cheaper than running individually using run_augment()
+        
         if self.shuffle:  # TODO: Move to top-level augmentor?
             random.shuffle(self.augmentors)
 
@@ -84,23 +85,35 @@ class ImgAugAugmentor:
         polygons = PolygonsOnImage(polygons, shape=img.shape)
         for aug in self.augmentors:
             if random.random() < aug.p:
-                if aug.name in self.augname2group:
-                    if self.augname2group[aug.name] in completed_one_of_groups:
+                if aug.name in self.augname2groups:
+                    if self.augname2groups[aug.name].intersection(completed_groups):
                         continue
                     else:
-                        completed_one_of_groups.add(self.augname2group[aug.name])
-                try:
-                    img, polygons = aug(image=img, polygons=polygons)
-                except:
-                    print('Augmentation Failed:', aug.name)
+                        completed_groups.update(self.augname2groups[aug.name])
+                
+                img, polygons = aug(image=img, polygons=polygons)
 
         # Put back polygons into GT
         for element, pg in zip(gt, polygons):
-            polygon = [pt.tolist() for pt in pg.exterior]
-            element['points'] = polygon
+            element['points'] = [pt.tolist() for pt in pg.exterior]
 
         return img, gt
+    
+    @staticmethod
+    def run_augment(aug, img, gt):
+        polygons = [Polygon(element['points'], element['label'])
+                    for element in gt]
+        polygons = PolygonsOnImage(polygons, shape=img.shape)
+        
+        img, polygons = aug(image=img, polygons=polygons)
+        
+        # Put back polygons into GT
+        for element, pg in zip(gt, polygons):
+            element['points'] = [pt.tolist() for pt in pg.exterior]
+        
+        return img, gt
 
+## -------------------- Augmentors --------------------- ##
 
 class VariableRangeAdditiveGaussianNoise:
     def __init__(self, min_scale, max_scale):

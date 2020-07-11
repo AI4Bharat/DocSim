@@ -1,6 +1,7 @@
 # DocSim -- Documents Simulator
 
-Synthetically generate documents!
+Synthetically generate documents!  
+[Check here](/documentation/Features.md) for list of all features
 
 ## Requirements
 

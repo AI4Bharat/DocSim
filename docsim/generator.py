@@ -2,11 +2,10 @@ import os, sys
 import json
 from PIL import Image, ImageDraw, ImageFont
 from tqdm import tqdm
-from docsim.utils.barcode import get_barcode
 from docsim.utils.random import random_id, random_string
 from docsim.text_generators import *
 from docsim.image_generators import *
-from docsim.utils.qr import get_qr_img
+from docsim.utils.image import get_qr_img, get_barcode
 
 class Generator:
     def __init__(self, template_json):

@@ -16,7 +16,7 @@ class OCRoDegAugmentor:
     
     def __init__(self, main_config):
         self.shuffle = main_config.shuffle
-        self.augname2group = main_config.augname2group
+        self.augname2groups = main_config.augname2groups
         self.setup_augmentors(main_config.augmentations)
     
     def setup_augmentors(self, augmentations):
@@ -47,26 +47,29 @@ class OCRoDegAugmentor:
                     blotches=(aug_config.get('min_blotches', 2e-5), aug_config.get('max_blotches', 3e-5)))
             if not aug:
                 continue
-            aug.p = aug_config['probability']
-            aug.name = aug_name
+            aug.name, aug.p, aug.base = aug_name, aug_config['probability'], self
             self.augmentors.append(aug)
         
         return
     
-    def augment_image(self, img, gt, completed_one_of_groups):
+    def augment_image(self, img, gt, completed_groups):
         if self.shuffle: # TODO: Move to top-level augmentor?
             random.shuffle(self.augmentors)
         
         for aug in self.augmentors:
             if random.random() < aug.p:
-                if aug.name in self.augname2group:
-                    if self.augname2group[aug.name] in completed_one_of_groups:
+                if aug.name in self.augname2groups:
+                    if self.augname2groups[aug.name].intersection(completed_groups):
                         continue
                     else:
-                        completed_one_of_groups.add(self.augname2group[aug.name])
+                        completed_groups.update(self.augname2groups[aug.name])
                 img = aug(image=img)
 
         return img, gt
+    
+    @staticmethod
+    def run_augment(aug, img, gt):
+        return aug(image=img), gt
 
 
 ## -------------------- Augmentors --------------------- ##

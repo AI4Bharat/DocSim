@@ -1,8 +1,22 @@
 ## Available Features
 
-- JSON template-based synthetic images and ground-truth generation
-- Support for filling using multiple-languages
-- Transliteration-based parallel multi-lingual parallel text
-- Support for QR and Bar code generation
-- Support for dynamics fonts for any language
-  - Place your fonts in the `fonts/` folder and use it in your template
+- Multi-lingual support
+- JSON-based template for defining a document for random/synthetic generation
+- Completely python-based
+- Support for multi-lingual random text filling from:
+  - Given dictionary file
+  - Random person names generator
+  - Regular Expression based generation (for example, DOB and PAN ID)
+- Transliteration-based parallel text filling
+  - For example, filling same names in English and Tamil
+  - Currently Indic and European transliterations supported
+- Customizable:
+  - Font types and styles like color, size, etc.
+  - Support for dynamic fonts for any language
+  - Have used cursive-like fonts for generating signatures of people from their name
+- Support for QR codes and barcodes on documents
+- Support for images
+  - Fake faces from here: [https://thispersondoesnotexist.com/](https://thispersondoesnotexist.com/)
+  - Random photos from given local folder
+- Currently supported documents:
+  - Aadhar, PAN, Voter, Driver’s license

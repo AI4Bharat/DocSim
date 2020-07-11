@@ -14,7 +14,7 @@ class Albumentor:
 
     def __init__(self, main_config):
         self.shuffle = main_config.shuffle
-        self.augname2group = main_config.augname2group
+        self.augname2groups = main_config.augname2groups
         self.setup_augmentors(main_config.augmentations)
 
     def setup_augmentors(self, augmentations):
@@ -42,13 +42,13 @@ class Albumentor:
                                               p=aug_config.get('probabilty', 0.5))])
             if not aug:
                 continue
-            aug.p = aug_config['probability']
-            aug.name = aug_name
+            aug.name, aug.p, aug.base = aug_name, aug_config['probability'], self
+            
             self.augmentors.append(aug)
 
         return
 
-    def augment_image(self, img, gt, completed_one_of_groups):
+    def augment_image(self, img, gt, completed_groups):
         if self.shuffle: 
             random.shuffle(self.augmentors)
 
@@ -59,22 +59,41 @@ class Albumentor:
         bboxes, labels = convert_polygons_to_coco(polygons) 
         for aug in self.augmentors:
             if random.random() < aug.p:
-                if aug.name in self.augname2group:
-                    if self.augname2group[aug.name] in completed_one_of_groups:
+                if aug.name in self.augname2groups:
+                    if self.augname2groups[aug.name].intersection(completed_groups):
                         continue
                     else:
-                        completed_one_of_groups.add(self.augname2group[aug.name])
-                augmented = aug(image=img, bboxes=bboxes,
-                                class_labels=labels)
-                img, bboxes, labels = augmented.values()
+                        completed_groups.update(self.augname2groups[aug.name])
+                img, bboxes, labels = aug(image=img, bboxes=bboxes,
+                                class_labels=labels).values()
                 
         polygons = convert_coco_to_polygons(
             coco_bboxes=bboxes, labels=labels, img=img)
         # Put back polygons into GT
         for element, pg in zip(gt, polygons):
-            polygon = [pt.tolist() for pt in pg.exterior]
-            element['points'] = polygon
+            element['points'] = [pt.tolist() for pt in pg.exterior]
 
+        return img, gt
+    
+    @staticmethod
+    def run_augment(aug, img, gt):
+        polygons = [Polygon(element['points'], element['label'])
+                    for element in gt]
+        polygons = PolygonsOnImage(polygons, shape=img.shape)
+
+        # TODO: Get bbxoes directly using gt instead of polygons
+        bboxes, labels = convert_polygons_to_coco(polygons)
+        
+        img, bboxes, labels = aug(image=img, bboxes=bboxes, class_labels=labels).values()
+        
+        # TODO: Convert directly to GT
+        polygons = convert_coco_to_polygons(
+            coco_bboxes=bboxes, labels=labels, img=img).values()
+        
+        # Put back polygons into GT
+        for element, pg in zip(gt, polygons):
+            element['points'] = [pt.tolist() for pt in pg.exterior]
+        
         return img, gt
 
 

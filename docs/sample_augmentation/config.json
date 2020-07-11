@@ -131,6 +131,18 @@
         [
             "multiscale_black_noise",
             "fibrous_noise"
+        ],
+        [
+            "grayscale",
+            "fibrous_noise"
+        ],
+        [
+            "grayscale",
+            "multiscale_black_noise"
+        ],
+        [
+            "grayscale",
+            "blotches"
         ]
     ]
 }
