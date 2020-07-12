@@ -15,11 +15,10 @@ class Generator:
         
         self.doc_name = template['doc_name']
         self.bg_img = template['background_img']
-        
-        self.components = template['components']
+    
         self.default_config = template['defaults']
         self.set_defaults()
-        self.process_components()
+        self.process_components(template)
     
     def set_defaults(self):
         if 'font_color' not in self.default_config:
@@ -38,10 +37,12 @@ class Generator:
         if 'upper_case' in self.default_config:
             self.default_config['post_processor'].upper_case = self.default_config['upper_case']
         
-    def process_components(self):
+        
+    def process_components(self, template):
+        self.components = template['components']
         for component_name, component in self.components.items():
             
-            component['id'] = component_name
+            component['id'], component['already_printed'] = component_name, False
             if 'filler_source' in component:
                 component['data_source'] = self.components[component['filler_source']]
             
@@ -72,6 +73,8 @@ class Generator:
                     component['generator'] = TextFromRegexGenerator(component['filler_regex'])
                 elif component['filler_mode'] == 'array':
                     component['generator'] = TextFromArrayGenerator(component['filler_options'])
+                elif component['filler_mode'] == 'fixed':
+                    component['generator'] = TextFromArrayGenerator([component['filler_text']])
                 elif component['filler_mode'] == 'reference':
                     component['generator'] = ReferentialTextGenerator(component['data_source'])
                 elif component['filler_mode'] == 'transliteration':
@@ -100,6 +103,15 @@ class Generator:
                     raise NotImplementedError
             else:
                 raise NotImplementedError
+        
+        if 'printed_fields' in template:
+            for component_name, component in template['printed_fields'].items():
+                if component_name in self.components:
+                    exit('Component name %s already taken' % component_name)
+                component['id'], component['already_printed'] = component_name, True
+                if 'lang' not in component:
+                    component['lang'] = self.default_config['lang']
+                self.components[component_name] = component
         return
     
     def generate(self, num_samples, output_folder=None):
@@ -134,13 +146,17 @@ class Generator:
     
     def draw_text(self, img_draw, component):
         x, y = component['location']['x_left'], component['location']['y_top']
-        align = component["align"] if "align" in component else "left"
-        spacing = component["spacing"] if "spacing" in component else 4
-        text = component['generator'].generate()
-        component['last_generated'] = text
-        text = component['post_processor'].process(text)
-        img_draw.text((x, y), text, fill=component['font_color'], font=component['font'], align=align, spacing=spacing)
-        width, height = img_draw.textsize(text, font=component['font'])
+        if component['already_printed']:
+            width, height = component['dims']['width'], component['dims']['height']
+            text = component['text']
+        else:
+            align = component["align"] if "align" in component else "left"
+            spacing = component["spacing"] if "spacing" in component else 4
+            text = component['generator'].generate()
+            component['last_generated'] = text
+            text = component['post_processor'].process(text)
+            img_draw.text((x, y), text, fill=component['font_color'], font=component['font'], align=align, spacing=spacing)
+            width, height = img_draw.textsize(text, font=component['font'])
         # img_draw.rectangle([(x,y), (x+width+1, y+height+1)], outline='rgb(255,0,0)')
         return {
             'type': component['type'],
@@ -153,7 +169,8 @@ class Generator:
             ],
             'width': width,
             'height': height,
-            'text': text
+            'text': text,
+            'lang': component['lang']
         }
     
     def draw_qr(self, background, component):
@@ -183,8 +200,9 @@ class Generator:
     def draw_img(self, background, component):
         x, y = component['location']['x_left'], component['location']['y_top']
         width, height = component['dims']['width'], component['dims']['height']
-        img, details = component['generator'].generate()
-        background.paste(img, (x, y))
+        if not component['already_printed']:
+            img, details = component['generator'].generate()
+            background.paste(img, (x, y))
         
         return {
             'type': component['type'],

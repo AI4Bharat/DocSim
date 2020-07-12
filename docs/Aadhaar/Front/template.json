@@ -11,8 +11,6 @@
     "components": {
         "name_en": {
             "type": "text",
-            "min_len": 5,
-            "max_len": 10,
             "filler_mode": "random",
             "filler_type": "full_name",
             "lang": "en",
@@ -23,8 +21,6 @@
         },
         "name_ta": {
             "type": "text",
-            "min_len": 5,
-            "max_len": 10,
             "filler_mode": "transliteration",
             "filler_source": "name_en",
             "lang": "ta",
@@ -32,6 +28,26 @@
             "location": {
                 "x_left": 352,
                 "y_top": 215
+            }
+        },
+        "dob_ta": {
+            "type": "text",
+            "filler_mode": "fixed",
+            "lang": "ta",
+            "font_file": "fonts/Tamil_Unicode_Elango_Kalyani.ttf",
+            "filler_text": "பிறந்த நாள்",
+            "location": {
+                "x_left": 352,
+                "y_top": 325
+            }
+        },
+        "dob_en": {
+            "type": "text",
+            "filler_mode": "fixed",
+            "filler_text": "/ DOB:",
+            "location": {
+                "x_left": 533,
+                "y_top": 325
             }
         },
         "dob": {
@@ -105,6 +121,74 @@
             "dims": {
                 "width": 296,
                 "height": 323
+            }
+        }
+    },
+
+    "printed_fields": {
+        "bharat": {
+            "type": "text",
+            "lang": "hi",
+            "text": "भारत",
+            "location": {
+                "x_left": 452,
+                "y_top": 72
+            },
+            "dims": {
+                "width": 96,
+                "height": 42
+            }
+        },
+        "sarkar": {
+            "type": "text",
+            "lang": "hi",
+            "text": "सरकार",
+            "location": {
+                "x_left": 561,
+                "y_top": 72
+            },
+            "dims": {
+                "width": 120,
+                "height": 42
+            }
+        },
+        "GoI": {
+            "type": "text",
+            "lang": "en",
+            "text": "GOVERNMENT OF INDIA",
+            "location": {
+                "x_left": 387,
+                "y_top": 122
+            },
+            "dims": {
+                "width": 358,
+                "height": 40
+            }
+        },
+        "aadhar_ta": {
+            "type": "text",
+            "text": "ஆதார்",
+            "lang": "ta",
+            "location": {
+                "x_left": 115,
+                "y_top": 805
+            },
+            "dims": {
+                "width": 141,
+                "height": 47
+            }
+        },
+        "aadhar_tagline": {
+            "type": "text",
+            "text": "- சாதாரண மனிதனின் அதிகாரம்",
+            "lang": "ta",
+            "location": {
+                "x_left": 260,
+                "y_top": 805
+            },
+            "dims": {
+                "width": 619,
+                "height": 47
             }
         }
     }

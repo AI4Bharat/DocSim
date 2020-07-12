@@ -1,6 +1,6 @@
 {
     "doc_name": "driving_license_front",
-    "background_img": "docs/Driving-License/Smart-Front/background-hi.png",
+    "background_img": "docs/Driving-License/Smart-Front/background-hi.jpg",
     "defaults": {
         "lang": "en",
         "font_file": "fonts/Arial_Bold.ttf",
@@ -57,7 +57,7 @@
                 "y_top": 735
             }
         },
-        "name_en": {
+        "name": {
             "type": "text",
             "filler_mode": "random",
             "filler_type": "full_name",
@@ -68,7 +68,7 @@
                 "y_top": 942
             }
         },
-        "parent_en": {
+        "parent": {
             "type": "text",
             "filler_mode": "random",
             "filler_type": "full_name",
@@ -105,6 +105,194 @@
             "dims": {
                 "width": 350,
                 "height": 350
+            }
+        }
+    },
+
+    "printed_fields": {
+        "UoI": {
+            "type": "text",
+            "text": "UNION OF INDIA",
+            "location": {
+                "x_left": 498,
+                "y_top": 118
+            },
+            "dims": {
+                "width": 444,
+                "height": 92
+            }
+        },
+        "DL_tagline": {
+            "type": "text",
+            "text": "DRIVING LICENCE",
+            "location": {
+                "x_left": 938,
+                "y_top": 80
+            },
+            "dims": {
+                "width": 713,
+                "height": 137
+            }
+        },
+        "UP_seal": {
+            "type": "text",
+            "text": "UP",
+            "location": {
+                "x_left": 1688,
+                "y_top": 97
+            },
+            "dims": {
+                "width": 98,
+                "height": 59
+            }
+        },
+        "NT_seal": {
+            "type": "text",
+            "text": "NT",
+            "location": {
+                "x_left": 1847,
+                "y_top": 96
+            },
+            "dims": {
+                "width": 92,
+                "height": 60
+            }
+        },
+        "doi_hi": {
+            "type": "text",
+            "lang": "hi",
+            "text": "जारी करने की तिथि",
+            "location": {
+                "x_left": 627,
+                "y_top": 409
+            },
+            "dims": {
+                "width": 381,
+                "height": 56
+            }
+        },
+        "doi_en": {
+            "type": "text",
+            "text": "Date of Issue",
+            "location": {
+                "x_left": 630,
+                "y_top": 466
+            },
+            "dims": {
+                "width": 297,
+                "height": 52
+            }
+        },
+        "validity_hi": {
+            "type": "text",
+            "lang": "hi",
+            "text": "वैधता",
+            "location": {
+                "x_left": 1152,
+                "y_top": 406
+            },
+            "dims": {
+                "width": 113,
+                "height": 60
+            }
+        },
+        "validity_en": {
+            "type": "text",
+            "text": "/ Validity",
+            "location": {
+                "x_left": 1267,
+                "y_top": 418
+            },
+            "dims": {
+                "width": 197,
+                "height": 56
+            }
+        },
+        "dob_hi": {
+            "type": "text",
+            "lang": "hi",
+            "text": "जन्म तिथि",
+            "location": {
+                "x_left": 635,
+                "y_top": 632
+            },
+            "dims": {
+                "width": 200,
+                "height": 54
+            }
+        },
+        "dob_en": {
+            "type": "text",
+            "text": "Date of Birth",
+            "location": {
+                "x_left": 637,
+                "y_top": 689
+            },
+            "dims": {
+                "width": 284,
+                "height": 47
+            }
+        },
+        "bg_en": {
+            "type": "text",
+            "text": "Blood Group",
+            "location": {
+                "x_left": 1162,
+                "y_top": 639
+            },
+            "dims": {
+                "width": 281,
+                "height": 55
+            }
+        },
+        "name_hi": {
+            "type": "text",
+            "lang": "hi",
+            "text": "नाम",
+            "location": {
+                "x_left": 182,
+                "y_top": 842
+            },
+            "dims": {
+                "width": 82,
+                "height": 50
+            }
+        },
+        "name_en": {
+            "type": "text",
+            "text": "/ Name",
+            "location": {
+                "x_left": 266,
+                "y_top": 838
+            },
+            "dims": {
+                "width": 164,
+                "height": 48
+            }
+        },
+        "parentname_hi": {
+            "type": "text",
+            "lang": "hi",
+            "text": "पिता/पति का नाम",
+            "location": {
+                "x_left": 189,
+                "y_top": 1068
+            },
+            "dims": {
+                "width": 328,
+                "height": 58
+            }
+        },
+        "parentname_en": {
+            "type": "text",
+            "text": "/ Son/Daughter/Wife of",
+            "location": {
+                "x_left": 525,
+                "y_top": 1074
+            },
+            "dims": {
+                "width": 523,
+                "height": 60
             }
         }
     }
