@@ -8,13 +8,15 @@ from imageio import imread, imsave
 from docsim.augmentation.img_aug import ImgAugAugmentor
 from docsim.augmentation.ocr_deg import OCRoDegAugmentor
 from docsim.augmentation.albumentations import Albumentor
+from docsim.augmentation.custom_augs import CustomAugmentations
 
 from docsim.utils.image import get_all_images
 
 class Augmentor:
     
     SUPPORTED_AUGMENTATIONS = ImgAugAugmentor.SUPPORTED_AUGMENTATIONS + \
-        OCRoDegAugmentor.SUPPORTED_AUGMENTATIONS + Albumentor.SUPPORTED_AUGMENTATIONS
+        OCRoDegAugmentor.SUPPORTED_AUGMENTATIONS + \
+        Albumentor.SUPPORTED_AUGMENTATIONS + CustomAugmentations.SUPPORTED_AUGMENTATIONS
     
     def __init__(self, config_json):
         with open(config_json, encoding='utf-8') as f:
@@ -22,9 +24,9 @@ class Augmentor:
         self.augmentations = config['augmentations']
         self.shuffle = 'random_sequence' in config and config['random_sequence']
         self.setup_defaults()
-        augmentors = [ImgAugAugmentor(config), OCRoDegAugmentor(config), Albumentor(config)]
+        augmentors = [ImgAugAugmentor(config), OCRoDegAugmentor(config), Albumentor(config), CustomAugmentations(config)]
         self.augmentors = [a for a in augmentors if a.augmentors]
-         
+        
     def setup_defaults(self):
         for aug_name, aug_config in self.augmentations.items():
             if aug_name not in Augmentor.SUPPORTED_AUGMENTATIONS:

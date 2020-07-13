@@ -56,6 +56,7 @@ class Albumentor:
 
         bboxes, labels = convert_polygons_to_coco(polygons) 
         for aug in self.augmentors:
+            print("aug",aug)
             if random.random() < aug.p:
                 augmented = aug(image=img, bboxes=bboxes,
                                 class_labels=labels)
