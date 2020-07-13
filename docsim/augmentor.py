@@ -2,17 +2,21 @@ import os, sys
 from glob import glob
 from tqdm import tqdm
 import json
-import itertools
+import random
 from imageio import imread, imsave
 
 from docsim.augmentation.img_aug import ImgAugAugmentor
+from docsim.augmentation.ocr_deg import OCRoDegAugmentor
 from docsim.augmentation.albumentations import Albumentor
+from docsim.augmentation.custom_augs import CustomAugmentations
+
 from docsim.utils.image import get_all_images
 
 class Augmentor:
     
     SUPPORTED_AUGMENTATIONS = ImgAugAugmentor.SUPPORTED_AUGMENTATIONS + \
-        Albumentor.SUPPORTED_AUGMENTATIONS
+        OCRoDegAugmentor.SUPPORTED_AUGMENTATIONS + \
+        Albumentor.SUPPORTED_AUGMENTATIONS + CustomAugmentations.SUPPORTED_AUGMENTATIONS
     
     def __init__(self, config_json):
         with open(config_json, encoding='utf-8') as f:
@@ -20,12 +24,8 @@ class Augmentor:
         self.augmentations = config['augmentations']
         self.shuffle = 'random_sequence' in config and config['random_sequence']
         self.setup_defaults()
-        self.imgaug_augmentor = ImgAugAugmentor(config)
-        self.albumentor = Albumentor(config)
-        print("abumentor:", vars(self.albumentor))
-        augmentors = [self.imgaug_augmentor, self.albumentor]
+        augmentors = [ImgAugAugmentor(config), OCRoDegAugmentor(config), Albumentor(config), CustomAugmentations(config)]
         self.augmentors = [a for a in augmentors if a.augmentors]
-         
     def setup_defaults(self):
         for aug_name, aug_config in self.augmentations.items():
             if aug_name not in Augmentor.SUPPORTED_AUGMENTATIONS:
@@ -50,15 +50,17 @@ class Augmentor:
                 gt = json.load(f)
             
             # Augment!
+            if self.shuffle:
+                random.shuffle(self.augmentors)
             for augmentor in self.augmentors:
-                out_img, out_gt = augmentor.augment_image(img, gt)
+                img, gt = augmentor.augment_image(img, gt)
             
             # Save augmented output
             out_img_file = os.path.join(output_folder, os.path.basename(image))
-            imsave(out_img_file, out_img)
+            imsave(out_img_file, img)
             out_gt_file = os.path.join(output_folder, os.path.basename(gt_file))
             with open(out_gt_file, 'w', encoding='utf-8') as f:
-                json.dump(out_gt, f, ensure_ascii=False, indent=4)
+                json.dump(gt, f, ensure_ascii=False, indent=4)
         return
     
     def __call__(self, input_folder, epochs=1, output_folder=None):
