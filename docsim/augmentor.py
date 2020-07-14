@@ -8,20 +8,22 @@ from imageio import imread, imsave
 from docsim.augmentation.img_aug import ImgAugAugmentor
 from docsim.augmentation.ocr_deg import OCRoDegAugmentor
 from docsim.augmentation.albumentations import Albumentor
+from docsim.augmentation.custom_augs import CustomAugmentations
 
 from docsim.utils.image import get_all_images
 
 class Augmentor:
     
     SUPPORTED_AUGMENTATIONS = ImgAugAugmentor.SUPPORTED_AUGMENTATIONS + \
-        OCRoDegAugmentor.SUPPORTED_AUGMENTATIONS + Albumentor.SUPPORTED_AUGMENTATIONS
+        OCRoDegAugmentor.SUPPORTED_AUGMENTATIONS + \
+        Albumentor.SUPPORTED_AUGMENTATIONS + CustomAugmentations.SUPPORTED_AUGMENTATIONS
     
     def __init__(self, config_json):
         with open(config_json, encoding='utf-8') as f:
             config = json.load(f)
         self.setup_defaults(config)
         # TODO: Fix the impurity below
-        augmentors = [ImgAugAugmentor(self), OCRoDegAugmentor(self), Albumentor(self)]
+        augmentors = [ImgAugAugmentor(self), OCRoDegAugmentor(self), Albumentor(self), CustomAugmentations(self)]
         self.augmentors = [a for a in augmentors if a.augmentors]
          
     def setup_defaults(self, config):

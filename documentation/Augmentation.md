@@ -32,6 +32,12 @@ Check [`/docs/sample_augmentation/config.json`](/docs/sample_augmentation/config
 |[`multiscale_black_noise`](https://github.com/NVlabs/ocrodeg#foreground--background-selection)|Simulates very old paper background|
 |[`fibrous_noise`](https://github.com/NVlabs/ocrodeg#fibrous-noise)|Add a fiber background and topple some noise
 
+### Other augmentations
+
+|Augmentation|Description|
+|------------|-----------|
+|[`creases_and_curls`](https://stackoverflow.com/questions/53907633/)|Simulate folds and curls of a paper|
+
 <hr/>
 
 ## Footnotes
