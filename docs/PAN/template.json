@@ -71,5 +71,108 @@
                 "height": 215
             }
         }
+    },
+
+    "printed_fields": {
+        "aayakar_hi": {
+            "type": "text",
+            "lang": "hi",
+            "text": "आयकर",
+            "location": {
+                "x_left": 42,
+                "y_top": 38
+            },
+            "dims": {
+                "width": 210,
+                "height": 63
+            }
+        },
+        "vibhag_hi": {
+            "type": "text",
+            "lang": "hi",
+            "text": "विभाग",
+            "location": {
+                "x_left": 275,
+                "y_top": 38
+            },
+            "dims": {
+                "width": 162,
+                "height": 63
+            }
+        },
+        "bharat_hi": {
+            "type": "text",
+            "lang": "hi",
+            "text": "भारत",
+            "location": {
+                "x_left": 646,
+                "y_top": 50
+            },
+            "dims": {
+                "width": 145,
+                "height": 58
+            }
+        },
+        "sarkar_hi": {
+            "type": "text",
+            "lang": "hi",
+            "text": "सरकार",
+            "location": {
+                "x_left": 812,
+                "y_top": 51
+            },
+            "dims": {
+                "width": 182,
+                "height": 58
+            }
+        },
+        "it_dept": {
+            "type": "text",
+            "text": "INCOME TAX DEPARTMENT",
+            "location": {
+                "x_left": 34,
+                "y_top": 115
+            },
+            "dims": {
+                "width": 403,
+                "height": 58
+            }
+        },
+        "GoI": {
+            "type": "text",
+            "text": "GOVT. OF INDIA",
+            "location": {
+                "x_left": 657,
+                "y_top": 119
+            },
+            "dims": {
+                "width": 334,
+                "height": 53
+            }
+        },
+        "PAN_tagline": {
+            "type": "text",
+            "text": "Permanent Account Number",
+            "location": {
+                "x_left": 41,
+                "y_top": 394
+            },
+            "dims": {
+                "width": 365,
+                "height": 42
+            }
+        },
+        "signature_tagline": {
+            "type": "text",
+            "text": "Signature",
+            "location": {
+                "x_left": 41,
+                "y_top": 587
+            },
+            "dims": {
+                "width": 133,
+                "height": 40
+            }
+        }
     }
 }

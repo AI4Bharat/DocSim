@@ -18,5 +18,5 @@ numpy
 imageio
 albumentations
 imagecorruptions
-git+https://github.com/aleju/imgaug.git
+imgaug
 git+https://github.com/NVlabs/ocrodeg

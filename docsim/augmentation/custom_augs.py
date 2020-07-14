@@ -8,31 +8,38 @@ class CustomAugmentations:
     SUPPORTED_AUGMENTATIONS = [
         'creases_and_curls',
     ]
-    def __init__(self, config ):
-        self.shuffle = 'random_sequence' in config and config['random_sequence']
-        self.setup_augmentors(config['augmentations'])
+    def __init__(self, main_config):
+        self.shuffle = main_config.shuffle
+        self.augname2groups = main_config.augname2groups
+        self.setup_augmentors(main_config.augmentations)
     
     def setup_augmentors(self, augmentations):
         self.augmentors = []
         for aug_name, aug_config in augmentations.items():
             if aug_name == 'creases_and_curls':
                 aug = CreasesAndCurls()
-        aug.p = aug_config['probability']
+        aug.name, aug.p, aug.base = aug_name, aug_config['probability'], self
         self.augmentors.append(aug)
     
-    def augment_image(self, img, gt):
+    def augment_image(self, img, gt, completed_groups):
         if self.shuffle: 
             random.shuffle(self.augmentors)
 
         bboxes = [(element['points']) for element in gt]
         for aug in self.augmentors:
             if random.random() < aug.p:
-                new_img,new_bboxes = aug(image=img, gt=bboxes)
+                if aug.name in self.augname2groups:
+                    if self.augname2groups[aug.name].intersection(completed_groups):
+                        continue
+                    else:
+                        completed_groups.update(self.augname2groups[aug.name])
+                
+                img, bboxes = aug(image=img, gt=bboxes)
 
-        for element, bboxes in zip(gt, new_bboxes):
+        for element, bboxes in zip(gt, bboxes):
             element['points'] = bboxes
             
-        return new_img, gt
+        return img, gt
     
     
 ## -------------------- Augmentors --------------------- ##
@@ -41,13 +48,13 @@ class CreasesAndCurls:
     '''
     https://openaccess.thecvf.com/content_cvpr_2018/CameraReady/3349.pdf
     https://stackoverflow.com/questions/53907633/how-to-warp-an-image-using-deformed-mesh
-    
     '''
 
     def __init__(self, num_deform_rounds=2, img_pad_ratio=3, folding_prob=0.3):
         self.img_pad_ratio = img_pad_ratio
         self.folding_prob = folding_prob
         self.num_deform_rounds = num_deform_rounds
+    
     def __call__(self, image, gt):
 
         # Enlarge image
@@ -70,7 +77,7 @@ class CreasesAndCurls:
         dst = cv2.remap(padded_img, xs, ys, cv2.INTER_CUBIC)
         inv_xs, inv_ys = self.get_inv_coordinates(xs, ys)
 
-        #Adjust the bouding boxes based on distortion
+        # Adjust the bouding boxes based on distortion
         adjusted_bboxes = []
         for box in pad_bboxes:
             adjusted_bboxes.append(

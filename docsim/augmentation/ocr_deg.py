@@ -14,9 +14,10 @@ class OCRoDegAugmentor:
         'fibrous_noise'
     ]
     
-    def __init__(self, config):
-        self.shuffle = 'random_sequence' in config and config['random_sequence']
-        self.setup_augmentors(config['augmentations'])
+    def __init__(self, main_config):
+        self.shuffle = main_config.shuffle
+        self.augname2groups = main_config.augname2groups
+        self.setup_augmentors(main_config.augmentations)
     
     def setup_augmentors(self, augmentations):
         self.augmentors = []
@@ -46,20 +47,29 @@ class OCRoDegAugmentor:
                     blotches=(aug_config.get('min_blotches', 2e-5), aug_config.get('max_blotches', 3e-5)))
             if not aug:
                 continue
-            aug.p = aug_config['probability']
+            aug.name, aug.p, aug.base = aug_name, aug_config['probability'], self
             self.augmentors.append(aug)
         
         return
     
-    def augment_image(self, img, gt):
+    def augment_image(self, img, gt, completed_groups):
         if self.shuffle: # TODO: Move to top-level augmentor?
             random.shuffle(self.augmentors)
         
         for aug in self.augmentors:
             if random.random() < aug.p:
+                if aug.name in self.augname2groups:
+                    if self.augname2groups[aug.name].intersection(completed_groups):
+                        continue
+                    else:
+                        completed_groups.update(self.augname2groups[aug.name])
                 img = aug(image=img)
 
         return img, gt
+    
+    @staticmethod
+    def run_augment(aug, img, gt):
+        return aug(image=img), gt
 
 
 ## -------------------- Augmentors --------------------- ##

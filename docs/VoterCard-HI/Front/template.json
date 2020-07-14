@@ -92,5 +92,108 @@
                 "height": 271
             }
         }
+    },
+
+    "printed_fields": {
+        "eci_hi": {
+            "type": "text",
+            "lang": "hi",
+            "text": "भारत निर्वाचन आयोग",
+            "location": {
+                "x_left": 132,
+                "y_top": 36
+            },
+            "dims": {
+                "width": 210,
+                "height": 30
+            }
+        },
+        "eci_en": {
+            "type": "text",
+            "text": "ELECTION COMMISION OF INDIA",
+            "location": {
+                "x_left": 83,
+                "y_top": 71
+            },
+            "dims": {
+                "width": 309,
+                "height": 24
+            }
+        },
+        "id_card_hi": {
+            "type": "text",
+            "lang": "hi",
+            "text": "मतदाता फोटो पहचान पत्र",
+            "location": {
+                "x_left": 15,
+                "y_top": 100
+            },
+            "dims": {
+                "width": 187,
+                "height": 22
+            }
+        },
+        "id_card_en": {
+            "type": "text",
+            "text": "ELECTOR PHOTO IDENTITY CARD",
+            "location": {
+                "x_left": 203,
+                "y_top": 100
+            },
+            "dims": {
+                "width": 255,
+                "height": 21
+            }
+        },
+        "name_tagline_hi": {
+            "type": "text",
+            "lang": "hi",
+            "text": "नाम",
+            "location": {
+                "x_left": 23,
+                "y_top": 498
+            },
+            "dims": {
+                "width": 38,
+                "height": 20
+            }
+        },
+        "name_tagline_en": {
+            "type": "text",
+            "text": "NAME",
+            "location": {
+                "x_left": 25,
+                "y_top": 557
+            },
+            "dims": {
+                "width": 58,
+                "height": 23
+            }
+        },
+        "parentname_tagline_hi": {
+            "type": "text",
+            "lang": "hi",
+            "text": "पिता का नाम",
+            "location": {
+                "x_left": 23,
+                "y_top": 639
+            },
+            "dims": {
+                "width": 112,
+                "height": 28
+            }
+        },
+        "parentname_tagline_en": {
+            "type": "text",
+            "text": "FATHER'S NAME",
+            "location": {
+                "x_left": 28,
+                "y_top": 704
+            },
+            "dims": {
+                "width": 156,
+                "height": 22
+            }
+        }
     }
 }
