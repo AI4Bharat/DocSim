@@ -16,10 +16,13 @@ class CustomAugmentations:
     def setup_augmentors(self, augmentations):
         self.augmentors = []
         for aug_name, aug_config in augmentations.items():
+            aug = None
             if aug_name == 'creases_and_curls':
                 aug = CreasesAndCurls()
-        aug.name, aug.p, aug.base = aug_name, aug_config['probability'], self
-        self.augmentors.append(aug)
+            if not aug:
+                continue
+            aug.name, aug.p, aug.base = aug_name, aug_config['probability'], self
+            self.augmentors.append(aug)
     
     def augment_image(self, img, gt, completed_groups):
         if self.shuffle: 

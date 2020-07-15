@@ -1,0 +1,199 @@
+{
+    "doc_name": "voter_front",
+    "background_img": "docs/VoterCard-Ta/Front/voter-card-front-ta-low.jpg",
+    "defaults": {
+        "lang": "en",
+        "font_file": "fonts/Arial_Regular.ttf",
+        "font_size": 35,
+        "font_color": "rgb(0,0,0)",
+        "upper_case": true
+    },
+    "components": {
+        "name_en": {
+            "type": "text",
+            "filler_mode": "random",
+            "filler_type": "full_name",
+            "font_size": 30,
+            "font_file": "fonts/Arial_Bold.ttf",
+            "lang": "en",
+            "location": {
+                "x_left": 305,
+                "y_top": 1115
+            }
+        },
+        "name_ta": {
+            "type": "text",
+            "filler_mode": "transliteration",
+            "filler_source": "name_en",
+            "font_size": 38,
+            "lang": "ta",
+            "font_file": "fonts/Tamil_Unicode_Elango_Kalyani.ttf",
+            "location": {
+                "x_left": 305,
+                "y_top": 1000
+            }
+        },
+        "father_name_en": {
+            "type": "text",
+            "filler_mode": "random",
+            "filler_type": "full_name",
+            "font_size": 30,
+            "font_file": "fonts/Arial_Bold.ttf",
+            "lang": "en",
+            "location": {
+                "x_left": 305,
+                "y_top": 1328
+            }
+        },
+        "father_name_ta": {
+            "type": "text",
+            "filler_mode": "transliteration",
+            "filler_source": "father_name_en",
+            "font_size": 38,
+            "lang": "ta",
+            "font_file": "fonts/Tamil_Unicode_Elango_Kalyani.ttf",
+            "location": {
+                "x_left": 305,
+                "y_top": 1224
+            }
+        },
+        "voter_id": {
+            "type": "text",
+            "filler_mode": "regex",
+            "filler_regex": "[A-Z][A-Z][A-Z]\\d\\d\\d\\d\\d\\d\\d",
+            "font_file": "fonts/Arial_Bold.ttf",
+            "font_size": 38,
+            "location": {
+                "x_left": 557,
+                "y_top": 296
+            }
+        },
+        "barcode": {
+            "type": "barcode",
+            "filler_source": "voter_id",
+            "location": {
+                "x_left": 58,
+                "y_top": 279
+            },
+            "dims": {
+                "width": 425,
+                "height": 74
+            }
+        },
+        "face-image": {
+            "type": "image",
+            "filler_mode" :"random_face_online",
+            "location": {
+                "x_left": 257,
+                "y_top": 400
+            },
+            "dims": {
+                "width": 410,
+                "height": 542
+            }
+        }
+    },
+
+    "printed_fields": {
+        "eci_ta": {
+            "type": "text",
+            "lang": "ta",
+            "text": "இந்தியத் தேர்தல் ஆணையம்",
+            "location": {
+                "x_left": 170,
+                "y_top": 76
+            },
+            "dims": {
+                "width": 607,
+                "height": 50 
+            }
+        },
+        "eci_en": {
+            "type": "text",
+            "text": "ELECTION COMMISION OF INDIA",
+            "location": {
+                "x_left": 180,
+                "y_top": 143
+            },
+            "dims": {
+                "width": 535,
+                "height": 41 
+            }
+        },
+        "id_card_ta": {
+            "type": "text",
+            "lang": "ta",
+            "text": "வாக்காளர் புகைப்பட அடையாள அட்டை",
+            "location": {
+                "x_left": 50,
+                "y_top": 215
+            },
+            "dims": {
+                "width": 434,
+                "height": 34
+            }
+        },
+        "id_card_en": {
+            "type": "text",
+            "text": "ELECTOR PHOTO IDENTITY CARD",
+            "location": {
+                "x_left": 496,
+                "y_top": 222
+            },
+            "dims": {
+                "width": 370,
+                "height": 30
+            }
+        },
+        "name_tagline_ta": {
+            "type": "text",
+            "lang": "ta",
+            "text": "வாக்காளரின்:\nபெயர்",
+            "location": {
+                "x_left": 38,
+                "y_top": 1007
+            },
+            "dims": {
+                "width": 254,
+                "height": 73 
+            }
+        },
+        "name_tagline_en": {
+            "type": "text",
+            "text": "Elector's :\nName",
+            "location": {
+                "x_left": 38,
+                "y_top": 1107
+            },
+            "dims": {
+                "width": 204,
+                "height": 63 
+            }
+        },
+        "parentname_tagline_ta": {
+            "type": "text",
+            "lang": "ta",
+            "text": "உறவினரின் :\nபெயர்",
+            "location": {
+                "x_left": 38,
+                "y_top": 1227
+            },
+            "dims": {
+                "width": 224,
+                "height": 69
+            }
+        },
+        "parentname_tagline_en": {
+            "type": "text",
+            "text": "Relations's :\nName",
+            "location": {
+                "x_left": 38,
+                "y_top": 1322
+            },
+            "dims": {
+                "width": 228,
+                "height": 68
+            }
+        }
+    }
+}

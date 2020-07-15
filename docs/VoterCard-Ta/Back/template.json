@@ -1,0 +1,333 @@
+{
+    "doc_name": "voter_back_ta",
+    "background_img": "docs/VoterCard-Ta/Back/voter-card-back.png",
+    "defaults": {
+        "lang": "en",
+        "font_file": "fonts/MuktaMalar-Medium.ttf",
+        "font_size": 35,
+        "font_color": "rgb(0,0,0)",
+        "upper_case": false
+    },
+    "components": {
+        "sex_key": {
+            "type": "text",
+            "filler_mode": "array",
+            "filler_options": [
+                "இனம் / Sex : "
+            ],
+            "font_size": 35,
+            "location": {
+                "x_left": 70,
+                "y_top": 73
+            }
+        },
+        "sex_value": {
+            "type": "text",
+            "filler_mode": "array",
+            "filler_options": [
+                "ஆண் / Male",
+                "பெண் / Female "
+            ],
+            "font_size": 35,
+            "location": {
+                "x_left": 268,
+                "y_top": 73
+            }
+        },
+        "dob_key": {
+            "type": "text",
+            "filler_mode": "array",
+            "filler_options": [
+                "பிறந்த தேதி / வயது / DOB / AGE : "
+            ],
+            "font_size": 28,
+            "location": {
+                "x_left": 70,
+                "y_top": 128
+            }
+        },
+        "dob_value": {
+            "type": "text",
+            "filler_mode": "regex",
+            "filler_regex": "(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\\d\\d, \\d\\d Yrs\\.",
+            "font_size": 30,
+            "location": {
+                "x_left": 503,
+                "y_top": 126
+            }
+        },
+        "address_en": {
+            "type": "text",
+            "filler_mode": "array",
+            "filler_options": [
+                "Address : "
+            ],
+            "font_size": 35,
+            "location": {
+                "x_left": 70,
+                "y_top": 335
+            }
+        },
+        "address_en_value": {
+            "type": "text",
+            "filler_mode": "random",
+            "filler_type": "address",
+            "address_type": "full",
+            "lang": "en",
+            "font_size": 35,
+            "location": {
+                "x_left": 220,
+                "y_top": 335
+            }
+        },
+        "address_ta_key": {
+            "type": "text",
+            "filler_mode": "array",
+            "filler_options": [
+                "முகவரி : "
+            ],
+            "font_size": 35,
+            "location": {
+                "x_left": 70,
+                "y_top": 182
+            }
+        },
+        "address_ta_value": {
+            "type": "text",
+            "filler_mode": "transliteration",
+            "filler_source": "address_en_value",
+            "lang": "ta",
+            "font_size": 35,
+            "location": {
+                "x_left": 210,
+                "y_top": 182
+            }
+        },
+        "regis_officer_sign": {
+            "type": "text",
+            "filler_mode": "random",
+            "filler_type": "full_name",
+            "font_file": "fonts/Lemon_Tuesday.otf",
+            "font_size": 45,
+            "upper_case": false,
+            "location": {
+                "x_left": 538,
+                "y_top": 498
+            }
+        },
+        "regis_officer_sign_ta_text": {
+            "type": "text",
+            "filler_mode": "array",
+            "filler_options": [
+                "வாக்காளர் பதிவு அலுவலர்"
+            ],
+            "font_size": 27,
+            "location": {
+                "x_left": 507,
+                "y_top": 557
+            }
+        },
+        "regis_officer_sign_en_text": {
+            "type": "text",
+            "filler_mode": "array",
+            "filler_options": [
+                "Electral Registration Officer"
+            ],
+            "font_size": 27,
+            "location": {
+                "x_left": 507,
+                "y_top": 595
+            }
+        },
+        "date_text": {
+            "type": "text",
+            "filler_mode": "array",
+            "filler_options": [
+                "Date : "
+            ],
+            "font_size": 28,
+            "location": {
+                "x_left": 70,
+                "y_top": 580
+            }
+        },
+        "date_value": {
+            "type": "text",
+            "filler_mode": "regex",
+            "filler_regex": "(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\\d\\d",
+            "font_size": 33,
+            "location": {
+                "x_left": 155,
+                "y_top": 575
+            }
+        },
+        "ac_number_en_text": {
+            "type": "text",
+            "filler_mode": "array",
+            "filler_options": [
+                "AC NO & Name : "
+            ],
+            "font_size": 27,
+            "location": {
+                "x_left": 70,
+                "y_top": 782
+            }
+        },
+        "ac_number_en_value": {
+            "type": "text",
+            "filler_mode": "random",
+            "filler_type": "address",
+            "address_type": "street_address",
+            "lang": "en",
+            "font_size": 27,
+            "location": {
+                "x_left": 275,
+                "y_top": 782
+            }
+        },
+        "part_number_en_text": {
+            "type": "text",
+            "filler_mode": "array",
+            "filler_options": [
+                "Part No. &   :\nName"
+            ],
+            "align": "left",
+            "font_size": 27,
+            "location": {
+                "x_left": 70,
+                "y_top": 832
+            }
+        },
+        "part_number_en_value": {
+            "type": "text",
+            "filler_mode": "random",
+            "filler_type": "address",
+            "address_type": "full",
+            "align": "left",
+            "lang": "en",
+            "font_size": 27,
+            "location": {
+                "x_left": 232,
+                "y_top": 832
+            }
+        },
+        "ac_number_ta_text": {
+            "type": "text",
+            "filler_mode": "array",
+            "filler_options": [
+                "தொகுதி எண் மற்றும் பெயர் : "
+            ],
+            "font_size": 27,
+            "location": {
+                "x_left": 70,
+                "y_top": 655
+            }
+        },
+        "ac_number_ta_value": {
+            "type": "text",
+            "filler_mode": "transliteration",
+            "filler_source": "ac_number_en_value",
+            "lang": "ta",
+            "font_size": 27,
+            "location": {
+                "x_left": 435,
+                "y_top": 655
+            }
+        },
+        "part_number_ta_text": {
+            "type": "text",
+            "filler_mode": "array",
+            "filler_options": [
+                "பாகம் எண்   :\nமற்றும் பெயர்"
+            ],
+            "align": "left",
+            "font_size": 27,
+            "location": {
+                "x_left": 70,
+                "y_top": 698
+            }
+        },
+        "part_number_ta_value": {
+            "type": "text",
+            "filler_mode": "transliteration",
+            "filler_source": "part_number_en_value",
+            "lang": "ta",
+            "align": "left",
+            "spacing": 8,
+            "font_size": 27,
+            "location": {
+                "x_left": 255,
+                "y_top": 698
+            }
+        },
+        "note_text": {
+            "type": "text",
+            "filler_mode": "array",
+            "filler_options": [
+                "குறிப்பு / Note :"
+            ],
+            "align": "left",
+            "font_size": 27,
+            "location": {
+                "x_left": 70,
+                "y_top": 930
+            }
+        },
+        "note_ta1": {
+            "type": "text",
+            "filler_mode": "array",
+            "filler_options": [
+                "1. வாக்காளர் புகைப்பட அடையாள அட்டையின் உடைமை தற்போதைய\nவாக்காளர் பட்டியலில் நீங்கள் வாக்காளர் என்பதற்கு எந்த உத்தரவாதமும்\nஇல்லை. ஒவ்வொரு தேர்தலுக்கும் முன்பாக உங்கள் பெயரை\nசரிபார்க்கவும்."
+            ],
+            "align": "left",
+            "font_size": 26,
+            "location": {
+                "x_left": 70,
+                "y_top": 970
+            }
+        },
+        "note_en1": {
+            "type": "text",
+            "filler_mode": "array",
+            "filler_options": [
+                "1. Mere Possession of Elector photo identity Card is no guarantee that\nyou are elector in the current electoral roll. Please check your name\nin the current electoral roll before every election."
+            ],
+            "align": "left",
+            "font_size": 26,
+            "use_text_wrap": true,
+            "location": {
+                "x_left": 70,
+                "y_top": 1108
+            }
+        },
+        "note_ta2": {
+            "type": "text",
+            "filler_mode": "array",
+            "filler_options": [
+                "2. இந்த அட்டையில் குறிப்பிடப்பட்டுள்ள பிறந்த தேதி வயது வாக்காளர்\nபட்டியலில் பதிவு செய்யும் நோக்கத்திற்கு அல்லாது வேறு எதற்கும்\nவயது/பிறந்த தேதி சான்றாக கொள்ளக்கூடாது."
+            ],
+            "align": "left",
+            "font_size": 26,
+            "use_text_wrap": true,
+            "location": {
+                "x_left": 70,
+                "y_top": 1215
+            }
+        },
+        "note_en2": {
+            "type": "text",
+            "filler_mode": "array",
+            "filler_options": [
+                "2. Date of birth mentioned in ttas card shall not be treated as proof of\nage / D.O.B. for any purpose other than registration in electoral roll."
+            ],
+            "align": "left",
+            "font_size": 26,
+            "use_text_wrap": true,
+            "location": {
+                "x_left": 70,
+                "y_top": 1328
+            }
+        }   
+
+    }
+}
