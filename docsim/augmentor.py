@@ -47,8 +47,8 @@ class Augmentor:
         
         return
     
-    def augment(self, images, output_folder):
-        os.makedirs(output_folder, exist_ok=True)
+    def augment_epoch(self, images, output_path_prefix):
+        
         for image in tqdm(images):
             gt_file = os.path.splitext(image)[0] + '.json'
             if not os.path.isfile(gt_file):
@@ -68,9 +68,9 @@ class Augmentor:
                 img, gt = augmentor.augment_image(img, gt, completed_groups)
             
             # Save augmented output
-            out_img_file = os.path.join(output_folder, os.path.basename(image))
+            out_img_file = output_path_prefix + os.path.basename(image)
             imsave(out_img_file, img)
-            out_gt_file = os.path.join(output_folder, os.path.basename(gt_file))
+            out_gt_file = output_path_prefix + os.path.basename(gt_file)
             with open(out_gt_file, 'w', encoding='utf-8') as f:
                 json.dump(gt, f, ensure_ascii=False, indent=4)
         return
@@ -85,7 +85,7 @@ class Augmentor:
             exit('No images found in:', input_folder)
         
         for e in range(epochs):
-            self.augment(images, os.path.join(output_folder, str(e+1)))
+            self.augment_epoch(images, os.path.join(output_folder, str(e+1)+'-'))
         
         return
     
