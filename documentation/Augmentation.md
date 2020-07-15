@@ -32,6 +32,16 @@ Check [`/docs/sample_augmentation/config.json`](/docs/sample_augmentation/config
 |[`multiscale_black_noise`](https://github.com/NVlabs/ocrodeg#foreground--background-selection)|Simulates very old paper background|
 |[`fibrous_noise`](https://github.com/NVlabs/ocrodeg#fibrous-noise)|Add a fiber background and topple some noise
 
+### Library: [`albumentations`](https://github.com/albumentations-team/albumentations) - Scanned Images Augmentor
+
+|Augmentation|Description|
+|------------|-----------|
+|[`image_compression`](https://albumentations.readthedocs.io/en/latest/api/augmentations.html#albumentations.augmentations.transforms.ImageCompression)|Decrease Jpeg, WebP compression of an image|
+|[`posterize`](https://albumentations.readthedocs.io/en/latest/api/augmentations.html#albumentations.augmentations.transforms.Posterize)|Reduce the number of bits for each color channel|
+|[`blur`](https://albumentations.readthedocs.io/en/latest/api/augmentations.html#albumentations.augmentations.transforms.Blur)|Blur with random kernel|
+|[`median_blur`](https://albumentations.readthedocs.io/en/latest/api/augmentations.html#albumentations.augmentations.transforms.MedianBlur)|Blur with median filter|
+|[`iso_noise`](https://albumentations.readthedocs.io/en/latest/api/augmentations.html#albumentations.augmentations.transforms.ISONoise)|Apply camera sensor noise|
+
 ### Other augmentations
 
 |Augmentation|Description|
