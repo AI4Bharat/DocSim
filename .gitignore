@@ -1,2 +1,4 @@
 *.pyc
 fonts/
+output/
+*.dll
