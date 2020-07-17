@@ -15,14 +15,18 @@ class CustomAugmentations:
     
     def setup_augmentors(self, augmentations):
         self.augmentors = []
+        aug = None
         for aug_name, aug_config in augmentations.items():
             aug = None
             if aug_name == 'creases_and_curls':
-                aug = CreasesAndCurls()
+                aug = CreasesAndCurls(num_deform_rounds=2)
+        
             if not aug:
                 continue
+            
             aug.name, aug.p, aug.base = aug_name, aug_config['probability'], self
             self.augmentors.append(aug)
+        return 
     
     def augment_image(self, img, gt, completed_groups):
         if self.shuffle: 
@@ -84,7 +88,7 @@ class CreasesAndCurls:
         adjusted_bboxes = []
         for box in pad_bboxes:
             adjusted_bboxes.append(
-                [(inv_ys[i[0], i[1]], inv_xs[i[0], i[1]]) for i in box])
+                [(inv_ys[int(i[0]), int(i[1])], inv_xs[int(i[0]), int(i[1])]) for i in box])
 
         cropped_image, cropped_bboxes = self.croput_black_portions(
             dst, adjusted_bboxes)
