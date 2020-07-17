@@ -15,6 +15,7 @@ class Generator:
         
         self.doc_name = template['doc_name']
         self.bg_img = template['background_img']
+        self.DEBUG = template['debug_mode'] if 'debug_mode' in template else False
     
         self.set_defaults(template)
         self.process_components(template)
@@ -171,7 +172,7 @@ class Generator:
             text = component['post_processor'].process(text)
             img_draw.text((x, y), text, fill=component['font_color'], font=component['font'], align=align, spacing=spacing)
             width, height = img_draw.textsize(text, font=component['font'])
-        img_draw.rectangle([(x,y), (x+width+1, y+height+1)], outline='rgb(255,0,0)')
+        self.DEBUG and img_draw.rectangle([(x,y), (x+width+1, y+height+1)], outline='rgb(255,0,0)')
         return {
             'type': component['type'],
             'label': component['id'],
@@ -204,7 +205,7 @@ class Generator:
                 space_width = int(unit_width/2)
                 for col_num, word in enumerate(line.split()):
                     w = int(unit_width * len(word) + 0.99)
-                    img_draw.rectangle([(x,y), (x+w+1, y+h+1)], outline='rgb(255,0,0)')
+                    self.DEBUG and img_draw.rectangle([(x,y), (x+w+1, y+h+1)], outline='rgb(255,0,0)')
                     bboxes.append({
                         'type': component['type'],
                         'label': '%s--%d_%d' % (component['id'], row_num, col_num),
@@ -240,7 +241,7 @@ class Generator:
                 for col_num, word in enumerate(line.split()):
                     img_draw.text((x, y), word, fill=component['font_color'], font=component['font'], align=align, spacing=spacing)
                     w, h  = img_draw.textsize(word, font=component['font'])
-                    img_draw.rectangle([(x,y), (x+w+1, y+h+1)], outline='rgb(255,0,0)')
+                    self.DEBUG and img_draw.rectangle([(x,y), (x+w+1, y+h+1)], outline='rgb(255,0,0)')
                     if h > height: # Variable-height fonts
                         height = h
                     bboxes.append({

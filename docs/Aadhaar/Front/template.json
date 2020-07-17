@@ -8,6 +8,7 @@
         "font_size": 35,
         "font_color": "rgb(0,0,0)"
     },
+    "debug_mode": false,
 
     "components": {
         "name_en": {
