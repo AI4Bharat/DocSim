@@ -105,6 +105,9 @@
         "median_blur": {
             "blur_limit": 7,
             "probabilty": 0.5
+        },
+        "creases_and_curls": {
+            "probability": 0.05
         }
     },
     "mutually_exclusive_augmentations": [

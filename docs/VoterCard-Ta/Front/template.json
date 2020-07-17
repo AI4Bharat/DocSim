@@ -27,10 +27,10 @@
             "filler_source": "name_en",
             "font_size": 38,
             "lang": "ta",
-            "font_file": "fonts/Tamil_Unicode_Elango_Kalyani.ttf",
+            "font_file": "fonts/MuktaMalar-Medium.ttf",
             "location": {
-                "x_left": 305,
-                "y_top": 1000
+                "x_left": 303,
+                "y_top": 990
             }
         },
         "father_name_en": {
@@ -51,10 +51,10 @@
             "filler_source": "father_name_en",
             "font_size": 38,
             "lang": "ta",
-            "font_file": "fonts/Tamil_Unicode_Elango_Kalyani.ttf",
+            "font_file": "fonts/MuktaMalar-Medium.ttf",
             "location": {
                 "x_left": 305,
-                "y_top": 1224
+                "y_top": 1208
             }
         },
         "voter_id": {

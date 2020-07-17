@@ -58,7 +58,6 @@ class Albumentor:
 
         bboxes, labels = convert_polygons_to_coco(polygons) 
         for aug in self.augmentors:
-            print("aug",aug)
             if random.random() < aug.p:
                 if aug.name in self.augname2groups:
                     if self.augname2groups[aug.name].intersection(completed_groups):
