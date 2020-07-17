@@ -2,6 +2,7 @@
     "doc_name": "voter_back_ta",
     "background_img": "docs/VoterCard-Ta/Back/voter-card-back.png",
     "defaults": {
+        "split_words": true,
         "lang": "en",
         "font_file": "fonts/MuktaMalar-Medium.ttf",
         "font_size": 35,

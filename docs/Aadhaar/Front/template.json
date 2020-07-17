@@ -1,7 +1,8 @@
 {
-    "doc_name": "aadhaar_front",
+    "doc_name": "aadhaar_front_ta",
     "background_img": "docs/Aadhaar/Front/background.jpg",
     "defaults": {
+        "split_words": true,
         "lang": "en",
         "font_file": "fonts/Arial_Regular.ttf",
         "font_size": 35,

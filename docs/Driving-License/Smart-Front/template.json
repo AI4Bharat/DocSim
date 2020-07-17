@@ -1,7 +1,8 @@
 {
-    "doc_name": "driving_license_front",
+    "doc_name": "driving_license_front_hi",
     "background_img": "docs/Driving-License/Smart-Front/background-hi.jpg",
     "defaults": {
+        "split_words": true,
         "lang": "en",
         "font_file": "fonts/Arial_Bold.ttf",
         "font_size": 65,

@@ -16,11 +16,12 @@ class Generator:
         self.doc_name = template['doc_name']
         self.bg_img = template['background_img']
     
-        self.default_config = template['defaults']
-        self.set_defaults()
+        self.set_defaults(template)
         self.process_components(template)
     
-    def set_defaults(self):
+    def set_defaults(self, template):
+        self.default_config = template['defaults']
+        
         if 'font_color' not in self.default_config:
             self.default_config['font_color'] = 'rgb(0,0,0)'
         if 'font_file' not in self.default_config:
@@ -30,6 +31,9 @@ class Generator:
         
         if 'lang' not in self.default_config:
             self.default_config['lang'] = 'en'
+        
+        if 'split_words' not in self.default_config:
+            self.default_config['split_words'] = False
         
         self.default_font = ImageFont.truetype(self.default_config['font_file'], size=self.default_config['font_size'])
         
@@ -56,6 +60,9 @@ class Generator:
                 if 'font_size' not in component:
                     component['font_size'] = self.default_config['font_size']
                 component['font'] = ImageFont.truetype(component['font_file'], size=component['font_size'])
+                
+                if 'split_words' not in component:
+                    component['split_words'] = self.default_config['split_words']
                 
                 # Setup the filling method
                 if 'lang' not in component:
@@ -109,8 +116,12 @@ class Generator:
                 if component_name in self.components:
                     exit('Component name %s already taken' % component_name)
                 component['id'], component['already_printed'] = component_name, True
-                if 'lang' not in component:
-                    component['lang'] = self.default_config['lang']
+                
+                if component['type'] == 'text':
+                    if 'lang' not in component:
+                        component['lang'] = self.default_config['lang']
+                    if 'split_words' not in component:
+                        component['split_words'] = False #self.default_config['split_words']
                 self.components[component_name] = component
         return
     
@@ -125,8 +136,11 @@ class Generator:
             ground_truth = []
             for component_name, component in self.components.items():
                 if component['type'] == 'text':
-                    metadata = self.draw_text(img_draw, component)
-                    ground_truth.append(metadata)
+                    if component['split_words']:
+                        metadata = self.draw_words(img_draw, component)
+                    else:
+                        metadata = [self.draw_text(img_draw, component)]
+                    ground_truth.extend(metadata)
                 elif component['type'] == 'qr':
                     metadata = self.draw_qr(image, component)
                     ground_truth.append(metadata)
@@ -157,7 +171,7 @@ class Generator:
             text = component['post_processor'].process(text)
             img_draw.text((x, y), text, fill=component['font_color'], font=component['font'], align=align, spacing=spacing)
             width, height = img_draw.textsize(text, font=component['font'])
-        # img_draw.rectangle([(x,y), (x+width+1, y+height+1)], outline='rgb(255,0,0)')
+        img_draw.rectangle([(x,y), (x+width+1, y+height+1)], outline='rgb(255,0,0)')
         return {
             'type': component['type'],
             'label': component['id'],
@@ -172,6 +186,89 @@ class Generator:
             'text': text,
             'lang': component['lang']
         }
+        
+    def draw_words(self, img_draw, component):
+        x_left, y = component['location']['x_left'], component['location']['y_top']
+        bboxes = []
+        if component['already_printed']:
+            raise NotImplementedError
+            # Experimental Implementation:
+            width, height = component['dims']['width'], component['dims']['height']
+            text = component['text']
+            lines = text.split('\n')
+            h = height // len(lines)
+            for row_num, line in enumerate(lines):
+                x, char_index = x_left, 0
+                # Assumes an equal width font for all characters. What else can I do
+                unit_width = width / float(line.count(' ')/2 + len(line.replace(' ', '')))
+                space_width = int(unit_width/2)
+                for col_num, word in enumerate(line.split()):
+                    w = int(unit_width * len(word) + 0.99)
+                    img_draw.rectangle([(x,y), (x+w+1, y+h+1)], outline='rgb(255,0,0)')
+                    bboxes.append({
+                        'type': component['type'],
+                        'label': '%s--%d_%d' % (component['id'], row_num, col_num),
+                        'points': [ # Clock-wise
+                            [x+1, y+1], # Left Top
+                            [x+w+1, y+1], # Right Top
+                            [x+w+1, y+h+1], # Right Bottom
+                            [x+1, y+h+1] # Left bottom
+                        ],
+                        'width': w,
+                        'height': h,
+                        'text': text,
+                        'lang': component['lang']
+                    })
+                    
+                    char_index += len(word)
+                    x += w
+                    while char_index < len(line) and line[char_index] == ' ':
+                        x += space_width
+                        char_index += 1
+                y += height
+                x = x_left
+            
+        else:
+            align = component["align"] if "align" in component else "left"
+            spacing = component["spacing"] if "spacing" in component else 4
+            text = component['generator'].generate()
+            component['last_generated'] = text
+            text = component['post_processor'].process(text)
+            space_width, height  = img_draw.textsize(' ', font=component['font'])
+            for row_num, line in enumerate(text.split('\n')):
+                x, char_index = x_left, 0
+                for col_num, word in enumerate(line.split()):
+                    img_draw.text((x, y), word, fill=component['font_color'], font=component['font'], align=align, spacing=spacing)
+                    w, h  = img_draw.textsize(word, font=component['font'])
+                    img_draw.rectangle([(x,y), (x+w+1, y+h+1)], outline='rgb(255,0,0)')
+                    if h > height: # Variable-height fonts
+                        height = h
+                    bboxes.append({
+                        'type': component['type'],
+                        'label': '%s--%d_%d' % (component['id'], row_num, col_num),
+                        'points': [ # Clock-wise
+                            [x+1, y+1], # Left Top
+                            [x+w+1, y+1], # Right Top
+                            [x+w+1, y+h+1], # Right Bottom
+                            [x+1, y+h+1] # Left bottom
+                        ],
+                        'width': w,
+                        'height': h,
+                        'text': text,
+                        'lang': component['lang']
+                    })
+                    
+                    char_index += len(word)
+                    x += w
+                    while char_index < len(line) and line[char_index] == ' ':
+                        x += space_width
+                        char_index += 1
+                
+                y += height
+                x = x_left
+        
+        return bboxes
+            
     
     def draw_qr(self, background, component):
         x, y = component['location']['x_left'], component['location']['y_top']

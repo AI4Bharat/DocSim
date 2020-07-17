@@ -1,7 +1,8 @@
 {
-    "doc_name": "voter_front",
+    "doc_name": "voter_front_hi",
     "background_img": "docs/VoterCard-HI/Front/voter-card-front.jpg",
     "defaults": {
+        "split_words": true,
         "lang": "en",
         "font_file": "fonts/Arial_Regular.ttf",
         "font_size": 35,
