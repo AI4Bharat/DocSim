@@ -4,7 +4,10 @@
     "defaults": {
         "split_words": true,
         "lang": "en",
-        "font_file": "fonts/MuktaMalar-Medium.ttf",
+        "font_files": {
+            "en": "fonts/MuktaMalar-Medium.ttf",
+            "ta": "fonts/MuktaMalar-Medium.ttf"
+        },
         "font_size": 35,
         "font_color": "rgb(0,0,0)",
         "upper_case": false

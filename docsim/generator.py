@@ -25,8 +25,8 @@ class Generator:
         
         if 'font_color' not in self.default_config:
             self.default_config['font_color'] = 'rgb(0,0,0)'
-        if 'font_file' not in self.default_config:
-            self.default_config['font_file'] = None
+        if 'font_files' not in self.default_config:
+            self.default_config['font_files']['en'] = None
         if 'font_size' not in self.default_config:
             self.default_config['font_size'] = 12
         
@@ -36,7 +36,7 @@ class Generator:
         if 'split_words' not in self.default_config:
             self.default_config['split_words'] = False
         
-        self.default_font = ImageFont.truetype(self.default_config['font_file'], size=self.default_config['font_size'])
+        self.default_fonts = {lang: ImageFont.truetype(self.default_config['font_files'][lang], size=self.default_config['font_size']) for lang in self.default_config['font_files']}
         
         self.default_config['post_processor'] = TextPostProcessor()
         if 'upper_case' in self.default_config:
@@ -54,10 +54,12 @@ class Generator:
             if component['type'] == 'text':
                 
                 # Setup fonts
+                if 'lang' not in component:
+                    component['lang'] = self.default_config['lang']
                 if 'font_color' not in component:
                     component['font_color'] = self.default_config['font_color']
                 if 'font_file' not in component:
-                    component['font_file'] = self.default_config['font_file']
+                    component['font_file'] = self.default_config['font_files'][component['lang']]
                 if 'font_size' not in component:
                     component['font_size'] = self.default_config['font_size']
                 component['font'] = ImageFont.truetype(component['font_file'], size=component['font_size'])
@@ -65,10 +67,7 @@ class Generator:
                 if 'split_words' not in component:
                     component['split_words'] = self.default_config['split_words']
                 
-                # Setup the filling method
-                if 'lang' not in component:
-                    component['lang'] = self.default_config['lang']
-                
+                # Setup the filling method                
                 if component['filler_mode'] == 'random':
                     if component['filler_type'] == 'full_name':
                         component['generator'] = FullNameGenerator(component['lang'])

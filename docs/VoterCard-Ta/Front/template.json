@@ -4,7 +4,10 @@
     "defaults": {
         "split_words": true,
         "lang": "en",
-        "font_file": "fonts/Arial_Regular.ttf",
+        "font_files": {
+            "en": "fonts/Arial_Bold.ttf",
+            "ta": "fonts/MuktaMalar-Medium.ttf"
+        },
         "font_size": 35,
         "font_color": "rgb(0,0,0)",
         "upper_case": true
@@ -15,7 +18,6 @@
             "filler_mode": "random",
             "filler_type": "full_name",
             "font_size": 30,
-            "font_file": "fonts/Arial_Bold.ttf",
             "lang": "en",
             "location": {
                 "x_left": 305,
@@ -28,7 +30,6 @@
             "filler_source": "name_en",
             "font_size": 38,
             "lang": "ta",
-            "font_file": "fonts/MuktaMalar-Medium.ttf",
             "location": {
                 "x_left": 303,
                 "y_top": 990
@@ -39,7 +40,6 @@
             "filler_mode": "random",
             "filler_type": "full_name",
             "font_size": 30,
-            "font_file": "fonts/Arial_Bold.ttf",
             "lang": "en",
             "location": {
                 "x_left": 305,
@@ -52,7 +52,6 @@
             "filler_source": "father_name_en",
             "font_size": 38,
             "lang": "ta",
-            "font_file": "fonts/MuktaMalar-Medium.ttf",
             "location": {
                 "x_left": 305,
                 "y_top": 1208
@@ -62,7 +61,6 @@
             "type": "text",
             "filler_mode": "regex",
             "filler_regex": "[A-Z][A-Z][A-Z]\\d\\d\\d\\d\\d\\d\\d",
-            "font_file": "fonts/Arial_Bold.ttf",
             "font_size": 38,
             "location": {
                 "x_left": 557,

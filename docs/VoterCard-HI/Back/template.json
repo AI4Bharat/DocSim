@@ -4,7 +4,10 @@
     "defaults": {
         "split_words": true,
         "lang": "en",
-        "font_file": "fonts/Halant-Bold.ttf",
+        "font_files": {
+            "en": "fonts/Halant-Bold.ttf",
+            "hi": "fonts/Halant-Bold.ttf"
+        },
         "font_size": 35,
         "font_color": "rgb(0,0,0)",
         "upper_case": false

@@ -4,7 +4,10 @@
     "defaults": {
         "split_words": true,
         "lang": "en",
-        "font_file": "fonts/Arial_Regular.ttf",
+        "font_files": {
+            "en": "fonts/Arial_Regular.ttf",
+            "ta": "fonts/Tamil_Unicode_Elango_Kalyani.ttf"
+        },
         "font_size": 35,
         "font_color": "rgb(0,0,0)"
     },
@@ -26,7 +29,6 @@
             "filler_mode": "transliteration",
             "filler_source": "name_en",
             "lang": "ta",
-            "font_file": "fonts/Tamil_Unicode_Elango_Kalyani.ttf",
             "location": {
                 "x_left": 352,
                 "y_top": 215
@@ -36,7 +38,6 @@
             "type": "text",
             "filler_mode": "fixed",
             "lang": "ta",
-            "font_file": "fonts/Tamil_Unicode_Elango_Kalyani.ttf",
             "filler_text": "பிறந்த நாள்",
             "location": {
                 "x_left": 352,
@@ -68,7 +69,7 @@
                 "ஆண்",
                 "பெண்"
             ],
-            "font_file": "fonts/Tamil_Unicode_Elango_Kalyani.ttf",
+            "lang": "ta",
             "location": {
                 "x_left": 352,
                 "y_top": 377
