@@ -95,11 +95,7 @@ class Generator:
                     component['post_processor'] = TextPostProcessor(upper_case=component['upper_case'])
                 else:
                     component['post_processor'] = self.default_config['post_processor']
-                
-            elif component['type'] == 'qr':
-                pass
-            elif component['type'] == 'barcode':
-                pass
+            
             elif component['type'] == 'image':
                 if component['filler_mode'] == 'random':
                     component['generator'] = ImageGenerator(component['image_folder'], component['dims'])
