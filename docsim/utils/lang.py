@@ -3,9 +3,19 @@ import random
 import string
 
 # ISO Language code to script name
-LANG2SCRIPT = {
+ISO639_TO_SCRIPT = {
     'ta': 'tamil',
-    'ml': 'malayalam'
+    'ml': 'malayalam',
+    'te': 'telugu',
+    'kn': 'kannada',
+    'or': 'oriya',
+    'bn': 'bengali',
+    'as': 'bengali',
+    'gu': 'gujarati',
+    'hi': 'devanagari',
+    'mr': 'devanagari',
+    'ne': 'devanagari',
+    'pa': 'gurmukhi'
 }
 
 MAX_RANGE = 1114112
@@ -69,11 +79,11 @@ class LanguageCharacters:
     def __init__(self, lang_code, only_prefix_match=True, skip_punctuations=True, skip_numbers=True, 
                  verbose=False):
         
-        if lang_code not in LANG2SCRIPT:
+        if lang_code not in ISO639_TO_SCRIPT:
             exit('Lang code %s not found' % lang_code)
         
         self.lang_code = lang_code
-        self.script = LANG2SCRIPT[lang_code]
+        self.script = ISO639_TO_SCRIPT[lang_code]
         self.characters = get_characters(self.script, only_prefix_match, skip_punctuations, skip_numbers, verbose)
         self.vowels = get_vowels(self.characters)
         self.consonants = get_consonants(self.characters)

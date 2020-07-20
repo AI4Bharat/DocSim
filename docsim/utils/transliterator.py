@@ -1,6 +1,10 @@
+from docsim.utils.lang import ISO639_TO_SCRIPT
+
 class Transliterator:
     def __init__(self, src_lang, dest_lang):
-        if src_lang in IndicTransliterator.LANG2SCHEME and dest_lang in IndicTransliterator.LANG2SCHEME:
+        if src_lang in AksharaMukhaTransliterator.LANG2SCRIPT and dest_lang in AksharaMukhaTransliterator.LANG2SCRIPT:
+            self.transliterator = AksharaMukhaTransliterator(src_lang, dest_lang)
+        elif src_lang in IndicTransliterator.LANG2SCHEME and dest_lang in IndicTransliterator.LANG2SCHEME:
             self.transliterator = IndicTransliterator(src_lang, dest_lang)
         elif src_lang in EuropeanTransliterator.LANGS and dest_lang in EuropeanTransliterator.LANGS:
             self.transliterator = EuropeanTransliterator(src_lang, dest_lang)
@@ -66,3 +70,31 @@ class IndicTransliterator:
     
     def reverse_transliterate(self, phrase):
         return indic_transliterate(phrase, self.dest_script, self.src_script)
+
+from aksharamukha.transliterate import process as aksharamukha_xlit
+class AksharaMukhaTransliterator:
+    LANG2SCRIPT = {lang: script.title() for lang, script in ISO639_TO_SCRIPT.items()}
+    LANG2SCRIPT['en'] = 'ISO'
+    
+    def __init__(self, src_lang, dest_lang):
+        self.src_lang = src_lang
+        self.dest_lang = dest_lang
+        
+        self.src_script = AksharaMukhaTransliterator.LANG2SCRIPT[src_lang]
+        self.dest_script = AksharaMukhaTransliterator.LANG2SCRIPT[dest_lang]
+    
+    def post_process(self, txt):
+        # Patch for bug: github.com/virtualvinodh/aksharamukha/issues/72
+        for numeral in ['²', '³', '⁴', '₂', '₃', '₄']:
+            txt = txt.replace(numeral, '')
+        return txt
+    
+    def transliterate(self, phrase):
+        phrase = phrase.upper().replace('X', 'S').replace('W', 'V') # Temporary hacks
+        
+        xlit = aksharamukha_xlit(self.src_script, self.dest_script, phrase, post_options=['TamilRemoveApostrophe'])#, post_options=['TamilRemoveNumbers'])
+        
+        return self.post_process(xlit)
+    
+    def reverse_transliterate(self, phrase):
+        return aksharamukha_xlit(self.dest_script, self.src_script, phrase)
