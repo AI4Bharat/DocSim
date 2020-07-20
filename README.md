@@ -22,7 +22,7 @@ Check the [`docs/`](docs/) folder for sample documents.
 ### Augment generated images
 
 ```
-python docsim\augmentor.py <config.json> <input_folder> <num_epochs> <output_folder>
+python docsim\augmentor.py <config.json> <input_folder> <num_epochs> <output_folder> <num_workers>
 ```
 
 Check [`documentation/Augmentation.md`](documentation/Augmentation.md) for more details.

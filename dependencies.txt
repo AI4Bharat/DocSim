@@ -21,3 +21,5 @@ albumentations
 imagecorruptions
 imgaug
 git+https://github.com/NVlabs/ocrodeg
+
+joblib

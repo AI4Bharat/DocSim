@@ -175,7 +175,7 @@ class CreasesAndCurls:
         return inv_xs, inv_ys
 
     def croput_black_portions(self, img, bboxes):
-        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY) if len(img.shape)<3 else img
+        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY) if len(img.shape)>2 else img
         _, thresh = cv2.threshold(gray, 1, 255, cv2.THRESH_BINARY)
         contours, _ = cv2.findContours(
             thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
