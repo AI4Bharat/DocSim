@@ -3,6 +3,7 @@ tqdm
 requests
 rstr
 transliterate
+aksharamukha
 indic_transliteration
 # Alternative for above to implement: LibIndic Transliteration
 # git+https://github.com/libindic/Transliteration
@@ -20,3 +21,5 @@ albumentations
 imagecorruptions
 imgaug
 git+https://github.com/NVlabs/ocrodeg
+
+joblib

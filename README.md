@@ -7,6 +7,7 @@ Synthetically generate documents!
 
 - Atleast Python 3.7
 - `pip install -r dependencies.txt`
+- Check [`documentation/Installation`](/documentation/Installation.md) for other libraries
 
 ## Instructions
 
@@ -21,17 +22,7 @@ Check the [`docs/`](docs/) folder for sample documents.
 ### Augment generated images
 
 ```
-python docsim\augmentor.py <config.json> <input_folder> <num_epochs> <output_folder>
+python docsim\augmentor.py <config.json> <input_folder> <num_epochs> <output_folder> <num_workers>
 ```
 
 Check [`documentation/Augmentation.md`](documentation/Augmentation.md) for more details.
-
-
-
-### Install [`Raqm library`](https://github.com/HOST-Oman/libraqm) to use Indic fonts
-
-```
-sudo apt-get install libfreetype6-dev libharfbuzz-dev libfribidi-dev gtk-doc-tools
-
-sudo apt install libraqm-dev
-```
