@@ -6,7 +6,8 @@
         "lang": "en",
         "font_files": {
             "en": "fonts/Arial_Regular.ttf",
-            "ta": "fonts/Tamil_Unicode_Elango_Kalyani.ttf"
+            "ta": "fonts/Tamil_Unicode_Elango_Kalyani.ttf",
+            "hi": "fonts/Halant-Bold.ttf"
         },
         "font_size": 35,
         "font_color": "rgb(0,0,0)"
@@ -99,7 +100,8 @@
             }
         },
         "qr": {
-            "type" : "qr",
+            "type" : "image",
+            "filler_mode": "qr",
             "string_len_min": 10,
             "string_len_max": 25,
             "version_min": 5,

@@ -98,4 +98,4 @@ class BarCodeGenerator:
             bar_image = img.copy()
         os.remove('temp.png')
         resized_bar = bar_image.resize(self.img_size, resample=Image.NEAREST)
-        return resized_bar
+        return resized_bar, data

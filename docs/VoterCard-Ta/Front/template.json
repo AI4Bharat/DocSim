@@ -68,7 +68,8 @@
             }
         },
         "barcode": {
-            "type": "barcode",
+            "type": "image",
+            "filler_mode": "barcode",
             "filler_source": "voter_id",
             "location": {
                 "x_left": 58,

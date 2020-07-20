@@ -96,7 +96,8 @@
             }
         },
         "qr": {
-            "type" : "qr",
+            "type": "image",
+            "filler_mode" : "qr",
             "string_len_min": 10,
             "string_len_max": 25,
             "version_min": 5,

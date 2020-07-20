@@ -42,7 +42,8 @@ class Generator:
         if 'upper_case' in self.default_config:
             self.default_config['post_processor'].upper_case = self.default_config['upper_case']
         
-        
+        return
+         
     def process_components(self, template):
         self.components = template['components']
         for component_name, component in self.components.items():
@@ -106,6 +107,10 @@ class Generator:
                     component['generator'] = ImageRetriever(component['image_file'], component['dims'])
                 elif component['filler_mode'] == 'random_face_online':
                     component['generator'] = OnlineFaceGenerator(component['dims'])
+                elif component['filler_mode'] == 'qr':
+                    component['generator'] = QRCodeGenerator(component)
+                elif component['filler_mode'] == 'barcode':
+                    component['generator'] = BarCodeGenerator(component)
                 else:
                     raise NotImplementedError
             else:
@@ -197,6 +202,8 @@ class Generator:
             text = component['text']
             lines = text.split('\n')
             h = height // len(lines)
+            # font = ImageFont.truetype(self.default_fonts[component['lang']].path, h)
+            # space_width, h = img_draw.textsize(' ', font=font)
             for row_num, line in enumerate(lines):
                 x, char_index = x_left, 0
                 # Assumes an equal width font for all characters. What else can I do
@@ -204,6 +211,7 @@ class Generator:
                 space_width = int(unit_width/2)
                 for col_num, word in enumerate(line.split()):
                     w = int(unit_width * len(word) + 0.99)
+                    # w, h = img_draw.textsize(word, font=font)
                     self.DEBUG and img_draw.rectangle([(x,y), (x+w+1, y+h+1)], outline='rgb(255,0,0)')
                     bboxes.append({
                         'type': component['type'],
@@ -268,31 +276,6 @@ class Generator:
                 x = x_left
         
         return bboxes
-            
-    
-    def draw_qr(self, background, component):
-        x, y = component['location']['x_left'], component['location']['y_top']
-        width, height = component['dims']['width'], component['dims']['height']
-        version_min, version_max = component['version_min'], component['version_max']
-        string_min, string_max = component['string_len_min'], component['string_len_max']
-        string = random_string(min_l=string_min, max_l=string_max)
-        qr_img = get_qr_img(min_v=version_min, max_v=version_max, data=string)
-        qr_img = qr_img.resize((width, height))
-        background.paste(qr_img, (x, y))
-        
-        return {
-            'type': component['type'],
-            'label': component['id'],
-            'points': [ # Clock-wise
-                [x+1, y+1], # Left Top
-                [x+width+1, y+1], # Right Top
-                [x+width+1, y+height+1], # Right Bottom
-                [x+1, y+height+1] # Left bottom
-            ],
-            'width': width,
-            'height': height,
-            'code_content': string
-        }
     
     def draw_img(self, background, component):
         x, y = component['location']['x_left'], component['location']['y_top']
@@ -305,7 +288,7 @@ class Generator:
             'type': component['type'],
             'label': component['id'],
             'mode': component['filler_mode'],
-            'img_details': details,
+            'details': details,
             'points': [ # Clock-wise
                 [x+1, y+1], # Left Top
                 [x+width+1, y+1], # Right Top
@@ -315,30 +298,7 @@ class Generator:
             'width': width,
             'height': height,
         }
-        
-    def draw_barcode(self, image, component):
-        x, y = component['location']['x_left'], component['location']['y_top']
-        width, height = component['dims']['width'], component['dims']['height']
-        if 'filler_source' in component:
-            data = component['data_source']['last_generated']
-        else:
-            data = random_string()
-            
-        bar_image = get_barcode(data, shape=(width,height))
-        image.paste(bar_image, (x, y))
-        return {
-            'type': component['type'],
-            'label': component['id'],
-            'points': [ # Clock-wise
-                [x+1, y+1], # Left Top
-                [x+width+1, y+1], # Right Top
-                [x+width+1, y+height+1], # Right Bottom
-                [x+1, y+height+1] # Left bottom
-            ],
-            'width': width,
-            'height': height,
-            'code_content': data
-        }
+    
         
 if __name__ == '__main__':
     # TODO: Use argparse
