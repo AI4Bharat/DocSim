@@ -69,9 +69,7 @@ class Augmentor:
             gt = json.load(f)
             
         # To keep track of augmentations done
-        new_gt = {}
-        new_gt["augs_done"] = []
-        new_gt["data"] = gt
+        gt["augs_done"] = []
         aug_counter = Augmentor.AugmentCounter(0)
         
         # Augment!
@@ -79,7 +77,7 @@ class Augmentor:
             random.shuffle(self.augmentors)
         completed_groups = set()
         for augmentor in self.augmentors:
-            img, gt = augmentor.augment_image(img, new_gt, completed_groups, aug_counter)
+            img, gt = augmentor.augment_image(img, gt, completed_groups, aug_counter)
 
         # Save augmented output
         out_img_file = output_path_prefix + os.path.basename(image)

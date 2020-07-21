@@ -142,12 +142,6 @@ class Generator:
                     else:
                         metadata = [self.draw_text(img_draw, component)]
                     ground_truth.extend(metadata)
-                elif component['type'] == 'qr':
-                    metadata = self.draw_qr(image, component)
-                    ground_truth.append(metadata)
-                elif component['type'] == 'barcode':
-                    metadata = self.draw_barcode(image, component)
-                    ground_truth.append(metadata)
                 elif component['type'] == 'image':
                     metadata = self.draw_img(image, component)
                     ground_truth.append(metadata)
@@ -156,8 +150,9 @@ class Generator:
             
             output_file = os.path.join(output_folder, random_id())
             image.save(output_file+'.jpg')
+            gt = {'doc_name': self.doc_name, 'data': ground_truth}
             with open(output_file+'.json', 'w', encoding='utf-8') as f:
-                json.dump(ground_truth, f, ensure_ascii=False, indent=4)
+                json.dump(gt, f, ensure_ascii=False, indent=4)
     
     def draw_text(self, img_draw, component):
         x, y = component['location']['x_left'], component['location']['y_top']
