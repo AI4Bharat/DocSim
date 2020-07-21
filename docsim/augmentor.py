@@ -15,12 +15,17 @@ from docsim.augmentation.custom_augs import CustomAugmentations
 from docsim.utils.image import get_all_images
 
 
+        
 class Augmentor:
 
     SUPPORTED_AUGMENTATIONS = ImgAugAugmentor.SUPPORTED_AUGMENTATIONS + \
         OCRoDegAugmentor.SUPPORTED_AUGMENTATIONS + \
         Albumentor.SUPPORTED_AUGMENTATIONS + CustomAugmentations.SUPPORTED_AUGMENTATIONS
 
+    class AugmentCounter:
+        def __init__(self, value):
+            self.value = value
+            
     def __init__(self, config_json):
         with open(config_json, encoding='utf-8') as f:
             config = json.load(f)
@@ -29,11 +34,12 @@ class Augmentor:
         augmentors = [ImgAugAugmentor(self), OCRoDegAugmentor(
             self), Albumentor(self), CustomAugmentations(self)]
         self.augmentors = [a for a in augmentors if a.augmentors]
-
+                
     def setup_defaults(self, config):
         self.config = config
         self.augmentations = config['augmentations']
         self.shuffle = 'random_sequence' in config and config['random_sequence']
+        self.max_augmentations_per_image = config['max_augmentations_per_image']
         for aug_name, aug_config in self.augmentations.items():
             if aug_name not in Augmentor.SUPPORTED_AUGMENTATIONS:
                 print('No augmentor for:', aug_name)
@@ -61,13 +67,19 @@ class Augmentor:
         img = imread(image)[:, :, :3]
         with open(gt_file, encoding='utf-8') as f:
             gt = json.load(f)
-
+            
+        # To keep track of augmentations done
+        new_gt = {}
+        new_gt["augs_done"] = []
+        new_gt["data"] = gt
+        aug_counter = Augmentor.AugmentCounter(0)
+        
         # Augment!
         if self.shuffle:
             random.shuffle(self.augmentors)
         completed_groups = set()
         for augmentor in self.augmentors:
-            img, gt = augmentor.augment_image(img, gt, completed_groups)
+            img, gt = augmentor.augment_image(img, new_gt, completed_groups, aug_counter)
 
         # Save augmented output
         out_img_file = output_path_prefix + os.path.basename(image)

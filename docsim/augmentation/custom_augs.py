@@ -12,7 +12,8 @@ class CustomAugmentations:
         self.shuffle = main_config.shuffle
         self.augname2groups = main_config.augname2groups
         self.setup_augmentors(main_config.augmentations)
-    
+        self.max_augmentations_per_image = main_config.max_augmentations_per_image
+        
     def setup_augmentors(self, augmentations):
         self.augmentors = []
         aug = None
@@ -28,13 +29,14 @@ class CustomAugmentations:
             self.augmentors.append(aug)
         return 
     
-    def augment_image(self, img, gt, completed_groups):
+    def augment_image(self, img, gt, completed_groups, aug_counter):
         if self.shuffle: 
             random.shuffle(self.augmentors)
 
-        bboxes = [(element['points']) for element in gt]
+        bboxes = [(element['points']) for element in gt["data"]]
+        augmentations_done = []
         for aug in self.augmentors:
-            if random.random() < aug.p:
+            if random.random() < aug.p and aug_counter.value < self.max_augmentations_per_image:
                 if aug.name in self.augname2groups:
                     if self.augname2groups[aug.name].intersection(completed_groups):
                         continue
@@ -42,10 +44,12 @@ class CustomAugmentations:
                         completed_groups.update(self.augname2groups[aug.name])
                 
                 img, bboxes = aug(image=img, gt=bboxes)
-
-        for element, bboxes in zip(gt, bboxes):
+                augmentations_done.append(aug.name)
+                aug_counter.value += 1
+        
+        for element, bboxes in zip(gt["data"], bboxes):
             element['points'] = bboxes
-            
+        gt["augs_done"].extend(augmentations_done)
         return img, gt
     
     
