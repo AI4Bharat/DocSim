@@ -1,8 +1,9 @@
 {
     "random_sequence": true,
+    "max_augmentations_per_image": 5,
     "augmentations": {
         "grayscale": {
-            "probability": 0.2
+            "probability": 0.1
         },
         "intensity_multiplier": {
             "min_multiplier": 0.5,
@@ -35,7 +36,7 @@
             "max_cutoff": 0.6
         },
         "spatter": {
-            "probability": 0.05,
+            "probability": 0.01,
             "severity": 4
         },
         "motion_blur": {
@@ -53,7 +54,7 @@
             "max_severity": 2
         },
         "piecewise_affine": {
-            "probability": 0.05,
+            "probability": 0.00,
             "min_scale": 0.01,
             "max_scale": 0.02
         },
@@ -92,19 +93,19 @@
         "image_compression": {
             "quality_lower": 70, 
             "quality_upper": 100,
-            "probability": 1.0
+            "probability": 0.5
         },
         "posterize": {
             "num_bits": 4,
-            "probabilty": 0.5
+            "probabilty": 0.2
         },
         "blur": {
             "blur_limit":7,
-            "probabilty": 0.5
+            "probabilty": 0.2
         },
         "median_blur": {
             "blur_limit": 7,
-            "probabilty": 0.5
+            "probabilty": 0.2
         },
         "creases_and_curls": {
             "probability": 0.05
@@ -116,7 +117,14 @@
             "defocus",
             "motion_blur",
             "blur",
-            "median_blur"
+            "median_blur",
+            "binarized_blur"
+        ],
+        [
+            "motion_blur",
+            "intensity_multiplier",
+            "contrast",
+            "spatter"
         ],
         [
             "image_compression",
@@ -129,7 +137,9 @@
         ],
         [
             "gaussian_warp",
-            "elastic_transform"
+            "elastic_transform",
+            "perspective_transform",
+            "1d_surface_distort"
         ],
         [
             "multiscale_black_noise",

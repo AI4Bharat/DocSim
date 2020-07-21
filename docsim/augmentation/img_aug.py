@@ -23,6 +23,7 @@ class ImgAugAugmentor:
         self.shuffle = main_config.shuffle
         self.augname2groups = main_config.augname2groups
         self.setup_augmentors(main_config.augmentations)
+        self.max_augmentations_per_image = main_config.max_augmentations_per_image
 
     def setup_augmentors(self, augmentations):
         self.augmentors = []
@@ -74,17 +75,18 @@ class ImgAugAugmentor:
 
         return
     
-    def augment_image(self, img, gt, completed_groups):
+    def augment_image(self, img, gt, completed_groups, aug_counter):
         # Note: Running as groups directly is cheaper than running individually using run_augment()
         
         if self.shuffle:  # TODO: Move to top-level augmentor?
             random.shuffle(self.augmentors)
 
         polygons = [Polygon(element['points'], element['label'])
-                    for element in gt]
+                    for element in gt["data"]]
         polygons = PolygonsOnImage(polygons, shape=img.shape)
+        augmentations_done = []
         for aug in self.augmentors:
-            if random.random() < aug.p:
+            if random.random() < aug.p and aug_counter.value < self.max_augmentations_per_image:
                 if aug.name in self.augname2groups:
                     if self.augname2groups[aug.name].intersection(completed_groups):
                         continue
@@ -92,11 +94,12 @@ class ImgAugAugmentor:
                         completed_groups.update(self.augname2groups[aug.name])
                 
                 img, polygons = aug(image=img, polygons=polygons)
-
+                augmentations_done.append(aug.name)
+                aug_counter.value += 1
         # Put back polygons into GT
-        for element, pg in zip(gt, polygons):
+        for element, pg in zip(gt["data"], polygons):
             element['points'] = [pt.tolist() for pt in pg.exterior]
-
+        gt["augs_done"].extend(augmentations_done)
         return img, gt
     
     @staticmethod

@@ -15,6 +15,6 @@ def convert_coco_to_polygons(coco_bboxes, labels, img=None):
 def convert_polygons_to_coco(polygons):
     bboxes_list,labels_list = [], []
     for polygon in polygons:
-        bboxes_list.append([*polygons[0][0], *(polygons[0][2] - polygons[0][0])])
+        bboxes_list.append([*polygon[0], *(polygon[2] - polygon[0])])
         labels_list.append(polygon.label)
     return  bboxes_list, labels_list
