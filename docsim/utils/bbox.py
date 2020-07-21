@@ -5,7 +5,7 @@ def convert_coco_to_polygons(coco_bboxes, labels, img=None):
     polygons = []
     for bbox, label in zip(coco_bboxes, labels):
         element = [[*bbox[0:2]], [bbox[0]+bbox[2], bbox[1]],
-              [bbox[0], bbox[1]+bbox[3]], [bbox[0]+bbox[2], bbox[1]+bbox[3]]]
+                   [bbox[0]+bbox[2], bbox[1]+bbox[3]], [bbox[0], bbox[1]+bbox[3]]]
         polygons.append(Polygon(element, label=label))
     
     if img is not None:
