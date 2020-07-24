@@ -4,6 +4,8 @@ from glob import glob
 from tqdm import tqdm
 import json
 import random
+import cv2
+import numpy as np
 from imageio import imread, imsave
 from joblib import Parallel, delayed
 
@@ -14,8 +16,7 @@ from docsim.augmentation.custom_augs import CustomAugmentations
 
 from docsim.utils.image import get_all_images
 
-
-        
+  
 class Augmentor:
 
     SUPPORTED_AUGMENTATIONS = ImgAugAugmentor.SUPPORTED_AUGMENTATIONS + \
@@ -37,6 +38,7 @@ class Augmentor:
                 
     def setup_defaults(self, config):
         self.config = config
+        self.debug = config['debug'] if 'debug' in config else False  
         self.augmentations = config['augmentations']
         self.shuffle = 'random_sequence' in config and config['random_sequence']
         self.max_augmentations_per_image = config['max_augmentations_per_image']
@@ -57,6 +59,16 @@ class Augmentor:
 
         return
 
+    def get_image_with_bboxes(self, img, gt, BOX_COLOR=(255, 0, 0), thickness=2):
+        img = img.copy()
+        bboxes = [i["points"] for i in gt]
+        for bbox in bboxes:
+            bbox = np.array(bbox, np.int32).reshape((-1, 1, 2))
+            img = cv2.polylines(
+                img, [bbox], color=BOX_COLOR, isClosed=True, thickness=thickness)
+            
+        return img
+        
     def augment_epoch(self, image, output_path_prefix):
         gt_file = os.path.splitext(image)[0] + '.json'
         if not os.path.isfile(gt_file):
@@ -79,6 +91,8 @@ class Augmentor:
         for augmentor in self.augmentors:
             img, gt = augmentor.augment_image(img, gt, completed_groups, aug_counter)
 
+        if self.debug:
+            img = self.get_image_with_bboxes(img, gt["data"])
         # Save augmented output
         out_img_file = output_path_prefix + os.path.basename(image)
         imsave(out_img_file, img)

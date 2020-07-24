@@ -1,4 +1,5 @@
 {
+    "debug": false,
     "random_sequence": true,
     "max_augmentations_per_image": 5,
     "augmentations": {
@@ -69,7 +70,7 @@
         "1d_surface_distort": {
             "probability": 0.05,
             "min_magnitude": 15,
-            "max_magnitude": 30
+            "max_magnitude": 25
         },
         "binarized_blur": {
             "probability": 0.05,
@@ -97,18 +98,18 @@
         },
         "posterize": {
             "num_bits": 4,
-            "probabilty": 0.2
+            "probabilty": 0.5
         },
         "blur": {
             "blur_limit":7,
-            "probabilty": 0.2
+            "probabilty": 0.5
         },
         "median_blur": {
             "blur_limit": 7,
-            "probabilty": 0.2
+            "probabilty": 0.5
         },
         "creases_and_curls": {
-            "probability": 0.03
+            "probability": 0.05
         }
     },
     "mutually_exclusive_augmentations": [

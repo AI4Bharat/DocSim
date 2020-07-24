@@ -47,8 +47,8 @@ class CustomAugmentations:
                 augmentations_done.append(aug.name)
                 aug_counter.value += 1
         
-        for element, bboxes in zip(gt["data"], bboxes):
-            element['points'] = bboxes
+        for element, point in zip(gt["data"], bboxes):
+            element['points'] = point
         gt["augs_done"].extend(augmentations_done)
         return img, gt
     
