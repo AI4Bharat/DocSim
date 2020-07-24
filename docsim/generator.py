@@ -5,7 +5,6 @@ from tqdm import tqdm
 from docsim.utils.random import random_id, random_string
 from docsim.text_generators import *
 from docsim.image_generators import *
-from docsim.utils.image import get_qr_img, get_barcode
 
 class Generator:
     def __init__(self, template_json):
@@ -215,7 +214,7 @@ class Generator:
                         ],
                         'width': w,
                         'height': h,
-                        'text': text,
+                        'text': word,
                         'lang': component['lang']
                     })
                     
@@ -253,7 +252,7 @@ class Generator:
                         ],
                         'width': w,
                         'height': h,
-                        'text': text,
+                        'text': word,
                         'lang': component['lang']
                     })
                     
