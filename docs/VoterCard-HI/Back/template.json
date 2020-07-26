@@ -13,40 +13,80 @@
         "upper_case": false
     },
     "components": {
-        "sex_key": {
+        "sex_key_hi": {
             "type": "text",
             "filler_mode": "array",
             "filler_options": [
-                "लिंग / Sex : "
+                "लिंग"
             ],
             "font_size": 35,
+            "lang": "hi",
             "location": {
                 "x_left": 70,
                 "y_top": 73
             }
         },
-        "sex_value": {
+        "sex_key_en": {
             "type": "text",
             "filler_mode": "array",
             "filler_options": [
-                "नर / Male",
-                "महिला / Female "
+                "/ Sex : "
             ],
             "font_size": 35,
             "location": {
-                "x_left": 250,
-                "y_top": 80
+                "x_left": 140,
+                "y_top": 73
             }
         },
-        "dob_key": {
+        "sex_value_hi": {
             "type": "text",
             "filler_mode": "array",
             "filler_options": [
-                "जन्म की तारीख / आयु / DOB / AGE : "
+                "पुरुष",
+                "महिला"
+            ],
+            "font_size": 35,
+            "lang": "hi",
+            "location": {
+                "x_left": 256,
+                "y_top": 73
+            }
+        },
+        "sex_value_en": {
+            "type": "text",
+            "filler_mode": "array",
+            "filler_options": [
+                "/ Male",
+                "/ Female "
+            ],
+            "font_size": 35,
+            "location": {
+                "x_left": 351,
+                "y_top": 73
+            }
+        },
+        "dob_key_hi": {
+            "type": "text",
+            "filler_mode": "array",
+            "filler_options": [
+                "जन्म की तारीख / आयु"
+            ],
+            "font_size": 28,
+            "lang": "hi",
+            "location": {
+                "x_left": 70,
+                "y_top": 128
+            }
+        },
+        "dob_key_en": {
+            "type": "text",
+            "filler_mode": "array",
+            "filler_options": [
+                "/ DOB / AGE : "
             ],
             "font_size": 28,
             "location": {
-                "x_left": 70,
+                "x_left": 325,
                 "y_top": 128
             }
         },
@@ -67,6 +107,7 @@
                 "पता : "
             ],
             "font_size": 35,
+            "lang": "hi",
             "location": {
                 "x_left": 70,
                 "y_top": 182
@@ -127,6 +168,7 @@
                 "हस्ताक्षर पर हस्ताक्षर किए"
             ],
             "font_size": 27,
+            "lang": "hi",
             "location": {
                 "x_left": 477,
                 "y_top": 557
@@ -173,6 +215,7 @@
                 "पूरा नंबर और नाम : "
             ],
             "font_size": 27,
+            "lang": "hi",
             "location": {
                 "x_left": 70,
                 "y_top": 655
@@ -186,7 +229,7 @@
             "lang": "hi",
             "font_size": 27,
             "location": {
-                "x_left": 272,
+                "x_left": 292,
                 "y_top": 655
             }
         },
@@ -198,6 +241,7 @@
             ],
             "align": "left",
             "font_size": 27,
+            "lang": "hi",
             "location": {
                 "x_left": 70,
                 "y_top": 698
@@ -236,7 +280,7 @@
             "lang": "en",
             "font_size": 27,
             "location": {
-                "x_left": 300,
+                "x_left": 294,
                 "y_top": 782
             }
         },
@@ -262,20 +306,34 @@
             "lang": "en",
             "font_size": 27,
             "location": {
-                "x_left": 232,
+                "x_left": 242,
                 "y_top": 832
             }
         },
-        "note_text": {
+        "note_text_hi": {
             "type": "text",
             "filler_mode": "array",
             "filler_options": [
-                "ध्यान दें / Note :"
+                "ध्यान दें"
+            ],
+            "align": "left",
+            "font_size": 27,
+            "lang": "hi",
+            "location": {
+                "x_left": 70,
+                "y_top": 930
+            }
+        },
+        "note_text_en": {
+            "type": "text",
+            "filler_mode": "array",
+            "filler_options": [
+                "/ Note :"
             ],
             "align": "left",
             "font_size": 27,
             "location": {
-                "x_left": 70,
+                "x_left": 160,
                 "y_top": 930
             }
         },
@@ -283,10 +341,11 @@
             "type": "text",
             "filler_mode": "array",
             "filler_options": [
-                "1. निर्वाचक फोटो पहचान पत्र के मात्र पोजिशन की कोई गारंटी नहीं है कि\nआप वर्तमान मतदाता सूची में निर्वाचक हैं। कृपया हर चुनाव से पहले\nवर्तमान मतदाता सूची में अपना नाम देखें।"
+                "1. निर्वाचक फोटो पहचान पत्र के मात्र पोजिशन की कोई गारंटी नहीं है\nकि आप वर्तमान मतदाता सूची में निर्वाचक हैं। कृपया हर चुनाव से पहले\nवर्तमान मतदाता सूची में अपना नाम देखें।"
             ],
             "align": "left",
             "font_size": 30,
+            "lang": "hi",
             "location": {
                 "x_left": 70,
                 "y_top": 980
@@ -299,8 +358,7 @@
                 "1. Mere Possession of Elector photo identity Card is no guarantee that\nyou are elector in the current electoral roll. Please check your name\nin the current electoral roll before every election."
             ],
             "align": "left",
-            "font_size": 26,
-            "use_text_wrap": true,
+            "font_size": 25,
             "location": {
                 "x_left": 70,
                 "y_top": 1108
@@ -314,7 +372,7 @@
             ],
             "align": "left",
             "font_size": 30,
-            "use_text_wrap": true,
+            "lang": "hi",
             "location": {
                 "x_left": 70,
                 "y_top": 1215
@@ -327,8 +385,7 @@
                 "2. Date of birth mentioned in this card shall not be treated as proof of\nage / D.O.B. for any purpose other than registration in electoral roll."
             ],
             "align": "left",
-            "font_size": 26,
-            "use_text_wrap": true,
+            "font_size": 25,
             "location": {
                 "x_left": 70,
                 "y_top": 1335
