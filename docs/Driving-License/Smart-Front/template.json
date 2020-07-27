@@ -19,6 +19,7 @@
             "filler_regex": "[A-Z][A-Z]\\d\\d  \\d\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d",
             "font_file": "fonts/Verdana_Bold.ttf",
             "font_size": 75,
+            "entity": "id",
             "location": {
                 "x_left": 515,
                 "y_top": 280
@@ -28,6 +29,7 @@
             "type": "text",
             "filler_mode": "regex",
             "filler_regex": "(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\\d\\d",
+            "entity": "date_of_issue",
             "location": {
                 "x_left": 625,
                 "y_top": 550
@@ -37,6 +39,7 @@
             "type": "text",
             "filler_mode": "regex",
             "filler_regex": "(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\\d\\d",
+            "entity": "date_of_birth",
             "location": {
                 "x_left": 625,
                 "y_top": 780
@@ -46,6 +49,7 @@
             "type": "text",
             "filler_mode": "regex",
             "filler_regex": "(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\\d\\d",
+            "entity": "date_of_expiry",
             "location": {
                 "x_left": 1135,
                 "y_top": 495
@@ -55,6 +59,7 @@
             "type": "text",
             "filler_mode": "regex",
             "filler_regex": "([ABO]|AB)[+-]",
+            "entity": "blood_group",
             "location": {
                 "x_left": 1135,
                 "y_top": 735
@@ -65,6 +70,7 @@
             "filler_mode": "random",
             "filler_type": "full_name",
             "font_file": "fonts/Verdana_Bold.ttf",
+            "entity": "name",
             "font_size": 70,
             "location": {
                 "x_left": 180,
@@ -76,6 +82,7 @@
             "filler_mode": "random",
             "filler_type": "full_name",
             "font_file": "fonts/Verdana_Bold.ttf",
+            "entity": "parent_name",
             "font_size": 67,
             "location": {
                 "x_left": 180,

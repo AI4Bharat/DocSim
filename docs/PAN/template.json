@@ -17,6 +17,7 @@
             "type": "text",
             "filler_mode": "random",
             "filler_type": "full_name",
+            "entity": "name",
             "location": {
                 "x_left": 50,
                 "y_top": 200
@@ -26,6 +27,7 @@
             "type": "text",
             "filler_mode": "random",
             "filler_type": "full_name",
+            "entity": "parent_name",
             "location": {
                 "x_left": 50,
                 "y_top": 276
@@ -35,6 +37,7 @@
             "type": "text",
             "filler_mode": "regex",
             "filler_regex": "(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\\d\\d",
+            "entity": "date_of_birth",
             "location": {
                 "x_left": 50,
                 "y_top": 352
@@ -44,6 +47,7 @@
             "type": "text",
             "filler_mode": "regex",
             "filler_regex": "[A-Z][A-Z][A-Z][ABCEFGHLJPT][A-Z][0-9][0-9][0-9][0-9][A-Z]",
+            "entity": "id",
             "location": {
                 "x_left": 50,
                 "y_top": 444

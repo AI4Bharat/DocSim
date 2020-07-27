@@ -47,6 +47,7 @@
             ],
             "font_size": 35,
             "lang": "hi",
+            "entity": "gender",
             "location": {
                 "x_left": 256,
                 "y_top": 73
@@ -60,6 +61,7 @@
                 "/ Female "
             ],
             "font_size": 35,
+            "entity": "gender",
             "location": {
                 "x_left": 351,
                 "y_top": 73
@@ -95,6 +97,7 @@
             "filler_mode": "regex",
             "filler_regex": "(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\\d\\d, \\d\\d Yrs\\.",
             "font_size": 28,
+            "entity": "date_of_birth",
             "location": {
                 "x_left": 503,
                 "y_top": 128
@@ -119,6 +122,7 @@
             "filler_type": "address",
             "address_type": "full",
             "lang": "hi",
+            "entity": "address",
             "font_size": 35,
             "location": {
                 "x_left": 164,
@@ -142,8 +146,8 @@
             "filler_mode": "random",
             "filler_type": "address",
             "address_type": "full",
-            "lang": "en",
             "font_size": 35,
+            "entity": "address",
             "location": {
                 "x_left": 250,
                 "y_top": 335
@@ -203,6 +207,7 @@
             "filler_mode": "regex",
             "filler_regex": "(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\\d\\d",
             "font_size": 27,
+            "entity": "date_of_issue",
             "location": {
                 "x_left": 155,
                 "y_top": 580

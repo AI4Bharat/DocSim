@@ -18,7 +18,7 @@
             "filler_mode": "random",
             "filler_type": "full_name",
             "font_size": 30,
-            "lang": "en",
+            "entity": "name",
             "location": {
                 "x_left": 305,
                 "y_top": 1115
@@ -30,6 +30,7 @@
             "filler_source": "name_en",
             "font_size": 38,
             "lang": "ta",
+            "entity": "name",
             "location": {
                 "x_left": 303,
                 "y_top": 990
@@ -40,7 +41,7 @@
             "filler_mode": "random",
             "filler_type": "full_name",
             "font_size": 30,
-            "lang": "en",
+            "entity": "parent_name",
             "location": {
                 "x_left": 305,
                 "y_top": 1328
@@ -52,6 +53,7 @@
             "filler_source": "father_name_en",
             "font_size": 38,
             "lang": "ta",
+            "entity": "parent_name",
             "location": {
                 "x_left": 305,
                 "y_top": 1208
@@ -62,6 +64,7 @@
             "filler_mode": "regex",
             "filler_regex": "[A-Z][A-Z][A-Z]\\d\\d\\d\\d\\d\\d\\d",
             "font_size": 38,
+            "entity": "id",
             "location": {
                 "x_left": 557,
                 "y_top": 296

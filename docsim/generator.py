@@ -2,7 +2,7 @@ import os, sys
 import json
 from PIL import Image, ImageDraw, ImageFont
 from tqdm import tqdm
-from docsim.utils.random import random_id, random_string
+from docsim.utils.random import random_id
 from docsim.text_generators import *
 from docsim.image_generators import *
 
@@ -66,6 +66,8 @@ class Generator:
                 
                 if 'split_words' not in component:
                     component['split_words'] = self.default_config['split_words']
+                if 'entity' not in component:
+                    component['entity'] = None
                 
                 # Setup the filling method                
                 if component['filler_mode'] == 'random':
@@ -122,6 +124,9 @@ class Generator:
                         component['lang'] = self.default_config['lang']
                     if 'split_words' not in component:
                         component['split_words'] = False #self.default_config['split_words']
+                    if 'entity' not in component:
+                        component['entity'] = None
+                
                 self.components[component_name] = component
         return
     
@@ -170,6 +175,7 @@ class Generator:
         return {
             'type': component['type'],
             'label': component['id'],
+            'entity': component['entity'],
             'points': [ # Clock-wise
                 [x+1, y+1], # Left Top
                 [x+width+1, y+1], # Right Top
@@ -206,6 +212,7 @@ class Generator:
                     bboxes.append({
                         'type': component['type'],
                         'label': '%s--%d_%d' % (component['id'], row_num, col_num),
+                        'entity': component['entity'],
                         'points': [ # Clock-wise
                             [x+1, y+1], # Left Top
                             [x+w+1, y+1], # Right Top
@@ -244,6 +251,7 @@ class Generator:
                     bboxes.append({
                         'type': component['type'],
                         'label': '%s--%d_%d' % (component['id'], row_num, col_num),
+                        'entity': component['entity'],
                         'points': [ # Clock-wise
                             [x+1, y+1], # Left Top
                             [x+w+1, y+1], # Right Top

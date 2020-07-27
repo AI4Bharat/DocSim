@@ -19,7 +19,7 @@
             "type": "text",
             "filler_mode": "random",
             "filler_type": "full_name",
-            "lang": "en",
+            "entity": "name",
             "location": {
                 "x_left": 352,
                 "y_top": 270
@@ -30,6 +30,7 @@
             "filler_mode": "transliteration",
             "filler_source": "name_en",
             "lang": "ta",
+            "entity": "name",
             "location": {
                 "x_left": 352,
                 "y_top": 215
@@ -58,6 +59,7 @@
             "type": "text",
             "filler_mode": "regex",
             "filler_regex": "(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\\d\\d",
+            "entity": "date_of_birth",
             "location": {
                 "x_left": 655,
                 "y_top": 325
@@ -71,6 +73,7 @@
                 "பெண்"
             ],
             "lang": "ta",
+            "entity": "gender",
             "location": {
                 "x_left": 352,
                 "y_top": 377
@@ -83,6 +86,7 @@
                 "MALE",
                 "FEMALE"
             ],
+            "entity": "gender",
             "location": {
                 "x_left": 482,
                 "y_top": 375
@@ -92,6 +96,7 @@
             "type": "text",
             "filler_mode": "regex",
             "filler_regex": "\\d\\d\\d\\d  \\d\\d\\d\\d  \\d\\d\\d\\d",
+            "entity": "id",
             "font_file": "fonts/Arial_Bold.ttf",
             "font_size": 45,
             "location": {
