@@ -15,8 +15,24 @@ class Transliterator:
         self.reverse_transliterate = self.transliterator.reverse_transliterate
 
 
+from abc import ABC, abstractmethod
+class TransliteratorBase(ABC):
+    @abstractmethod
+    def __init__(self, src_lang, dest_lang):
+        pass
+    
+    @abstractmethod
+    def transliterate(self, phrase):
+        pass
+    
+    @abstractmethod
+    def reverse_transliterate(self, phrase):
+        pass
+
+## ---------- TRANSLITERATOR PACKAGES ---------- ##
+
 import transliterate as euro_transliterate
-class EuropeanTransliterator:
+class EuropeanTransliterator(TransliteratorBase):
     LANGS = set(euro_transliterate.get_available_language_codes() + ['en'])
     def __init__(self, src_lang, dest_lang):
         self.src_lang = src_lang
@@ -33,7 +49,7 @@ class EuropeanTransliterator:
 
 from indic_transliteration import sanscript
 from indic_transliteration.sanscript import transliterate as indic_transliterate
-class IndicTransliterator:
+class IndicTransliterator(TransliteratorBase):
     LANG2SCHEME = {
         'en': sanscript.HK, # sanscript.ITRANS
         'ta': sanscript.TAMIL,
@@ -72,9 +88,11 @@ class IndicTransliterator:
         return indic_transliterate(phrase, self.dest_script, self.src_script)
 
 from aksharamukha.transliterate import process as aksharamukha_xlit
-class AksharaMukhaTransliterator:
+class AksharaMukhaTransliterator(TransliteratorBase):
     LANG2SCRIPT = {lang: script.title() for lang, script in ISO639_TO_SCRIPT.items()}
     LANG2SCRIPT['en'] = 'ISO'
+    
+    # TODO: Add all supported languages supported: aksharamukha.appspot.com/documentation
     
     def __init__(self, src_lang, dest_lang):
         self.src_lang = src_lang
@@ -82,19 +100,16 @@ class AksharaMukhaTransliterator:
         
         self.src_script = AksharaMukhaTransliterator.LANG2SCRIPT[src_lang]
         self.dest_script = AksharaMukhaTransliterator.LANG2SCRIPT[dest_lang]
+        self.postprocess_options = ['TamilRemoveApostrophe', 'TamilRemoveNumbers']
     
-    def post_process(self, txt):
-        # Patch for bug: github.com/virtualvinodh/aksharamukha/issues/72
-        for numeral in ['²', '³', '⁴', '₂', '₃', '₄']:
-            txt = txt.replace(numeral, '')
+    def pre_process(self, txt):
+        if self.src_script == 'ISO':
+            txt = txt.upper().replace('X', 'KS').replace('W', 'V')
         return txt
     
     def transliterate(self, phrase):
-        phrase = phrase.upper().replace('X', 'S').replace('W', 'V') # Temporary hacks
-        
-        xlit = aksharamukha_xlit(self.src_script, self.dest_script, phrase, post_options=['TamilRemoveApostrophe'])#, post_options=['TamilRemoveNumbers'])
-        
-        return self.post_process(xlit)
+        phrase = self.pre_process(phrase)
+        return aksharamukha_xlit(self.src_script, self.dest_script, phrase, post_options=self.postprocess_options)
     
     def reverse_transliterate(self, phrase):
-        return aksharamukha_xlit(self.dest_script, self.src_script, phrase)
+        return aksharamukha_xlit(self.dest_script, self.src_script, phrase, post_options=self.postprocess_options)
