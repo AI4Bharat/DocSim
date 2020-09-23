@@ -17,7 +17,7 @@ Synthetically generate documents!
 python docsim\generator.py <template.json> <num_samples> <output_folder>
 ```
 
-Check the [`docs/`](docs/) folder for sample documents.
+Check the [`templates/`](templates/) folder for sample document templates.
 
 ### Augment generated images
 
@@ -25,4 +25,4 @@ Check the [`docs/`](docs/) folder for sample documents.
 python docsim\augmentor.py <config.json> <input_folder> <num_epochs> <output_folder> <num_workers>
 ```
 
-Check [`documentation/Augmentation.md`](documentation/Augmentation.md) for more details.
+Check [`documentation/Augmentation`](documentation/Augmentation.md) for more details.
