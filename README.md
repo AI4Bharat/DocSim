@@ -9,12 +9,12 @@ Synthetically generate documents!
 - `pip install -r dependencies.txt`
 - Check [`documentation/Installation`](/documentation/Installation.md) for other libraries
 
-## Instructions
+## Example Usage
 
 ### Generate synthetic images
 
 ```
-python docsim\generator.py <template.json> <num_samples> <output_folder>
+python generate.py <template.json> <num_samples> <output_folder>
 ```
 
 Check the [`templates/`](templates/) folder for sample document templates.
@@ -22,7 +22,7 @@ Check the [`templates/`](templates/) folder for sample document templates.
 ### Augment generated images
 
 ```
-python docsim\augmentor.py <config.json> <input_folder> <num_epochs> <output_folder> <num_workers>
+python augment.py <config.json> <input_folder> <num_epochs> <output_folder> <num_workers>
 ```
 
 Check [`documentation/Augmentation`](documentation/Augmentation.md) for more details.
