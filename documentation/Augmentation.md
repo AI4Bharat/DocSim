@@ -1,6 +1,6 @@
 # Augmentations relevant to textual images
 
-Check [`/docs/sample_augmentation/config.json`](/docs/sample_augmentation/config.json) for a sample configuration file for augmentation.
+Check [`/templates/sample_augmentation/config.json`](/templates/sample_augmentation/config.json) for a sample configuration file for augmentation.
 
 ## Supported Augmentations
 

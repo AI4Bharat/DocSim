@@ -1,6 +1,6 @@
 {
-    "doc_name": "pan_card",
-    "background_img": "docs/PAN/background.jpg",
+    "doc_name": "pan_card_old",
+    "background_img": "templates/PAN/Old/background.jpg",
     "defaults": {
         "split_words": true,
         "lang": "en",

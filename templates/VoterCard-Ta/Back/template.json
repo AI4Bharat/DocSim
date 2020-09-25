@@ -1,6 +1,6 @@
 {
     "doc_name": "voter_back_ta",
-    "background_img": "docs/VoterCard-Ta/Back/voter-card-back.png",
+    "background_img": "templates/VoterCard-Ta/Back/voter-card-back.png",
     "defaults": {
         "split_words": true,
         "lang": "en",

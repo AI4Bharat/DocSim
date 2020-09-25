@@ -1,6 +1,6 @@
 {
     "doc_name": "aadhaar_front_ta",
-    "background_img": "docs/Aadhaar/Front/background.jpg",
+    "background_img": "templates/Aadhaar/Front/background.jpg",
     "defaults": {
         "split_words": true,
         "lang": "en",

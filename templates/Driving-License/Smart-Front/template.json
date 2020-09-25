@@ -1,6 +1,6 @@
 {
     "doc_name": "driving_license_front_hi",
-    "background_img": "docs/Driving-License/Smart-Front/background-hi.jpg",
+    "background_img": "templates/Driving-License/Smart-Front/background-hi.jpg",
     "defaults": {
         "split_words": true,
         "lang": "en",

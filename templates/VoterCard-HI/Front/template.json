@@ -1,6 +1,6 @@
 {
     "doc_name": "voter_front_hi",
-    "background_img": "docs/VoterCard-HI/Front/voter-card-front.jpg",
+    "background_img": "templates/VoterCard-HI/Front/voter-card-front.jpg",
     "defaults": {
         "split_words": true,
         "lang": "en",
