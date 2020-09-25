@@ -1,0 +1,526 @@
+{
+    "doc_name": "pan_card_new",
+    "background_img": "templates/PAN/New/background.jpg",
+    "defaults": {
+        "split_words": true,
+        "lang": "en",
+        "font_files": {
+            "en": "fonts/Arial_Bold.ttf"
+        },
+        "font_size": 60,
+        "font_color": "rgb(0,0,0)",
+        "upper_case": true
+    },
+    "debug_mode": false,
+
+    "components": {
+        "pan_id": {
+            "type": "text",
+            "filler_mode": "regex",
+            "filler_regex": "[A-Z][A-Z][A-Z][ABCEFGHLJPT][A-Z][0-9][0-9][0-9][0-9][A-Z]",
+            "entity": "id",
+            "font_size": 75,
+            "location": {
+                "x_left": 670,
+                "y_top": 490
+            }
+        },
+        "name_en": {
+            "type": "text",
+            "filler_mode": "random",
+            "filler_type": "full_name",
+            "entity": "name",
+            "location": {
+                "x_left": 105,
+                "y_top": 755
+            }
+        },
+        "parent_en": {
+            "type": "text",
+            "filler_mode": "random",
+            "filler_type": "full_name",
+            "entity": "parent_name",
+            "location": {
+                "x_left": 110,
+                "y_top": 945
+            }
+        },
+        "dob": {
+            "type": "text",
+            "filler_mode": "regex",
+            "filler_regex": "(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\\d\\d",
+            "entity": "date_of_birth",
+            "location": {
+                "x_left": 105,
+                "y_top": 1135
+            }
+        },
+        "signature": {
+            "type": "text",
+            "filler_mode": "reference",
+            "filler_source": "name_en",
+            "font_file": "fonts/Lemon_Tuesday.otf",
+            "font_size": 75,
+            "upper_case": false,
+            "location": {
+                "x_left": 950,
+                "y_top": 1050
+            }
+        },
+        "qr": {
+            "type" : "image",
+            "filler_mode": "qr",
+            "string_len_min": 50,
+            "string_len_max": 100,
+            "version_min": 8,
+            "version_max": 9, 
+            "location": {
+                "x_left": 1410,
+                "y_top": 368
+            },
+            "dims": {
+                "width": 505,
+                "height": 505
+            }
+        }
+    },
+
+    "printed_fields": {
+        "aayakar_hi": {
+            "type": "text",
+            "lang": "hi",
+            "text": "आयकर",
+            "location": {
+                "x_left": 97,
+                "y_top": 66
+            },
+            "dims": {
+                "width": 386,
+                "height": 85
+            }
+        },
+        "vibhag_hi": {
+            "type": "text",
+            "lang": "hi",
+            "text": "विभाग",
+            "location": {
+                "x_left": 541,
+                "y_top": 37
+            },
+            "dims": {
+                "width": 313,
+                "height": 113
+            }
+        },
+        "bharat_hi": {
+            "type": "text",
+            "lang": "hi",
+            "text": "भारत",
+            "location": {
+                "x_left": 1262,
+                "y_top": 64
+            },
+            "dims": {
+                "width": 260,
+                "height": 89
+            }
+        },
+        "sarkar_hi": {
+            "type": "text",
+            "lang": "hi",
+            "text": "सरकार",
+            "location": {
+                "x_left": 1580,
+                "y_top": 64
+            },
+            "dims": {
+                "width": 348,
+                "height": 92
+            }
+        },
+        "it_dept__income": {
+            "type": "text",
+            "text": "INCOME",
+            "location": {
+                "x_left": 81,
+                "y_top": 178
+            },
+            "dims": {
+                "width": 248,
+                "height": 86
+            }
+        },
+        "it_dept__tax": {
+            "type": "text",
+            "text": "TAX",
+            "location": {
+                "x_left": 335,
+                "y_top": 180
+            },
+            "dims": {
+                "width": 120,
+                "height": 80
+            }
+        },
+        "it_dept__department": {
+            "type": "text",
+            "text": "DEPARTMENT",
+            "location": {
+                "x_left": 462,
+                "y_top": 180
+            },
+            "dims": {
+                "width": 390,
+                "height": 82
+            }
+        },
+        "GoI__govt": {
+            "type": "text",
+            "text": "GOVT.",
+            "location": {
+                "x_left": 1272,
+                "y_top": 175
+            },
+            "dims": {
+                "width": 251,
+                "height": 87
+            }
+        },
+        "GoI__of": {
+            "type": "text",
+            "text": "OF",
+            "location": {
+                "x_left": 1537,
+                "y_top": 182
+            },
+            "dims": {
+                "width": 116,
+                "height": 82
+            }
+        },
+        "GoI__india": {
+            "type": "text",
+            "text": "INDIA",
+            "location": {
+                "x_left": 1662,
+                "y_top": 183
+            },
+            "dims": {
+                "width": 250,
+                "height": 80
+            }
+        },
+        "sathyameva": {
+            "type": "text",
+            "lang": "hi",
+            "text": "सत्यमेव",
+            "location": {
+                "x_left": 1000,
+                "y_top": 255
+            },
+            "dims": {
+                "width": 73,
+                "height": 33
+            }
+        },
+        "jayathe": {
+            "type": "text",
+            "lang": "hi",
+            "text": "जयते",
+            "location": {
+                "x_left": 1079,
+                "y_top": 255
+            },
+            "dims": {
+                "width": 52,
+                "height": 31
+            }
+        },
+        "sthaayi_hi": {
+            "type": "text",
+            "lang": "hi",
+            "text": "स्थायी",
+            "location": {
+                "x_left": 591,
+                "y_top": 320
+            },
+            "dims": {
+                "width": 157,
+                "height": 73
+            }
+        },
+        "lekha_hi": {
+            "type": "text",
+            "lang": "hi",
+            "text": "लेखा",
+            "location": {
+                "x_left": 764,
+                "y_top": 315
+            },
+            "dims": {
+                "width": 133,
+                "height": 72
+            }
+        },
+        "sankhya_hi": {
+            "type": "text",
+            "lang": "hi",
+            "text": "संख्या",
+            "location": {
+                "x_left": 913,
+                "y_top": 319
+            },
+            "dims": {
+                "width": 158,
+                "height": 70
+            }
+        },
+        "card_hi": {
+            "type": "text",
+            "lang": "hi",
+            "text": "कार्ड",
+            "location": {
+                "x_left": 1087,
+                "y_top": 315
+            },
+            "dims": {
+                "width": 118,
+                "height": 72
+            }
+        },
+        "permanent_en": {
+            "type": "text",
+            "text": "Permanent",
+            "location": {
+                "x_left": 488,
+                "y_top": 401
+            },
+            "dims": {
+                "width": 271,
+                "height": 61
+            }
+        },
+        "account_en": {
+            "type": "text",
+            "text": "Account",
+            "location": {
+                "x_left": 765,
+                "y_top": 404
+            },
+            "dims": {
+                "width": 203,
+                "height": 57
+            }
+        },
+        "number_en": {
+            "type": "text",
+            "text": "Number",
+            "location": {
+                "x_left": 979,
+                "y_top": 403
+            },
+            "dims": {
+                "width": 197,
+                "height": 56
+            }
+        },
+        "card_en": {
+            "type": "text",
+            "text": "Card",
+            "location": {
+                "x_left": 1181,
+                "y_top": 402
+            },
+            "dims": {
+                "width": 127,
+                "height": 59
+            }
+        },
+        "name_key_hi": {
+            "type": "text",
+            "lang": "hi",
+            "text": "नाम",
+            "location": {
+                "x_left": 94,
+                "y_top": 694
+            },
+            "dims": {
+                "width": 108,
+                "height": 44
+            }
+        },
+        "name_key_en": {
+            "type": "text",
+            "text": "/ Name",
+            "location": {
+                "x_left": 203,
+                "y_top": 693
+            },
+            "dims": {
+                "width": 148,
+                "height": 43
+            }
+        },
+        "parent_name_key_hi": {
+            "type": "text",
+            "lang": "hi",
+            "text": "पिता का नाम",
+            "location": {
+                "x_left": 110,
+                "y_top": 873
+            },
+            "dims": {
+                "width": 277,
+                "height": 52
+            }
+        },
+        "parent_name_key_hi_en_separator": {
+            "type": "text",
+            "text": "/",
+            "location": {
+                "x_left": 390,
+                "y_top": 875
+            },
+            "dims": {
+                "width": 33,
+                "height": 52
+            }
+        },
+        "parent_name_key_en": {
+            "type": "text",
+            "text": "Father's Name",
+            "location": {
+                "x_left": 425,
+                "y_top": 879
+            },
+            "dims": {
+                "width": 323,
+                "height": 45
+            }
+        },
+        "dob_key_hi_1": {
+            "type": "text",
+            "lang": "hi",
+            "text": "जन्म",
+            "location": {
+                "x_left": 90,
+                "y_top": 1071
+            },
+            "dims": {
+                "width": 91,
+                "height": 45
+            }
+        },
+        "dob_key_hi_2": {
+            "type": "text",
+            "lang": "hi",
+            "text": "की",
+            "location": {
+                "x_left": 192,
+                "y_top": 1060
+            },
+            "dims": {
+                "width": 62,
+                "height": 58
+            }
+        },
+        "dob_key_hi_3": {
+            "type": "text",
+            "lang": "hi",
+            "text": "तारीख",
+            "location": {
+                "x_left": 261,
+                "y_top": 1059
+            },
+            "dims": {
+                "width": 128,
+                "height": 60
+            }
+        },
+        "dob_key_hi_en_separator": {
+            "type": "text",
+            "text": "/",
+            "location": {
+                "x_left": 391,
+                "y_top": 1065
+            },
+            "dims": {
+                "width": 30,
+                "height": 60
+            }
+        },
+        "dob_key_en_1": {
+            "type": "text",
+            "text": "Date",
+            "location": {
+                "x_left": 422,
+                "y_top": 1071
+            },
+            "dims": {
+                "width": 92,
+                "height": 47
+            }
+        },
+        "dob_key_en_2": {
+            "type": "text",
+            "text": "of",
+            "location": {
+                "x_left": 520,
+                "y_top": 1071
+            },
+            "dims": {
+                "width": 46,
+                "height": 46
+            }
+        },
+        "dob_key_en_3": {
+            "type": "text",
+            "text": "Birth",
+            "location": {
+                "x_left": 572,
+                "y_top": 1071
+            },
+            "dims": {
+                "width": 96,
+                "height": 45
+            }
+        },
+        "sign_key_hi": {
+            "type": "text",
+            "lang": "hi",
+            "text": "हस्ताक्षर",
+            "location": {
+                "x_left": 986,
+                "y_top": 1182
+            },
+            "dims": {
+                "width": 170,
+                "height": 52
+            }
+        },
+        "sign_key_hi_en_separator": {
+            "type": "text",
+            "text": "/",
+            "location": {
+                "x_left": 1158,
+                "y_top": 1172
+            },
+            "dims": {
+                "width": 37,
+                "height": 60
+            }
+        },
+        "sign_key_en": {
+            "type": "text",
+            "text": "Signature",
+            "location": {
+                "x_left": 1195,
+                "y_top": 1173
+            },
+            "dims": {
+                "width": 245,
+                "height": 65
+            }
+        }
+    }
+}
