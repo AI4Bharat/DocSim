@@ -1,7 +1,10 @@
 # DocSim -- Documents Simulator
 
-Synthetically generate random text documents!  
-[Check here](/documentation/Features.md) for list of all features
+Synthetically generate random text documents with ground truth!  
+[Check here](/documentation/Features.md) for list of all features.
+
+Note:  
+This project is only for research purposes [like this](https://github.com/beacandler/EATEN).
 
 ## Demo
 
@@ -32,6 +35,25 @@ python augment.py <config.json> <input_folder> <num_epochs> <output_folder> <num
 ```
 
 Check [`documentation/Augmentation`](documentation/Augmentation.md) for more details.
+
+<hr/>
+
+## Demo Web UI
+
+Ensure you have installed StreamLit by `pip install streamlit`.
+
+### Generator UI
+
+UI to generate document using desired template by filling data manually (for demo purpose)
+
+```
+streamlit run generator_ui.py
+```
+
+ToDo: (Contributions welcome)
+
+- Add augmentation support in UI
+- Create another UI for creating templates.
 
 <hr/>
 

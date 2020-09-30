@@ -9,8 +9,11 @@ from docsim.image_generators import *
 class Generator:
     def __init__(self, template_json):
         
-        with open(template_json, encoding='utf-8') as f:
-            template = json.load(f)
+        if type(template_json) == dict:
+            template = template_json
+        else:
+            with open(template_json, encoding='utf-8') as f:
+                template = json.load(f)
         
         self.doc_name = template['doc_name']
         self.bg_img = template['background_img']
@@ -134,6 +137,7 @@ class Generator:
         if not output_folder:
             output_folder = os.path.join('output', self.doc_name)
         os.makedirs(output_folder, exist_ok=True)
+        output_files = []
         
         for i in tqdm(range(num_samples)):
             image = Image.open(self.bg_img)
@@ -157,6 +161,10 @@ class Generator:
             gt = {'doc_name': self.doc_name, 'data': ground_truth}
             with open(output_file+'.json', 'w', encoding='utf-8') as f:
                 json.dump(gt, f, ensure_ascii=False, indent=4)
+            
+            output_files.append(output_file)
+        
+        return output_files
     
     def draw_text(self, img_draw, component):
         x, y = component['location']['x_left'], component['location']['y_top']
