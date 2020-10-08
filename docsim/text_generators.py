@@ -54,11 +54,21 @@ class FullNameGenerator(NameGenerator):
     def random_fullname(self):
         first_name = self.random_name(5, 7)
         initial = random.choice(self.charset.consonants) + '.'
+        middle_name = self.random_name(4, 7)
         last_name = self.random_name(6, 8)
+        
         name = first_name
+        
+        # Either add middle name or initial
         if random.random() > 0.5:
             name += ' ' + initial
-        name += ' ' + last_name
+        else:
+            name += ' ' + middle_name
+        
+        # Add last name for majority
+        if random.random() > 0.15:
+            name += ' ' + last_name
+        
         return name.title() if self.title_case else name
 
 class ReferentialTextGenerator(TextGeneratorBase):
