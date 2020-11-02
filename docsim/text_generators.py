@@ -45,8 +45,6 @@ class NameGenerator(TextGeneratorBase):
         return self.random_length_name(length)
             
 class FullNameGenerator(NameGenerator):
-    def __init__(self, lang='en'):
-        super().__init__(lang)
     
     def generate(self):
         return self.random_fullname()
@@ -91,6 +89,37 @@ class MultilineFullNameGenerator(FullNameGenerator):
             return full_name
         else:
             return full_name + '\n' + self.random_name(6, 8)
+
+class ChildNameFromParentGenerator(MultilineFullNameGenerator):
+    def __init__(self, lang, src_component):
+        super().__init__(lang)
+        self.src_component = src_component
+    
+    def generate(self):
+        child_name = self.src_component['generator'].generate()
+        if random.random() > 0.2:
+            return child_name
+        
+        parent = self.src_component['last_generated'].replace('\n', ' ')
+        first_name = child_name.split()[0]
+        if len(first_name) < 3:
+            first_name = ' '.join(child_name.split()[:2])
+            if len(first_name) < 5:
+                first_name = ' '.join(child_name.split()[:3])
+        
+        if random.random() > 0.3:
+            name = first_name + ' ' + parent
+        else:
+            # Remove parent's first name
+            family_name = parent.replace(parent.split()[0], '')
+            name = first_name + family_name
+        
+        parts = name.split()
+        if len(parts) > 3:
+            # Break into 2 lines if long
+            name = ' '.join(parts[:3]) + '\n' + ' '.join(parts[3:])
+        
+        return name
 
 class ReferentialTextGenerator(TextGeneratorBase):
     def __init__(self, src_component):

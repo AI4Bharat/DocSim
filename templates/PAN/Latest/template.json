@@ -25,16 +25,6 @@
                 "y_top": 730
             }
         },
-        "name_en": {
-            "type": "text",
-            "filler_mode": "random",
-            "filler_type": "multiline_full_name",
-            "entity": "name",
-            "location": {
-                "x_left": 125,
-                "y_top": 970
-            }
-        },
         "parent_en": {
             "type": "text",
             "filler_mode": "random",
@@ -43,6 +33,17 @@
             "location": {
                 "x_left": 130,
                 "y_top": 1235
+            }
+        },
+        "name_en": {
+            "type": "text",
+            "filler_mode": "random",
+            "filler_type": "child_name",
+            "filler_source": "parent_en",
+            "entity": "name",
+            "location": {
+                "x_left": 125,
+                "y_top": 970
             }
         },
         "dob": {

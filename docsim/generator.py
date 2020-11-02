@@ -90,6 +90,8 @@ class Generator:
                         component['generator'] = FullNameGenerator(component['lang'])
                     elif component['filler_type'] == 'multiline_full_name':
                         component['generator'] = MultilineFullNameGenerator(component['lang'])
+                    elif component['filler_type'] == 'child_name':
+                        component['generator'] = ChildNameFromParentGenerator(component['lang'], component['data_source'])
                     elif component['filler_type'] == 'address':
                         component['generator'] = AddressGenerator(
                             language = component['lang'], type = component['address_type'])

@@ -13,16 +13,6 @@
     },
 
     "components": {
-        "name_en": {
-            "type": "text",
-            "filler_mode": "random",
-            "filler_type": "multiline_full_name",
-            "entity": "name",
-            "location": {
-                "x_left": 50,
-                "y_top": 185
-            }
-        },
         "parent_en": {
             "type": "text",
             "filler_mode": "random",
@@ -31,6 +21,17 @@
             "location": {
                 "x_left": 50,
                 "y_top": 270
+            }
+        },
+        "name_en": {
+            "type": "text",
+            "filler_mode": "random",
+            "filler_type": "child_name",
+            "filler_source": "parent_en",
+            "entity": "name",
+            "location": {
+                "x_left": 50,
+                "y_top": 185
             }
         },
         "dob": {
