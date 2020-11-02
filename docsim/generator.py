@@ -35,18 +35,26 @@ class Generator:
         if 'lang' not in self.default_config:
             self.default_config['lang'] = 'en'
         
+        if 'multiline' not in self.default_config:
+            self.default_config['multiline'] = True
+        
         if 'split_words' not in self.default_config:
             self.default_config['split_words'] = False
         
         self.default_fonts = {lang: ImageFont.truetype(self.default_config['font_files'][lang], size=self.default_config['font_size']) for lang in self.default_config['font_files']}
         
-        self.default_config['post_processor'] = TextPostProcessor()
-        if 'upper_case' in self.default_config:
-            self.default_config['post_processor'].upper_case = self.default_config['upper_case']
+        if 'upper_case' not in self.default_config:
+            # Do Not Force Upper-casing
+            self.default_config['upper_case'] = False
+        
+        self.default_config['post_processor'] = TextPostProcessor(upper_case=self.default_config['upper_case'], multiline=self.default_config['multiline'])
         
         return
          
     def process_components(self, template):
+        '''
+        Assign generators to each component in the template
+        '''
         self.components = template['components']
         for component_name, component in self.components.items():
             
@@ -59,6 +67,10 @@ class Generator:
                 # Setup fonts
                 if 'lang' not in component:
                     component['lang'] = self.default_config['lang']
+                if 'multiline' not in component:
+                    component['multiline'] = self.default_config['multiline']
+                if 'upper_case' not in component:
+                    component['upper_case'] = self.default_config['upper_case']
                 if 'font_color' not in component:
                     component['font_color'] = self.default_config['font_color']
                 if 'font_file' not in component:
@@ -76,6 +88,8 @@ class Generator:
                 if component['filler_mode'] == 'random':
                     if component['filler_type'] == 'full_name':
                         component['generator'] = FullNameGenerator(component['lang'])
+                    elif component['filler_type'] == 'multiline_full_name':
+                        component['generator'] = MultilineFullNameGenerator(component['lang'])
                     elif component['filler_type'] == 'address':
                         component['generator'] = AddressGenerator(
                             language = component['lang'], type = component['address_type'])
@@ -94,11 +108,8 @@ class Generator:
                 else:
                     raise NotImplementedError
                 
-                # Setup post-processing. TODO: Buggy?
-                if 'upper_case' in component:
-                    component['post_processor'] = TextPostProcessor(upper_case=component['upper_case'])
-                else:
-                    component['post_processor'] = self.default_config['post_processor']
+                # Setup post-processing. TODO: Optimize? (Too many same objects)
+                component['post_processor'] = TextPostProcessor(upper_case=component['upper_case'], multiline=component['multiline'])
             
             elif component['type'] == 'image':
                 if component['filler_mode'] == 'random':

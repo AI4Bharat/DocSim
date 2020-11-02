@@ -53,7 +53,15 @@ class FullNameGenerator(NameGenerator):
     
     def random_fullname(self):
         first_name = self.random_name(5, 7)
+        
         initial = random.choice(self.charset.consonants) + '.'
+        if random.random() < 0.25:
+            # Two initials
+            initial += ' ' + random.choice(self.charset.consonants) + '.'
+            if random.random() < 0.4:
+                # Three initials
+                initial += ' ' + random.choice(self.charset.consonants) + '.'
+        
         middle_name = self.random_name(4, 7)
         last_name = self.random_name(6, 8)
         
@@ -70,6 +78,15 @@ class FullNameGenerator(NameGenerator):
             name += ' ' + last_name
         
         return name.title() if self.title_case else name
+
+class MultilineFullNameGenerator(FullNameGenerator):
+    
+    def generate(self):
+        full_name = self.random_fullname()
+        if random.random() > 0.3:
+            return full_name
+        else:
+            return full_name + '\n' + self.random_name(6, 8)
 
 class ReferentialTextGenerator(TextGeneratorBase):
     def __init__(self, src_component):
@@ -88,15 +105,20 @@ class ReferentialTextTransliterator(ReferentialTextGenerator):
         return self.transliterator.transliterate(super().generate())
 
 class TextPostProcessor():
-    def __init__(self, upper_case=False, lower_case=False):
+    def __init__(self, upper_case=False, lower_case=False,
+                 multiline=True):
         self.upper_case = upper_case
         self.lower_case = lower_case
+        self.multiline = multiline
         
     def process(self, text):
         if self.upper_case:
             text = text.upper()
         elif self.lower_case:
             text = text.lower()
+        
+        if not self.multiline:
+            text = text.split('\n')[0]
         return text
 
 from faker import Faker

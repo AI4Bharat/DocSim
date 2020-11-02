@@ -16,21 +16,21 @@
         "name_en": {
             "type": "text",
             "filler_mode": "random",
-            "filler_type": "full_name",
+            "filler_type": "multiline_full_name",
             "entity": "name",
             "location": {
                 "x_left": 50,
-                "y_top": 200
+                "y_top": 185
             }
         },
         "parent_en": {
             "type": "text",
             "filler_mode": "random",
-            "filler_type": "full_name",
+            "filler_type": "multiline_full_name",
             "entity": "parent_name",
             "location": {
                 "x_left": 50,
-                "y_top": 276
+                "y_top": 270
             }
         },
         "dob": {
@@ -57,6 +57,7 @@
             "type": "text",
             "filler_mode": "reference",
             "filler_source": "name_en",
+            "multiline": false,
             "font_file": "fonts/Lemon_Tuesday.otf",
             "font_size": 45,
             "upper_case": false,
