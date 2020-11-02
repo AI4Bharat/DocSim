@@ -65,13 +65,17 @@ class FullNameGenerator(NameGenerator):
         middle_name = self.random_name(4, 7)
         last_name = self.random_name(6, 8)
         
-        name = first_name
-        
         # Either add middle name or initial
         if random.random() > 0.5:
-            name += ' ' + initial
+            if random.random() > 0.5:
+                # Add initial in middle
+                name = first_name + ' ' + initial
+            else:
+                # Add initial at the beginning
+                name = initial + ' ' + first_name
+            
         else:
-            name += ' ' + middle_name
+            name = first_name + ' ' + middle_name
         
         # Add last name for majority
         if random.random() > 0.15:
