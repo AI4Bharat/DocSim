@@ -31,8 +31,7 @@ def generate_doc(template_json, field_values):
         
         template['components'][field]['filler_mode'] = 'fixed'
         template['components'][field]['filler_text'] = value
-    outputs = Generator(template).generate(1, OUTPUT_FOLDER)
-    return outputs[0]
+    return Generator(template).generate_sample(OUTPUT_FOLDER)
 
 import base64
 def get_binary_file_downloader_html(bin_file, file_label='File'):

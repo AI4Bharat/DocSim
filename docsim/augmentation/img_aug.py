@@ -75,7 +75,7 @@ class ImgAugAugmentor:
 
         return
     
-    def augment_image(self, img, gt, completed_groups, aug_counter):
+    def augment_image(self, img, gt, completed_groups):
         # Note: Running as groups directly is cheaper than running individually using run_augment()
         
         if self.shuffle:  # TODO: Move to top-level augmentor?
@@ -84,9 +84,9 @@ class ImgAugAugmentor:
         polygons = [Polygon(element['points'], element['label'])
                     for element in gt["data"]]
         polygons = PolygonsOnImage(polygons, shape=img.shape)
-        augmentations_done = []
+        
         for aug in self.augmentors:
-            if random.random() < aug.p and aug_counter.value < self.max_augmentations_per_image:
+            if random.random() < aug.p and len(gt["augs_done"]) < self.max_augmentations_per_image:
                 if aug.name in self.augname2groups:
                     if self.augname2groups[aug.name].intersection(completed_groups):
                         continue
@@ -94,12 +94,12 @@ class ImgAugAugmentor:
                         completed_groups.update(self.augname2groups[aug.name])
                 
                 img, polygons = aug(image=img, polygons=polygons)
-                augmentations_done.append(aug.name)
-                aug_counter.value += 1
+                gt["augs_done"].append(aug.name)
+        
         # Put back polygons into GT
         for element, pg in zip(gt["data"], polygons):
             element['points'] = [pt.tolist() for pt in pg.exterior]
-        gt["augs_done"].extend(augmentations_done)
+
         return img, gt
     
     @staticmethod

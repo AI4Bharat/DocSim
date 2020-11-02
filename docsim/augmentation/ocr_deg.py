@@ -53,22 +53,20 @@ class OCRoDegAugmentor:
         
         return
     
-    def augment_image(self, img, gt, completed_groups, aug_counter):
+    def augment_image(self, img, gt, completed_groups):
         if self.shuffle: # TODO: Move to top-level augmentor?
             random.shuffle(self.augmentors)
             
-        augmentations_done = []
         for aug in self.augmentors:
-            if random.random() < aug.p and aug_counter.value < self.max_augmentations_per_image:
+            if random.random() < aug.p and len(gt["augs_done"]) < self.max_augmentations_per_image:
                 if aug.name in self.augname2groups:
                     if self.augname2groups[aug.name].intersection(completed_groups):
                         continue
                     else:
                         completed_groups.update(self.augname2groups[aug.name])
                 img = aug(image=img)
-                augmentations_done.append(aug.name)
-                aug_counter.value += 1
-        gt["augs_done"].extend(augmentations_done)
+                gt["augs_done"].append(aug.name)
+        
         return img, gt
     
     @staticmethod

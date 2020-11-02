@@ -41,6 +41,7 @@ class Augmentor:
         self.augmentations = config['augmentations']
         self.shuffle = 'random_sequence' in config and config['random_sequence']
         self.max_augmentations_per_image = config['max_augmentations_per_image']
+        
         for aug_name, aug_config in self.augmentations.items():
             if aug_name not in Augmentor.SUPPORTED_AUGMENTATIONS:
                 print('No augmentor for:', aug_name)
@@ -48,6 +49,7 @@ class Augmentor:
             if 'probability' not in aug_config:
                 aug_config['probability'] = 0.5
 
+        # Record all the augmentation names to the set of group IDs
         self.augname2groups = {}
         if 'mutually_exclusive_augmentations' in config:
             for group_id, one_of_group in enumerate(config['mutually_exclusive_augmentations']):
@@ -59,7 +61,9 @@ class Augmentor:
         return
 
     def get_image_with_bboxes(self, img, gt, BOX_COLOR=(255, 0, 0), thickness=2):
-        img = img.copy()
+        '''
+        Draw polygons on the image
+        '''
         bboxes = [i["points"] for i in gt]
         for bbox in bboxes:
             bbox = np.array(bbox, np.int32).reshape((-1, 1, 2))
@@ -68,7 +72,11 @@ class Augmentor:
             
         return img
         
-    def augment_epoch(self, image, output_path_prefix):
+    def augment(self, image, output_path_prefix):
+        '''
+        Augment (once) the given generated sample (image)
+        and write output image and GT with given prefix name
+        '''
         gt_file = os.path.splitext(image)[0] + '.json'
         if not os.path.isfile(gt_file):
             print('No GT for:', image)
@@ -81,26 +89,31 @@ class Augmentor:
             
         # To keep track of augmentations done
         gt["augs_done"] = []
-        aug_counter = Augmentor.AugmentCounter(0)
+        completed_groups = set()
         
         # Augment!
         if self.shuffle:
             random.shuffle(self.augmentors)
-        completed_groups = set()
+        
         for augmentor in self.augmentors:
-            img, gt = augmentor.augment_image(img, gt, completed_groups, aug_counter)
+            img, gt = augmentor.augment_image(img, gt, completed_groups)
 
         if self.debug:
             img = self.get_image_with_bboxes(img, gt["data"])
+        
         # Save augmented output
         out_img_file = output_path_prefix + os.path.basename(image)
         imsave(out_img_file, img)
+        # Write transformed ground truth
         out_gt_file = output_path_prefix + os.path.basename(gt_file)
         with open(out_gt_file, 'w', encoding='utf-8') as f:
             json.dump(gt, f, ensure_ascii=False, indent=4)
         return
 
     def __call__(self, input_folder, epochs=1, output_folder=None, num_workers=1):
+        '''
+        Bulk augment the generated samples from the given folder
+        '''
         if not output_folder:
             output_folder = os.path.join(input_folder, 'augmented')
         os.makedirs(output_folder, exist_ok=True)
@@ -112,7 +125,7 @@ class Augmentor:
         for e in range(epochs):
             output_path_prefix = os.path.join(output_folder,str(e+1)+'-')
             processor = Parallel(n_jobs=num_workers, backend="multiprocessing")
-            processor(delayed(self.augment_epoch)(image, output_path_prefix)
+            processor(delayed(self.augment)(image, output_path_prefix)
                                                                     for image in tqdm(images))
         return
 

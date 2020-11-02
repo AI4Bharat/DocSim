@@ -29,14 +29,14 @@ class CustomAugmentations:
             self.augmentors.append(aug)
         return 
     
-    def augment_image(self, img, gt, completed_groups, aug_counter):
+    def augment_image(self, img, gt, completed_groups):
         if self.shuffle: 
             random.shuffle(self.augmentors)
 
         bboxes = [(element['points']) for element in gt["data"]]
-        augmentations_done = []
+        
         for aug in self.augmentors:
-            if random.random() < aug.p and aug_counter.value < self.max_augmentations_per_image:
+            if random.random() < aug.p and len(gt["augs_done"]) < self.max_augmentations_per_image:
                 if aug.name in self.augname2groups:
                     if self.augname2groups[aug.name].intersection(completed_groups):
                         continue
@@ -44,12 +44,11 @@ class CustomAugmentations:
                         completed_groups.update(self.augname2groups[aug.name])
                 
                 img, bboxes = aug(image=img, gt=bboxes)
-                augmentations_done.append(aug.name)
-                aug_counter.value += 1
+                gt["augs_done"].append(aug.name)
         
         for element, point in zip(gt["data"], bboxes):
             element['points'] = point
-        gt["augs_done"].extend(augmentations_done)
+        
         return img, gt
     
     
