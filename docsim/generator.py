@@ -92,6 +92,8 @@ class Generator:
                     elif component['filler_type'] == 'address':
                         component['generator'] = AddressGenerator(
                             language = component['lang'], type = component['address_type'])
+                    elif component['filler_type'] == 'name_from_list':
+                        component['generator'] = NameGeneratorFromList(component["lang"])
                     else:
                         raise NotImplementedError
                 elif component['filler_mode'] == 'regex':
@@ -161,7 +163,7 @@ class Generator:
         img_draw = ImageDraw.Draw(image)
         ground_truth = []
         for component_name, component in self.components.items():
-            if component['type'] == 'text':
+            if component['type'] == 'text' :
                 if component['split_words']:
                     metadata = self.draw_words(img_draw, component)
                 else:

@@ -1,0 +1,205 @@
+{
+    "doc_name": "aadhaar_front_hi",
+    "background_img": "templates/Aadhaar/Front/background.jpg",
+    "defaults": {
+        "split_words": true,
+        "lang": "en",
+        "font_files": {
+            "en": "fonts/Arial_Regular.ttf",
+            "ta": "fonts/Tamil_Unicode_Elango_Kalyani.ttf",
+            "hi": "fonts/Halant-Bold.ttf"
+        },
+        "font_size": 35,
+        "font_color": "rgb(0,0,0)"
+    },
+    "debug_mode": false,
+
+    "components": {
+        "name_en": {
+            "type": "text",
+            "filler_mode": "random",
+            "filler_type": "full_name",
+            "entity": "name",
+            "location": {
+                "x_left": 352,
+                "y_top": 270
+            }
+        },
+        "name_hi": {
+            "type": "text",
+            "filler_mode": "transliteration",
+            "filler_source": "name_en",
+            "lang": "hi",
+            "entity": "name",
+            "location": {
+                "x_left": 352,
+                "y_top": 215
+            }
+        },
+        "dob_hi": {
+            "type": "text",
+            "filler_mode": "fixed",
+            "lang": "hi",
+            "filler_text": "जन्मदिवस",
+            "location": {
+                "x_left": 352,
+                "y_top": 325
+            }
+        },
+        "dob_en": {
+            "type": "text",
+            "filler_mode": "fixed",
+            "filler_text": "/ DOB:",
+            "location": {
+                "x_left": 533,
+                "y_top": 325
+            }
+        },
+        "dob": {
+            "type": "text",
+            "filler_mode": "regex",
+            "filler_regex": "(0[1-9]|[12][0-9]|3[01])[/](0[1-9]|1[012])[/](19|20)\\d\\d",
+            "entity": "date_of_birth",
+            "location": {
+                "x_left": 655,
+                "y_top": 325
+            }
+        },
+        "gender_hi": {
+            "type": "text",
+            "filler_mode": "array",
+            "filler_options": [
+                "महिला",
+                "पुरुष"
+            ],
+            "lang": "hi",
+            "entity": "gender",
+            "location": {
+                "x_left": 352,
+                "y_top": 377
+            }
+        },
+        "gender_en": {
+            "type": "text",
+            "filler_mode": "array",
+            "filler_options": [
+                "MALE",
+                "FEMALE"
+            ],
+            "entity": "gender",
+            "location": {
+                "x_left": 482,
+                "y_top": 375
+            }
+        },
+        "aadhaar_id": {
+            "type": "text",
+            "filler_mode": "regex",
+            "filler_regex": "\\d\\d\\d\\d  \\d\\d\\d\\d  \\d\\d\\d\\d",
+            "entity": "id",
+            "font_file": "fonts/Arial_Bold.ttf",
+            "font_size": 45,
+            "location": {
+                "x_left": 330,
+                "y_top": 715
+            }
+        },
+        "qr": {
+            "type" : "image",
+            "filler_mode": "qr",
+            "string_len_min": 10,
+            "string_len_max": 25,
+            "version_min": 5,
+            "version_max":7,
+            "location": {
+                "x_left": 752,
+                "y_top": 423
+            },
+            "dims": {
+                "width": 201,
+                "height": 201
+            }
+        },
+        "photo": {
+            "type": "image",
+            "filler_mode": "random",
+            "image_folder": "images/people/",
+            "location": {
+                "x_left": 34,
+                "y_top": 213
+            },
+            "dims": {
+                "width": 296,
+                "height": 323
+            }
+        }
+    },
+
+    "printed_fields": {
+        "bharat": {
+            "type": "text",
+            "lang": "hi",
+            "text": "भारत",
+            "location": {
+                "x_left": 452,
+                "y_top": 72
+            },
+            "dims": {
+                "width": 96,
+                "height": 42
+            }
+        },
+        "sarkar": {
+            "type": "text",
+            "lang": "hi",
+            "text": "सरकार",
+            "location": {
+                "x_left": 561,
+                "y_top": 72
+            },
+            "dims": {
+                "width": 120,
+                "height": 42
+            }
+        },
+        "GoI": {
+            "type": "text",
+            "lang": "en",
+            "text": "GOVERNMENT OF INDIA",
+            "location": {
+                "x_left": 387,
+                "y_top": 122
+            },
+            "dims": {
+                "width": 358,
+                "height": 40
+            }
+        },
+        "aadhar_hi": {
+            "type": "text",
+            "text": "आधार",
+            "lang": "hi",
+            "location": {
+                "x_left": 115,
+                "y_top": 805
+            },
+            "dims": {
+                "width": 141,
+                "height": 47
+            }
+        },
+        "aadhar_tagline": {
+            "type": "text",
+            "text": "- आम आदमी की शक्ति",
+            "lang": "hi",
+            "location": {
+                "x_left": 260,
+                "y_top": 805
+            },
+            "dims": {
+                "width": 619,
+                "height": 47
+            }
+        }
+    }
+}

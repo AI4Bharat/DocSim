@@ -1,4 +1,7 @@
 import random
+import os
+
+
 class TextGeneratorBase:
     def generate(self):
         return 'ERROR'
@@ -45,7 +48,7 @@ class NameGenerator(TextGeneratorBase):
         return self.random_length_name(length)
             
 class FullNameGenerator(NameGenerator):
-    
+
     def generate(self):
         return self.random_fullname()
     
@@ -78,11 +81,15 @@ class FullNameGenerator(NameGenerator):
         # Add last name for majority
         if random.random() > 0.15:
             name += ' ' + last_name
-        
+
         return name.title() if self.title_case else name
 
 class MultilineFullNameGenerator(FullNameGenerator):
-    
+
+    def __init__(self, lang):
+        super().__init__(lang)
+
+
     def generate(self):
         full_name = self.random_fullname()
         if random.random() > 0.3:
@@ -127,6 +134,47 @@ class ReferentialTextGenerator(TextGeneratorBase):
         
     def generate(self):
         return self.src_component['last_generated']
+
+
+class NameGeneratorFromList(NameGenerator):
+    # read names from file that has list of names seperated by newline
+    # for each language file name is <language-short-form>.txt
+    #e.g Hi.txt for hindi.
+    
+    def __init__(self, lang="en"):
+        self.lang = lang
+        arr = os.listdir("names-folder")
+        a = lang + ".txt"
+        if a in arr:
+            file_name = "names-folder/" + a
+            self.names = open(file_name).readlines()
+            self.names = [h.replace("\n", "") for h in self.names]
+        else:
+            raise Exception("names file for given language format not found")
+            
+        #TODO below hindi characters list is used as a workaround for missing characters in trained CLOVA model. Once
+        # those characters are added, remove these 3 lines.
+        hindi_chracters= open("Characters-Hindi.csv")
+        hindi_chracters = hindi_chracters.readline().split(",")
+        self.hindi_characters= list(set(hindi_chracters))
+
+    def generate(self):
+
+        #TODO this is a patch to avoid certain characters misssing bug. should remove it . once hindi charcaters file is updated
+
+        name=""
+        while(True):
+            name = random.choice(self.names)
+            char_list = list(name)
+            i=0
+            for i, char in enumerate(char_list):
+                if char not in self.hindi_characters:
+                    break
+            
+            if i< len(char_list)-1:
+                continue
+            break
+        return name
 
 from docsim.utils.transliterator import Transliterator
 class ReferentialTextTransliterator(ReferentialTextGenerator):

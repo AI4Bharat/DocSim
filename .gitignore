@@ -2,3 +2,6 @@
 fonts/
 output/
 *.dll
+.idea/
+output/
+output_augmented/

@@ -31,8 +31,10 @@ Check the [`templates/`](templates/) folder for sample document templates.
 ### Augment generated images
 
 ```
-python augment.py <config.json> <input_folder> <num_epochs> <output_folder> <num_workers>
+python augment.py --config <config.json> --src_folder <input_folder> --epochs <num_epochs> --dest_folder 
+<output_folder> --num_workers <num_workers>
 ```
+e.g : python augment.py --config templates/sample_augmentation/config.json --src_folder output --epochs 10 --dest_folder output_augmented --num_workers 6
 
 Check [`documentation/Augmentation`](documentation/Augmentation.md) for more details.
 
